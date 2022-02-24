@@ -7,16 +7,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.Vector;
 
@@ -166,6 +171,7 @@ class CyberScouterMatchScouting {
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS, climbStatus);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT, rungClimbed);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION, climbPosition);
+            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_INSTEADOFCLIMB, insteadOfClimb);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD, summLaunchPad);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO, summSortCargo);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING, summShootDriving);
@@ -415,7 +421,6 @@ class CyberScouterMatchScouting {
     }
 
     private static void setMatch(SQLiteDatabase db, JSONObject jo) throws Exception {
-        int val;
 
         ContentValues values = new ContentValues();
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_MATCHSCOUTINGID, jo.getInt(CyberScouterContract.MatchScouting.COLUMN_NAME_MATCHSCOUTINGID));
@@ -433,26 +438,9 @@ class CyberScouterMatchScouting {
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOPRELOAD, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOPRELOAD));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOMOVEBONUS, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOMOVEBONUS));
-
-        if(jo.isNull(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLLOW)) {
-            val = -1;
-        } else {
-            val = jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLLOW);
-        }
-        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLLOW, val);
-        if(jo.isNull(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLHIGH)) {
-            val = -1;
-        } else {
-            val = jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLHIGH);
-        }
-        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLHIGH, val);
-        if(jo.isNull(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLMISS)) {
-            val = -1;
-        } else {
-            val = jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLMISS);
-        }
-        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLMISS, val);
-
+        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLLOW, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLLOW));
+        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLHIGH, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLHIGH));
+        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLMISS, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLMISS));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS1, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS1));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS2, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS2));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS3, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS3));
@@ -657,6 +645,74 @@ class CyberScouterMatchScouting {
         rq.add(stringRequest);
     }
 
+
+    static void setMatchesWebService(final Activity activity, JSONObject jo) {
+
+        if (webQueryInProgress)
+            return;
+
+        webQueryInProgress = true;
+        RequestQueue rq = Volley.newRequestQueue(activity);
+        String url = String.format("%s/update", FakeBluetoothServer.webServiceBaseUrl);
+        String requestBody = jo.toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        webQueryInProgress = false;
+                        try {
+                            Intent i = new Intent(MATCH_SCOUTING_UPDATED_FILTER);
+                            webResponse = response;
+                            i.putExtra("cyberscoutermatches", "update");
+                            activity.sendBroadcast(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                webQueryInProgress = false;
+                String msg;
+                if (null == error.networkResponse) {
+                    msg = error.getMessage();
+                } else {
+                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
+                }
+
+                MessageBox.showMessageBox(activity, "Update of Match Scouting Records Failed", "CyberScouterMatchScouting.setMatchScoutingWebService",
+                        String.format("Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n", msg));
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+
+        rq.add(stringRequest);
+    }
 
     int getMatchScoutingID() {
         return matchScoutingID;

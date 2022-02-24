@@ -7,15 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.PlaceholderFragment">
 
+    <Spinner
+        android:id="@+id/spinnerPositionOnBar"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
     <TextView
         android:id="@+id/canTheyClimb"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="75dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="32dp"
         android:text="@string/canTheyClimb"
-        android:textSize="35sp"
         android:textAlignment="center"
+        android:textSize="45sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,19 +31,18 @@
         android:id="@+id/noCanTheyClimb"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginEnd="28dp"
         android:text="@string/NoButton"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/canTheyClimb"
-        app:layout_constraintTop_toBottomOf="@+id/canTheyClimb" />
+        app:layout_constraintTop_toTopOf="@+id/yesCanTheyClimb" />
 
     <Button
         android:id="@+id/yesCanTheyClimb"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
         android:text="@string/YesButton"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/canTheyClimb"
@@ -43,117 +50,50 @@
 
     <TextView
         android:id="@+id/moveOnBar"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="75dp"
-        android:text="@string/moveOnBar"
-        android:textSize="35sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/typicalHighestRung"
         android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/canTheyClimb"
-        app:layout_constraintTop_toTopOf="@+id/canTheyClimb" />
-
-    <Button
-        android:id="@+id/yesMoveOnBar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/YesButton"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/moveOnBar"
-        app:layout_constraintTop_toBottomOf="@+id/moveOnBar" />
-
-    <Button
-        android:id="@+id/noMoveOnBar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="45dp"
-        android:text="@string/NoButton"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/moveOnBar"
-        app:layout_constraintTop_toBottomOf="@+id/moveOnBar" />
+        android:textSize="45sp"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPositionOnBar" />
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="375dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="75dp"
-        android:text="@string/lockingMechansim"
-        android:textSize="35sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/positionOnBar"
         android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/moveOnBar"
-        app:layout_constraintTop_toTopOf="@+id/moveOnBar" />
-
-    <Button
-        android:id="@+id/yesLockingMechanism"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/YesButton"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <Button
-        android:id="@+id/noLockingMechanism"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="85dp"
-        android:text="@string/NoButton"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:textSize="45sp"
+        app:layout_constraintStart_toStartOf="@+id/canTheyClimb"
+        app:layout_constraintTop_toBottomOf="@+id/yesCanTheyClimb" />
 
     <TextView
         android:id="@+id/centerClimb"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="200dp"
-        android:text="@string/centerClimb"
-        android:textSize="35sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:text="@string/climbTime"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="@+id/canTheyClimb"
-        app:layout_constraintTop_toBottomOf="@+id/canTheyClimb" />
-
-    <Button
-        android:id="@+id/yesCenterClimb"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/YesButton"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/centerClimb"
-        app:layout_constraintTop_toBottomOf="@+id/centerClimb" />
-
-    <Button
-        android:id="@+id/noCenterClimb"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="45dp"
-        android:text="@string/NoButton"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/centerClimb"
-        app:layout_constraintTop_toBottomOf="@+id/centerClimb" />
+        android:textSize="45sp"
+        app:layout_constraintStart_toEndOf="@+id/canTheyClimb"
+        app:layout_constraintTop_toTopOf="@+id/canTheyClimb" />
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_marginTop="200dp"
-        android:text="@string/avgClimbHeight"
-        android:textSize="35sp"
+        android:text="@string/ifNoClimb"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:textSize="45sp"
+        app:layout_constraintStart_toStartOf="@+id/centerClimb"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <EditText
         android:id="@+id/editText_climbHeight"
-        android:layout_width="250dp"
+        android:layout_width="530dp"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:ems="10"
@@ -161,13 +101,40 @@
         app:layout_constraintStart_toStartOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <TextView
-        android:id="@+id/inches4"
-        android:layout_width="50dp"
+    <EditText
+        android:id="@+id/editText_climbHeight2"
+        android:layout_width="306dp"
         android:layout_height="50dp"
-        android:layout_marginStart="25dp"
-        android:text="@string/Inches"
-        android:textSize="40sp"
-        app:layout_constraintStart_toEndOf="@+id/editText_climbHeight"
-        app:layout_constraintTop_toTopOf="@+id/editText_climbHeight" />
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="@+id/centerClimb"
+        app:layout_constraintTop_toBottomOf="@+id/centerClimb" />
+
+    <Spinner
+        android:id="@+id/spinnerTypicalHighestRung"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="@+id/moveOnBar"
+        app:layout_constraintTop_toBottomOf="@+id/moveOnBar" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seconds"
+        android:textSize="35sp"
+        app:layout_constraintStart_toEndOf="@+id/editText_climbHeight2"
+        app:layout_constraintTop_toTopOf="@+id/editText_climbHeight2" />
+
+    <View
+        android:id="@+id/divider6"
+        android:layout_width="5dp"
+        android:layout_height="798dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toStartOf="@+id/editText_climbHeight"
+        app:layout_constraintStart_toEndOf="@+id/moveOnBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

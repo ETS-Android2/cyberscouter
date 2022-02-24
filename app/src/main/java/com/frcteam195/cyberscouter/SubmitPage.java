@@ -1,8 +1,11 @@
 package com.frcteam195.cyberscouter;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +27,8 @@ public class SubmitPage extends AppCompatActivity {
         setContentView(R.layout.activity_submit_page);
 
         Intent intent = getIntent();
-//        currentCommStatusColor = intent.getIntExtra("commstatuscolor", Color.LTGRAY);
-//        updateStatusIndicator(currentCommStatusColor);
-
+        currentCommStatusColor = intent.getIntExtra("commstatuscolor", Color.LTGRAY);
+        updateStatusIndicator(currentCommStatusColor);
 
         button = findViewById(R.id.Button_Previous);
         button.setOnClickListener(new View.OnClickListener() {

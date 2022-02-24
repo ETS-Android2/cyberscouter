@@ -3,11 +3,8 @@ package com.frcteam195.cyberscouter;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.ImageFormat;
 import android.os.Bundle;
-import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +15,8 @@ public class AutoPage extends AppCompatActivity {
     private final int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
     private final int[] moveBonusButtons = {R.id.button_didNotMove, R.id.button_attempted, R.id.button_moveBonusYes};
-    private final int[] redPositionButtons = {R.id.button, R.id.button3, R.id.button6};
-    private final int[] bluePositionButtons = {R.id.button2, R.id.button4, R.id.button5,R.id.button7,R.id.button8, R.id.button9,R.id.button10};
+    private final int[] redPositionButtons = {R.id.Button1, R.id.button3, R.id.button6};
+    private final int[] bluePositionButtons = {R.id.Button2, R.id.button4, R.id.button5,R.id.button7,R.id.button8, R.id.button9,R.id.button10};
     private int upperGoalCount = 0;
     private int lowerGoalCount = 0;
     private int missedGoalCount = 0;
@@ -51,7 +48,12 @@ public class AutoPage extends AppCompatActivity {
                 StartMatch();
             }
         });
-        button = findViewById(R.id.fieldFlipButton);
+
+        ImageView iv = findViewById(R.id.imageView5);
+        if (!(ScoutingPage.getIsRed()) && ScoutingPage.getFieldOrientation() == 0 || (ScoutingPage.getIsRed() && ScoutingPage.getFieldOrientation() == 1)) {
+            iv.setRotation(iv.getRotation() + 180);
+        }
+        button = findViewById(R.id.FlipFieldButton);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -149,7 +151,7 @@ public class AutoPage extends AppCompatActivity {
             }
         });
 
-        ImageView iv = findViewById(R.id.imageView_teleBtIndicator);
+         iv = findViewById(R.id.imageView_teleBtIndicator);
         Intent intent = getIntent();
         currentCommStatusColor = intent.getIntExtra("commstatuscolor", Color.LTGRAY);
         updateStatusIndicator(currentCommStatusColor);

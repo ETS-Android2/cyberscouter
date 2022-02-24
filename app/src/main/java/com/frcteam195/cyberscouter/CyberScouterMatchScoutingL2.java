@@ -49,6 +49,18 @@ public class CyberScouterMatchScoutingL2 {
     private boolean matchEnded;
     private boolean complete;
     private int uploadStatus;
+    private int t1MultiRobotDefense;
+    private int t2MultiRobotDefense;
+    private int t3MultiRobotDefense;
+    private int t1PrimaryDefense;
+    private int t2PrimaryDefense;
+    private int t3PrimaryDefense;
+    private int t1SecondaryDefense;
+    private int t2SecondaryDefense;
+    private int t3SecondaryDefense;
+    private int t1HowLong;
+    private int t2HowLong;
+    private int t3HowLong;
 
     public String toJSON() {
         String json = "";
@@ -224,7 +236,20 @@ public class CyberScouterMatchScoutingL2 {
                     CyberScouterContract.MatchScoutingL2.COLUMN_NAME_MATCHENDED,
                     CyberScouterContract.MatchScoutingL2.COLUMN_NAME_SCOUTINGSTATUS,
                     CyberScouterContract.MatchScoutingL2.COLUMN_NAME_COMPLETE,
-                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_UPLOADSTATUS};
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_UPLOADSTATUS,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1MULTIROBOTDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2MULTIROBOTDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3MULTIROBOTDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1PRIMARYDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2PRIMARYDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3PRIMARYDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1SECONDARYDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2SECONDARYDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3SECONDARYDEFENSE,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1HOWLONG,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2HOWLONG,
+                    CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3HOWLONG,
+            };
 
 
             cursor = db.query(
@@ -259,6 +284,18 @@ public class CyberScouterMatchScoutingL2 {
                     csm.scoutingStatus = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_SCOUTINGSTATUS));
                     csm.complete = (cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_COMPLETE)) == 1);
                     csm.uploadStatus = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_UPLOADSTATUS));
+                    csm.t1MultiRobotDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1MULTIROBOTDEFENSE));
+                    csm.t2MultiRobotDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2MULTIROBOTDEFENSE));
+                    csm.t3MultiRobotDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3MULTIROBOTDEFENSE));
+                    csm.t1PrimaryDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1PRIMARYDEFENSE));
+                    csm.t2PrimaryDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2PRIMARYDEFENSE));
+                    csm.t3PrimaryDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3PRIMARYDEFENSE));
+                    csm.t1SecondaryDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1SECONDARYDEFENSE));
+                    csm.t2SecondaryDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2SECONDARYDEFENSE));
+                    csm.t3SecondaryDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3SECONDARYDEFENSE));
+                    csm.t1HowLong = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1HOWLONG));
+                    csm.t2HowLong = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2HOWLONG));
+                    csm.t3HowLong = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3HOWLONG));
 
                     csmv.add(csm);
                 }
@@ -298,6 +335,18 @@ public class CyberScouterMatchScoutingL2 {
         values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_COMMENT_BLUE, jo.getString(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_COMMENT_BLUE));
         values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_ALLIANCESTATIONID, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_ALLIANCESTATIONID));
         values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_UPLOADSTATUS, UploadStatus.NOT_UPLOADED);
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1MULTIROBOTDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1MULTIROBOTDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2MULTIROBOTDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2MULTIROBOTDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3MULTIROBOTDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3MULTIROBOTDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1PRIMARYDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1PRIMARYDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2PRIMARYDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2PRIMARYDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3PRIMARYDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3PRIMARYDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1SECONDARYDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1SECONDARYDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2SECONDARYDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2SECONDARYDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3SECONDARYDEFENSE, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3SECONDARYDEFENSE));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1HOWLONG, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1HOWLONG));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2HOWLONG, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T2HOWLONG));
+        values.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3HOWLONG, jo.getInt(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3HOWLONG));
 
         long newRowId = db.insert(CyberScouterContract.MatchScoutingL2.TABLE_NAME, null, values);
         if (-1 == newRowId) {
@@ -548,6 +597,30 @@ public class CyberScouterMatchScoutingL2 {
     boolean getComplete() {
         return complete;
     }
+
+    int getT1MultiRobotDefense() { return t1MultiRobotDefense; }
+
+    int getT2MultiRobotDefense() { return t2MultiRobotDefense; }
+
+    int getT3MultiRobotDefense() { return t3MultiRobotDefense; }
+
+    int getT1PrimaryDefense() { return t1PrimaryDefense; }
+
+    int getT2PrimaryDefense() { return t2PrimaryDefense; }
+
+    int getT3PrimaryDefense() { return t3PrimaryDefense; }
+
+    int getT1SecondaryDefense() { return t1SecondaryDefense; }
+
+    int getT2SecondaryDefense() { return t2SecondaryDefense; }
+
+    int getT3SecondaryDefense() { return t3SecondaryDefense; }
+
+    int getT1HowLong() { return t1HowLong; }
+
+    int getT2HowLong() { return t2HowLong; }
+
+    int getT3HowLong() { return t3HowLong; }
 
     void setMatchScoutingL2ID(int matchScoutingL2ID) {
         this.matchScoutingL2ID = matchScoutingL2ID;

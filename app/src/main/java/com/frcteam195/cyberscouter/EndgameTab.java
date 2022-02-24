@@ -8,17 +8,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
     private final int[] canTheyClimb = {R.id.noCanTheyClimb, R.id.yesCanTheyClimb};
-    private final int[] moveOnBar = {R.id.noMoveOnBar, R.id.yesMoveOnBar};
-    private final int[] lockingMechanism = {R.id.noLockingMechanism, R.id.yesLockingMechanism};
-    private final int[] centerClimb = {R.id.noCenterClimb, R.id.yesCenterClimb};
     private int defaultButtonBackgroundColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
     private View _view;
+    private String[] positionOnBar = {"None", "Left", "Center", "Right", "Any"};
+    private String[] typicalHighestRung = {"None", "Low", "Medium", "High", "Traversal"};
 
     private int currentTeam;
     private CyberScouterDbHelper mDbHelper;
@@ -46,51 +48,35 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
             }
         });
 
-        button = view.findViewById(R.id.yesMoveOnBar);
-        button.setOnClickListener(new View.OnClickListener() {
+        Spinner spinnerPositionOnBar = view.findViewById(R.id.spinnerPositionOnBar);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_dropdown_item, positionOnBar);
+        spinnerPositionOnBar.setAdapter(adapter);
+        spinnerPositionOnBar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                yesMoveOnBar();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateSpinnerValue(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_POSITION, i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
-        button = view.findViewById(R.id.noMoveOnBar);
-        button.setOnClickListener(new View.OnClickListener() {
+        Spinner spinnerTypicalHighestRung = view.findViewById(R.id.spinnerTypicalHighestRung);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_dropdown_item, typicalHighestRung);
+        spinnerTypicalHighestRung.setAdapter(adapter1);
+        spinnerTypicalHighestRung.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                noMoveOnBar();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateSpinnerValue(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_HEIGHT_ID, i);
             }
-        });
 
-        button = view.findViewById(R.id.yesLockingMechanism);
-        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                yesLockingMechanism();
-            }
-        });
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-        button = view.findViewById(R.id.noLockingMechanism);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                noLockingMechanism();
-            }
-        });
-
-        button = view.findViewById(R.id.yesCenterClimb);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                yesCenterClimb();
-            }
-        });
-
-        button = view.findViewById(R.id.noCenterClimb);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                noCenterClimb();
             }
         });
 
@@ -153,30 +139,6 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
         updateFakeRadioButton(CyberScouterContract.Teams.COLUMN_NAME_CAN_CLIMB, 0);
     }
 
-    private void yesMoveOnBar() {
-
-    }
-
-    private void noMoveOnBar() {
-
-    }
-
-    private void yesLockingMechanism() {
-
-    }
-
-    private void noLockingMechanism() {
-
-    }
-
-    private void yesCenterClimb() {
-
-    }
-
-    private void noCenterClimb() {
-
-    }
-
     public void saveTextValues() {
         try {
             EditText et = _view.findViewById(R.id.editText_climbHeight);
@@ -188,6 +150,14 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
     }
 
     private void updateFakeRadioButton(String col, int val) {
+        try {
+            CyberScouterTeams.updateTeamMetric(_db, col, val, currentTeam);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateSpinnerValue(String col, int val) {
         try {
             CyberScouterTeams.updateTeamMetric(_db, col, val, currentTeam);
         } catch (Exception e) {

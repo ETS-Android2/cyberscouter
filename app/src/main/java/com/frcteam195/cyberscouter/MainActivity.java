@@ -48,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    BroadcastReceiver mMatchesUpdater = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String ret = intent.getStringExtra("cyberscoutermatches");
+//            updateMatchesLocal(ret);
+        }
+    };
+
+
     private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
     SQLiteDatabase _db = null;
 
@@ -77,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
         registerReceiver(mConfigReceiver, new IntentFilter(CyberScouterConfig.CONFIG_UPDATED_FILTER));
         registerReceiver(mOnlineStatusReceiver, new IntentFilter(BluetoothComm.ONLINE_STATUS_UPDATED_FILTER));
+        registerReceiver(mMatchesUpdater, new IntentFilter(CyberScouterMatchScouting.MATCH_SCOUTING_UPDATED_FILTER));
+
+
 
         button = findViewById(R.id.button_scouting);
         button.setOnClickListener(new View.OnClickListener() {

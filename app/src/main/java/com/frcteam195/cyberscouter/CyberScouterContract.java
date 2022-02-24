@@ -113,6 +113,18 @@ public class CyberScouterContract {
         public static final String COLUMN_NAME_MATCHENDED = "MatchEnded";
         public static final String COLUMN_NAME_COMPLETE = "Complete";
         public static final String COLUMN_NAME_UPLOADSTATUS = "UploadStatus";
+        public static final String COLUMN_NAME_T1MULTIROBOTDEFENSE = "t1MultiRobotDefense";
+        public static final String COLUMN_NAME_T2MULTIROBOTDEFENSE = "t2MultiRobotDefense";
+        public static final String COLUMN_NAME_T3MULTIROBOTDEFENSE = "t3MultiRobotDefense";
+        public static final String COLUMN_NAME_T1PRIMARYDEFENSE = "t1PrimaryDefense";
+        public static final String COLUMN_NAME_T2PRIMARYDEFENSE = "t2PrimaryDefense";
+        public static final String COLUMN_NAME_T3PRIMARYDEFENSE = "t3PrimaryDefense";
+        public static final String COLUMN_NAME_T1SECONDARYDEFENSE = "t1SecondaryDefense";
+        public static final String COLUMN_NAME_T2SECONDARYDEFENSE = "t2SecondaryDefense";
+        public static final String COLUMN_NAME_T3SECONDARYDEFENSE = "t3SecondaryDefense";
+        public static final String COLUMN_NAME_T1HOWLONG = "t1HowLong";
+        public static final String COLUMN_NAME_T2HOWLONG = "t2HowLong";
+        public static final String COLUMN_NAME_T3HOWLONG = "t3HowLong";
     }
 
     public static class Questions implements BaseColumns {

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".EndPage">
 
+    <ImageView
+        android:id="@+id/imageView_btEndIndicator"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/logo_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/background_light" />
+
     <Button
         android:id="@+id/button_CASuccess"
         android:layout_width="408dp"
@@ -255,9 +266,9 @@
         android:id="@+id/button_Middle"
         android:layout_width="140dp"
         android:layout_height="70dp"
-        android:layout_marginStart="604dp"
-        android:layout_marginTop="44dp"
-        android:rotation="90"
+        android:layout_marginStart="640dp"
+        android:layout_marginTop="12dp"
+        android:rotation="0"
         android:text="@string/MiddleClimb"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -267,9 +278,9 @@
         android:id="@+id/button_High"
         android:layout_width="140dp"
         android:layout_height="70dp"
-        android:layout_marginStart="532dp"
-        android:layout_marginTop="44dp"
-        android:rotation="90"
+        android:layout_marginStart="500dp"
+        android:layout_marginTop="84dp"
+        android:rotation="0"
         android:text="@string/HighClimb"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -279,9 +290,9 @@
         android:id="@+id/button_Traversal"
         android:layout_width="140dp"
         android:layout_height="70dp"
-        android:layout_marginStart="464dp"
-        android:layout_marginTop="44dp"
-        android:rotation="90"
+        android:layout_marginStart="500dp"
+        android:layout_marginTop="12dp"
+        android:rotation="0"
         android:text="@string/TraversalClimb"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -292,9 +303,9 @@
         android:id="@+id/button_Low"
         android:layout_width="140dp"
         android:layout_height="70dp"
-        android:layout_marginStart="672dp"
-        android:layout_marginTop="44dp"
-        android:rotation="90"
+        android:layout_marginStart="640dp"
+        android:layout_marginTop="84dp"
+        android:rotation="0"
         android:text="@string/LowClimb"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -319,17 +330,22 @@
         android:id="@+id/textView_endgameMatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/CurrentMatch"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_endgameTeam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/textView_endgameMatch"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="32dp"
+        android:text="@string/CurrentTeam"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_endgameMatch" />
 
     <Button
         android:id="@+id/button_PlayedDefense"

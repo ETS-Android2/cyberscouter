@@ -105,11 +105,18 @@
     <string name="ClimbText">Climb</string>
     <string name="ClimbAssistText">Climb Assist</string>
     <string name="RobotProblemsText">Robot Problems</string>
-    <string name="LostCommText">Lost Comm</string>
-    <string name="BrokeDownText">Broke Down</string>
-    <string name="TippedOverText">Tipped Over</string>
-    <string name="GroundPickupText">Ground Pick Up</string>
+    <string name="LostCommText">Lost Comm?</string>
+    <string name="BrokeDownText">Broke Down?</string>
+    <string name="TippedOverText">Tipped Over?</string>
+    <string name="GroundPickupText">Ground Pickup?</string>
+    <string name="TerminalPickupText">Terminal Pickup?</string>
+    <string name="PlayedDefenseText">Played Defense?</string>
+    <string name="DefenseAgainstText">Defense against them?</string>
+    <string name="ShootWhileText">Shoot while driving?</string>
     <string name="NamePickerTitle">Select Your Name</string>
+    <string name="SubsystemBrokeText">Subsystem broke?</string>
+    <string name="OppAllianceCargoText">Score any opposing alliance’s cargo?</string>
+    <string name="ShootFromLaunchpad">Did they shoot from the launchpad?</string>
     <string name="PickupText">Pick Up Cargo</string>
     <string name="NumberOfPreloads">Preload</string>
     <string name="TypicalCargoStoredHigh">High Hub</string>
@@ -218,10 +225,12 @@
     <string name="LongCrap">Please Select a Starting Position to Continue</string>
 
     <string name="canTheyClimb">Can They Climb?</string>
-    <string name="moveOnBar">Move On Bar?</string>
-    <string name="lockingMechansim">Locking Mechanism</string>
-    <string name="centerClimb">Center Climb?</string>
-    <string name="avgClimbHeight">Avg. Climb Height</string>
+    <string name="typicalHighestRung">Typical Highest Rung</string>
+    <string name="positionOnBar">Position On Bar</string>
+    <string name="climbTime">Time For Climb</string>
+    <string name="ifNoClimb">Strategy If You Don\'t Climb</string>
+    <string name="seconds">sec</string>
+
 
     <string name="teleStage2">Stage 2</string>
     <string name="teleStage3">Stage 3</string>
@@ -254,6 +263,8 @@
     <string name="DefenseSummary">Defense Summary</string>
     <string name="TeamOne">Team 1</string>
     <string name="TeamTwo">Team 2</string>
-    <string name="Team3Three">Team 3</string>
+    <string name="TeamThree">Team 3</string>
+    <string name="SelectOne">Select One</string>
+    <string name="title_activity_level_two_scouting_two_team_two">LevelTwoScoutingTwoTeamTwo</string>
 
 </resources>

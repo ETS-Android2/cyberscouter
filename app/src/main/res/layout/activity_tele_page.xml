@@ -35,7 +35,7 @@
         android:id="@+id/textView_teleMatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:text="@string/CurrentMatch"
         android:textColor="@android:color/black"
@@ -171,8 +171,8 @@
 
     <ImageView
         android:id="@+id/HubView"
-        android:layout_width="510dp"
-        android:layout_height="637dp"
+        android:layout_width="519dp"
+        android:layout_height="516dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="10dp"
@@ -184,6 +184,7 @@
         app:layout_constraintEnd_toStartOf="@+id/MissedMinusButton"
         app:layout_constraintStart_toEndOf="@+id/btnTeleLowerAdd"
         app:layout_constraintTop_toBottomOf="@+id/textView_roleTag"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/untitled73_20220127193125" />
 
     <TextView

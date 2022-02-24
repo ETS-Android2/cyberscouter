@@ -125,7 +125,7 @@ public class BluetoothComm {
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
                 if (!bLastBTCommFailed) {
-                    FakeBluetoothServer fbts = new FakeBluetoothServer();
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jr);
                     returnJson = null;
                 }
@@ -148,7 +148,8 @@ public class BluetoothComm {
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
                 if (!bLastBTCommFailed) {
-                    FakeBluetoothServer fbts = new FakeBluetoothServer();
+                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jr);
                     returnJson = null;
                 }
@@ -174,7 +175,8 @@ public class BluetoothComm {
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
                 if (!bLastBTCommFailed) {
-                    FakeBluetoothServer fbts = new FakeBluetoothServer();
+                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jr);
                     returnJson = null;
                 }
@@ -200,7 +202,8 @@ public class BluetoothComm {
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
                 if (!bLastBTCommFailed) {
-                    FakeBluetoothServer fbts = new FakeBluetoothServer();
+                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jr);
                     returnJson = null;
                 }
@@ -217,7 +220,12 @@ public class BluetoothComm {
         String returnJson = _errorJson;
         try {
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
-                returnJson = "{'result': 'success'}";
+                if (!bLastBTCommFailed) {
+                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
+                    fbts.getResponse(activity, jo);
+                    returnJson = null;
+                }
             } else {
                 returnJson = sendCommand(activity, jo.toString());
             }
@@ -237,7 +245,8 @@ public class BluetoothComm {
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
                 if (!bLastBTCommFailed) {
-                    FakeBluetoothServer fbts = new FakeBluetoothServer();
+                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jr);
                     returnJson = null;
                 }
@@ -259,7 +268,8 @@ public class BluetoothComm {
             jr.put("last_hash", last_hash);
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
-                FakeBluetoothServer fbts = new FakeBluetoothServer();
+                String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                 fbts.getResponse(activity, jr);
                 returnJson = null;
             } else {
@@ -281,7 +291,8 @@ public class BluetoothComm {
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {
                 if (!bLastBTCommFailed) {
-                    FakeBluetoothServer fbts = new FakeBluetoothServer();
+                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jr);
                     returnJson = null;
                 }

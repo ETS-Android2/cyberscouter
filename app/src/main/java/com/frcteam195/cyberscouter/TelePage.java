@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -138,6 +137,9 @@ public class TelePage extends AppCompatActivity {
                 lowCount = csm.getTeleBallLow();
                 button.setText(String.valueOf(lowCount));
 
+                button = findViewById(R.id.MissedCounter);
+                missCount = csm.getTeleBallMiss();
+                button.setText(String.valueOf(missCount));
             }
         }
     }
@@ -179,6 +181,11 @@ public class TelePage extends AppCompatActivity {
         highCount++;
         Button button = findViewById(R.id.btnTeleUpperCounter);
         button.setText(highCount.toString());
+        /*try {
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLHIGH, highCount, currentTeam);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
 
     private void upperSubtractClicked() {
@@ -205,14 +212,14 @@ public class TelePage extends AppCompatActivity {
 
     private void MissedPlusClicked() {
         missCount++;
-        Button button = findViewById(R.id.MissedPlusButton);
+        Button button = findViewById(R.id.MissedCounter);
         button.setText(missCount.toString());
     }
 
     private void MissedMinusClicked() {
         if(0 < missCount) {
             missCount--;
-            Button button = findViewById(R.id.MissedMinusButton);
+            Button button = findViewById(R.id.MissedCounter);
             button.setText(missCount.toString());
         }
     }

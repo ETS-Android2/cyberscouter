@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LevelTwoScoutingTwo extends AppCompatActivity {
+public class LevelTwoScoutingTwoTeamThree extends AppCompatActivity {
     private Button button;
     private int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
@@ -28,10 +28,10 @@ public class LevelTwoScoutingTwo extends AppCompatActivity {
     private ArrayAdapter<String> sd = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, DefenseOptions);
     private ArrayAdapter<String> hl = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, HowLongOptions);
 
-    String[] _lColumns = {CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1MULTIROBOTDEFENSE,
-            CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1PRIMARYDEFENSE,
-            CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1SECONDARYDEFENSE,
-            CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1HOWLONG
+    String[] _lColumns = {CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3MULTIROBOTDEFENSE,
+            CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3PRIMARYDEFENSE,
+            CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3SECONDARYDEFENSE,
+            CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3HOWLONG
     };
 
     private int multiRobotDefense, primaryDefense, secondaryDefense, howLong;
@@ -44,7 +44,7 @@ public class LevelTwoScoutingTwo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_level_two_scouting_two);
+        setContentView(R.layout.activity_level_two_scouting_two_team_three);
 
         Intent intent = getIntent();
         currentCommStatusColor = intent.getIntExtra("commstatuscolor", Color.LTGRAY);
@@ -115,19 +115,19 @@ public class LevelTwoScoutingTwo extends AppCompatActivity {
         CyberScouterMatchScoutingL2 csm = CyberScouterMatchScoutingL2.getCurrentMatch(_db, TeamMap.getNumberForTeam(cfg.getAlliance_station()));
 
         if (null != csm) {
-            int tval = csm.getT1MultiRobotDefense() == 0 ? 0 : csm.getT1MultiRobotDefense() - 1;
+            int tval = csm.getT3MultiRobotDefense() == 0 ? 0 : csm.getT3MultiRobotDefense() - 1;
             FakeRadioGroup.buttonDisplay(this, tval, MultiRobotDefenseButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-            multiRobotDefense = csm.getT1MultiRobotDefense();
+            multiRobotDefense = csm.getT3MultiRobotDefense();
         }
     }
 
     public void mRDNo() {
-        FakeRadioGroup.buttonPressed(this, 0, MultiRobotDefenseButtons, CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1MULTIROBOTDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+        FakeRadioGroup.buttonPressed(this, 0, MultiRobotDefenseButtons, CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3MULTIROBOTDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         multiRobotDefense = 0;
     }
 
     public void mRDYes() {
-        FakeRadioGroup.buttonPressed(this, 1, MultiRobotDefenseButtons, CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T1MULTIROBOTDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+        FakeRadioGroup.buttonPressed(this, 1, MultiRobotDefenseButtons, CyberScouterContract.MatchScoutingL2.COLUMN_NAME_T3MULTIROBOTDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         multiRobotDefense = 1;
     }
 
@@ -135,7 +135,7 @@ public class LevelTwoScoutingTwo extends AppCompatActivity {
         ImageView iv = findViewById(R.id.imageView_btIndicator);
         BluetoothComm.updateStatusIndicator(iv, color);
     }
-    private void updateLevelTwoScoutingTwo() {
+    private void updateLevelTwoScoutingThree() {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         try {
             Integer[] _lValues = {multiRobotDefense, primaryDefense, secondaryDefense, howLong};
@@ -143,7 +143,7 @@ public class LevelTwoScoutingTwo extends AppCompatActivity {
         } catch(Exception e) {
             e.printStackTrace();
             MessageBox.showMessageBox(this, "Update Error",
-                    "LevelTwoScoutingTwo.updateLevelTwoScoutingTwo", "SQLite update failed!\n "+e.getMessage());
+                    "LevelTwoScoutingTwoTeamThree.updateLevelTwoScoutingTwoTeamThree", "SQLite update failed!\n "+e.getMessage());
         }
     }
 }

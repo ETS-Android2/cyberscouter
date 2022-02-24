@@ -48,7 +48,7 @@
         android:text="@string/PlusButton"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/powerfulMinusTeam3" />
+        app:layout_constraintEnd_toStartOf="@+id/powerulMinusTeam3" />
 
     <Button
         android:id="@+id/aggressivePlusTeam2"
@@ -157,7 +157,7 @@
         android:text="@string/PlusButton"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/powerfulMinusTeam2" />
+        app:layout_constraintEnd_toStartOf="@+id/powerulMinusTeam2" />
 
     <Button
         android:id="@+id/sturdyPlusTeam"
@@ -258,7 +258,7 @@
         app:layout_constraintTop_toBottomOf="@+id/team2Text" />
 
     <Button
-        android:id="@+id/powerfulMinusTeam2"
+        android:id="@+id/powerulMinusTeam2"
         android:layout_width="73dp"
         android:layout_height="53dp"
         android:layout_marginBottom="35dp"
@@ -350,7 +350,7 @@
         app:layout_constraintTop_toBottomOf="@+id/fastMinusTeam3" />
 
     <Button
-        android:id="@+id/powerfulMinusTeam3"
+        android:id="@+id/powerulMinusTeam3"
         android:layout_width="73dp"
         android:layout_height="53dp"
         android:layout_marginBottom="35dp"
@@ -380,7 +380,7 @@
         app:layout_constraintTop_toBottomOf="@+id/aggessiveMinusTeam3" />
 
     <Button
-        android:id="@+id/PowerfulMinusTeam1"
+        android:id="@+id/PowerulMinusTeam1"
         android:layout_width="73dp"
         android:layout_height="53dp"
         android:layout_marginBottom="27dp"
@@ -579,7 +579,7 @@
         android:text="@string/Powerful"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/PowerfulMinusTeam1" />
+        app:layout_constraintStart_toEndOf="@+id/PowerulMinusTeam1" />
 
     <TextView
         android:id="@+id/sturdyTextTeam1"

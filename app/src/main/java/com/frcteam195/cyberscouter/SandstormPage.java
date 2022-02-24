@@ -25,7 +25,7 @@ public class SandstormPage extends AppCompatActivity {
             }
         });
 
-        button = findViewById(R.id.button_next);
+        button = findViewById(R.id.btnTeleNext);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

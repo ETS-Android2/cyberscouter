@@ -2,178 +2,428 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SummaryQuestionsPage">
+    tools:context=".ui.main.PlaceholderFragment">
 
     <Button
-        android:id="@+id/button_Previous"
-        android:layout_width="173dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/PreviousButton"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView_teleMatch"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/CurrentMatch"
-        android:textColor="@android:color/black"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
-
-    <TextView
-        android:id="@+id/textView_teamNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/CurrentTeam"
-        android:textColor="@color/CurrentTeamColor"
-        android:textColorLink="@color/CurrentTeamColor"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
-
-    <TextView
-        android:id="@+id/textView_roleTag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="@string/SummaryQuestionTitle"
-        android:textColor="@android:color/black"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_next"
-        android:layout_width="173dp"
-        android:layout_height="95dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
+        android:id="@+id/button_sumqNext"
+        android:layout_width="161dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/NextButton"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button_previousAnswer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="477dp"
-        android:layout_marginLeft="477dp"
-        android:layout_marginBottom="119dp"
-        android:text="@string/PreviousAnswer"
-        android:textSize="18sp"
+        android:id="@+id/button_sumqPrevious"
+        android:layout_width="158dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/PreviousButton"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button_nextAnswer"
+    <TextView
+        android:id="@+id/textView_endMatch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="415dp"
-        android:layout_marginRight="415dp"
-        android:layout_marginBottom="119dp"
-        android:text="@string/NextAnswer"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/CurrentMatch"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_question"
-        android:layout_width="946dp"
-        android:layout_height="97dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginLeft="108dp"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginRight="144dp"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup1"
+        android:id="@+id/textView_endTeamNumber"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="297dp"
-        android:layout_marginLeft="297dp"
-        android:layout_marginTop="264dp"
-        android:layout_marginEnd="874dp"
-        android:layout_marginRight="874dp"
-        android:layout_marginBottom="376dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="41dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/CurrentTeam"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_endMatch" />
+
+    <ImageView
+        android:id="@+id/imageView_btEndIndicator"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/logo_description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/background_light" />
 
-        <RadioButton
-            android:id="@+id/radioButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="323dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="680dp"
+        android:layout_marginTop="168dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/BrokeDownText"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="326dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="680dp"
+        android:layout_marginTop="552dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/ShootFromLaunchpad"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="323dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="680dp"
+        android:layout_marginTop="256dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/LostCommText"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/radioButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/radioButton5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp" />
-    </RadioGroup>
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="331dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="680dp"
+        android:layout_marginTop="452dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/OppAllianceCargoText"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/Reset_button"
-        android:layout_width="173dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/ResetButton"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_next"
-        app:layout_constraintHorizontal_bias="0.563"
-        app:layout_constraintStart_toEndOf="@+id/button_Previous" />
+        android:id="@+id/ShootFromY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="472dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/ShootWhileN"
+        app:layout_constraintTop_toBottomOf="@+id/ScoreOppY" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="323dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="680dp"
+        android:layout_marginTop="356dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/SubsystemBrokeText"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="323dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="564dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/ShootWhileText"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="328dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="464dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/DefenseAgainstText"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="323dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="368dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/PlayedDefenseText"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BrokeDownN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="68dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/LostCommN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/LostCommY"
+        app:layout_constraintTop_toBottomOf="@+id/BrokeDownN" />
+
+    <Button
+        android:id="@+id/ShootFromN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/ShootFromY"
+        app:layout_constraintTop_toBottomOf="@+id/ScoreOppN" />
+
+    <Button
+        android:id="@+id/SubsystemN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/SubsystemY"
+        app:layout_constraintTop_toBottomOf="@+id/LostCommN" />
+
+    <Button
+        android:id="@+id/BrokeDownY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="28dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toStartOf="@+id/BrokeDownN"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/SubsystemY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="472dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/PlayedDefenseN"
+        app:layout_constraintTop_toBottomOf="@+id/LostCommY" />
+
+    <Button
+        android:id="@+id/LostCommY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="472dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/TerminalPickupN"
+        app:layout_constraintTop_toBottomOf="@+id/BrokeDownY" />
+
+    <Button
+        android:id="@+id/ScoreOppY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="472dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/DefenseAgainstThemN"
+        app:layout_constraintTop_toBottomOf="@+id/SubsystemY" />
+
+    <Button
+        android:id="@+id/ScoreOppN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="676dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/DefenseAgainstThemY"
+        app:layout_constraintTop_toBottomOf="@+id/SubsystemN" />
+
+    <Button
+        android:id="@+id/GroundPickupY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="384dp"
+        android:layout_marginTop="168dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/ShootWhileY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="384dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DefenseAgainstThemY" />
+
+    <Button
+        android:id="@+id/DefenseAgainstThemN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/DefenseAgainstThemY"
+        app:layout_constraintTop_toBottomOf="@+id/PlayedDefenseN" />
+
+    <Button
+        android:id="@+id/DefenseAgainstThemY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="384dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlayedDefenseY" />
+
+    <Button
+        android:id="@+id/ShootWhileN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/ShootWhileY"
+        app:layout_constraintTop_toBottomOf="@+id/DefenseAgainstThemN" />
+
+    <Button
+        android:id="@+id/PlayedDefenseN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/PlayedDefenseY"
+        app:layout_constraintTop_toBottomOf="@+id/TerminalPickupN" />
+
+    <Button
+        android:id="@+id/PlayedDefenseY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="384dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TerminalPickupY" />
+
+    <Button
+        android:id="@+id/TerminalPickupY"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="384dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/YesButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GroundPickupY" />
+
+    <Button
+        android:id="@+id/TerminalPickupN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/TerminalPickupY"
+        app:layout_constraintTop_toBottomOf="@+id/GroundPickupN" />
+
+    <Button
+        android:id="@+id/GroundPickupN"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="168dp"
+        android:text="@string/NoButton"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/GroundPickupY"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="323dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="164dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/GroundPickupText"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="323dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="268dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/TerminalPickupText"
+        android:textAlignment="center"
+        android:textSize="34dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="446dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="404dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/SummaryQuestionTitle"
+        android:textAlignment="center"
+        android:textSize="96sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

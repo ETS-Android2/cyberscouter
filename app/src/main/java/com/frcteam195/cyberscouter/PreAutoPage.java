@@ -24,13 +24,15 @@ public class PreAutoPage extends AppCompatActivity {
     private Button didnotshowyesbutton;
     private int currentCommStatusColor;
     private int preload = 0;
+
+    //used to check if all data fields are completed
     private boolean[] compCheck = {false, false};
 
     private final CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
     private SQLiteDatabase _db;
 
     private String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOSTARTPOS,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW};
+            CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW, CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOPRELOAD};
     private int[] _lValues;
     private int _didNotShow = 0;
     private int _startPos = 0;
@@ -43,6 +45,7 @@ public class PreAutoPage extends AppCompatActivity {
         }
     };
 
+    //moves buttons to lign up with field if it is rotated
     public void moveStartButtons()
     {
         //move button 6
@@ -82,19 +85,19 @@ public class PreAutoPage extends AppCompatActivity {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
 
         ImageView iv = findViewById(R.id.imageView6);
+
+        //if field is red, uses red field image, else will use blue field image
         if(ScoutingPage.getIsRed()){
             iv.setImageResource(R.drawable.betterredfield2022);
-            iv.setRotation(iv.getRotation() + 180);
         }
         else {
             iv.setImageResource(R.drawable.betterbluefield2022);
         }
-        if (null != cfg && !cfg.isFieldRedLeft()) {
+
+        //if the field should be flipped, rotation is set to 180 and buttons are moved
+        if (!(ScoutingPage.getIsRed()) && ScoutingPage.getFieldOrientation() == 0 || (ScoutingPage.getIsRed() && ScoutingPage.getFieldOrientation() == 1)) {
             iv.setRotation(iv.getRotation() + 180);
-            int rot = (int)(iv.getRotation() % 360);
-            //if(rot == 180) {
-                moveStartButtons();
-            //}
+            moveStartButtons();
         }
 
         button = findViewById(R.id.startbutton1);
@@ -253,7 +256,7 @@ public class PreAutoPage extends AppCompatActivity {
     private void updatePreAutoData() {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         try {
-            Integer[] _lValues = {_startPos, _didNotShow};
+            Integer[] _lValues = {_startPos, _didNotShow, preload};
             CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
         } catch(Exception e) {
             e.printStackTrace();

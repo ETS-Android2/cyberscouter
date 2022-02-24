@@ -6,16 +6,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.security.cert.PolicyNode;
 import java.util.Locale;
 import java.util.Vector;
@@ -28,6 +33,7 @@ class CyberScouterTeams {
         return(webResponse);
     }
 
+    private static boolean webQueryInProgress = false;
 
     private int teamID;
     private int team;
@@ -172,6 +178,11 @@ class CyberScouterTeams {
 
 
     static public void getTeamsWebService(final AppCompatActivity activity) {
+        if (webQueryInProgress)
+            return;
+
+        webQueryInProgress = true;
+
         RequestQueue rq = Volley.newRequestQueue(activity);
         String url = String.format("%s/teams", FakeBluetoothServer.webServiceBaseUrl);
 
@@ -194,6 +205,77 @@ class CyberScouterTeams {
                 error.printStackTrace();
             }
         });
+
+        rq.add(stringRequest);
+        return;
+
+    }
+
+    static public void setTeamsWebService(final AppCompatActivity activity, JSONObject jo) {
+        if (webQueryInProgress)
+            return;
+
+        webQueryInProgress = true;
+
+        RequestQueue rq = Volley.newRequestQueue(activity);
+        String url = String.format("%s/update", FakeBluetoothServer.webServiceBaseUrl);
+        String requestBody = jo.toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        webQueryInProgress = false;
+                        try {
+                            Intent i = new Intent(TEAMS_UPDATED_FILTER);
+                            webResponse = response;
+                            i.putExtra("cyberscouterteams", "update");
+                            activity.sendBroadcast(i);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                webQueryInProgress = false;
+                error.printStackTrace();
+                String msg;
+                if (null == error.networkResponse) {
+                    msg = error.getMessage();
+                } else {
+                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
+                }
+
+                MessageBox.showMessageBox(activity, "Update of Match Scouting Records Failed", "CyberScouterMatchScouting.setMatchScoutingWebService",
+                        String.format("Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n", msg));
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                    return null;
+                }
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                    // can get more details such as response.headers
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
 
         rq.add(stringRequest);
         return;

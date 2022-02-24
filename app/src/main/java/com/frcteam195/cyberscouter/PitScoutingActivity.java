@@ -55,7 +55,15 @@ public class PitScoutingActivity extends AppCompatActivity {
         }
     };
 
-//    BroadcastReceiver mUsersReceiver = new BroadcastReceiver() {
+    BroadcastReceiver mTeamsUpdater = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String ret = intent.getStringExtra("cyberscouterteams");
+//            updateTeams(ret);
+        }
+    };
+
+    //    BroadcastReceiver mUsersReceiver = new BroadcastReceiver() {
 //        @Override
 //        public void onReceive(Context context, Intent intent) {
 //            String ret = intent.getStringExtra("cyberscouterusers");
@@ -70,6 +78,7 @@ public class PitScoutingActivity extends AppCompatActivity {
 
         registerReceiver(mOnlineStatusReceiver, new IntentFilter(BluetoothComm.ONLINE_STATUS_UPDATED_FILTER));
         registerReceiver(mTeamsReceiver, new IntentFilter(CyberScouterTeams.TEAMS_UPDATED_FILTER));
+        registerReceiver(mTeamsUpdater, new IntentFilter(CyberScouterTeams.TEAMS_UPDATED_FILTER));
 //        registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_UPDATED_FILTER));
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());

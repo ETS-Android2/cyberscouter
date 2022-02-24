@@ -1,21 +1,29 @@
 package com.frcteam195.cyberscouter;
 
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import org.json.JSONObject;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Locale;
 
 public class FakeBluetoothServer {
 
-    final public static boolean bUseFakeBluetoothServer = true;
+    public static boolean bUseFakeBluetoothServer = true;
     final private static String _webHost = "8zaof0vuah.execute-api.us-east-1.amazonaws.com";
     final public static String webServiceBaseUrl = String.format("https://%s", _webHost);
 
-    final public static String fakeBluetoothComputerName = "Team 195 Scout 4";
+    final public static String fakeBluetoothComputerName = "Team 195 Scout 2A";
     //Change the scout number to change which tablet you are emulating, the numbers correspond as follows
     //Scout 1-3 Red, 4-6 Blue, 7-9 Level 2 Scouting, 10 Pit
 
-    public FakeBluetoothServer() {
+    private FakeBluetoothServer() {}
+
+    public FakeBluetoothServer(String btname) {
+        if(btname == null || btname.toLowerCase(Locale.ROOT).endsWith("a"))
+            bUseFakeBluetoothServer = true;
+        else
+            bUseFakeBluetoothServer = false;
     }
 
     public void getResponse(AppCompatActivity activity, JSONObject obj) {
@@ -46,7 +54,9 @@ public class FakeBluetoothServer {
                     CyberScouterWords.getWordsWebService(activity);
                     break;
                 case "put-match-scouting":
+                    CyberScouterMatchScouting.setMatchesWebService(activity, obj);
                 case "put-teams":
+                    CyberScouterTeams.setTeamsWebService(activity, obj);
                     break;
             }
         } catch(Exception e) {

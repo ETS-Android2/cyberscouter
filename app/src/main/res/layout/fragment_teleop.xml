@@ -300,7 +300,7 @@
 
     <View
         android:id="@+id/divider5"
-        android:layout_width="1dp"
+        android:layout_width="5dp"
         android:layout_height="798dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toStartOf="@+id/textview_sortCargo"
