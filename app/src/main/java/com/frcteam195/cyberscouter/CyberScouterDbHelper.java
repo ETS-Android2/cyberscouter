@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class CyberScouterDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 50;
+    private static final int DATABASE_VERSION = 51;
     private static final String DATABASE_NAME = "CyberScouter.db";
 
     private static final String SQL_CREATE_CONFIG_ENTRIES =
@@ -207,9 +207,9 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
                     CyberScouterContract.WordCloud.COLUMN_NAME_EVENT_ID + " INTEGER," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_ID + " INTEGER," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_SCOUTING_ID + " INTEGER," +
-                    CyberScouterContract.WordCloud.COLUMN_NAME_SEQ + " INTEGER," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_TEAM + " TEXT," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_WORD_ID + " INTEGER," +
+                    CyberScouterContract.WordCloud.COLUMN_NAME_WORD_COUNT + " INTEGER," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_DONE_SCOUTING + " INTEGER," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_UPLOAD_STATUS + " INTEGER, " +
                     "UNIQUE(" +

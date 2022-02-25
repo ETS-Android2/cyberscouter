@@ -25,7 +25,7 @@ public class CyberScouterWordCloud {
     private int EventID;
     private int MatchID;
     private int MatchScoutingID;
-    private int Seq;
+    private int WordCount;
     private String Team;
     private int WordID;
 
@@ -36,9 +36,9 @@ public class CyberScouterWordCloud {
             values.put(CyberScouterContract.WordCloud.COLUMN_NAME_EVENT_ID, EventID);
             values.put(CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_ID, MatchID);
             values.put(CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_SCOUTING_ID, MatchScoutingID);
-            values.put(CyberScouterContract.WordCloud.COLUMN_NAME_SEQ, Seq);
             values.put(CyberScouterContract.WordCloud.COLUMN_NAME_TEAM, Team);
             values.put(CyberScouterContract.WordCloud.COLUMN_NAME_WORD_ID, WordID);
+            values.put(CyberScouterContract.WordCloud.COLUMN_NAME_WORD_COUNT, WordCount);
             values.put(CyberScouterContract.WordCloud.COLUMN_NAME_DONE_SCOUTING, 0);
             values.put(CyberScouterContract.WordCloud.COLUMN_NAME_UPLOAD_STATUS, UploadStatus.NOT_UPLOADED);
 
@@ -58,9 +58,9 @@ public class CyberScouterWordCloud {
                 CyberScouterContract.WordCloud.COLUMN_NAME_EVENT_ID,
                 CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_ID,
                 CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_SCOUTING_ID,
-                CyberScouterContract.WordCloud.COLUMN_NAME_SEQ,
                 CyberScouterContract.WordCloud.COLUMN_NAME_TEAM,
-                CyberScouterContract.WordCloud.COLUMN_NAME_WORD_ID
+                CyberScouterContract.WordCloud.COLUMN_NAME_WORD_ID,
+                CyberScouterContract.WordCloud.COLUMN_NAME_WORD_COUNT
         };
 
         String selection = CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_SCOUTING_ID + " = ? AND " +
@@ -90,9 +90,9 @@ public class CyberScouterWordCloud {
             cswc.EventID = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.WordCloud.COLUMN_NAME_EVENT_ID));
             cswc.MatchID = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_ID));
             cswc.MatchScoutingID = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_SCOUTING_ID));
-            cswc.Seq = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.WordCloud.COLUMN_NAME_SEQ));
             cswc.Team = cursor.getString(cursor.getColumnIndex(CyberScouterContract.WordCloud.COLUMN_NAME_TEAM));
             cswc.WordID = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.WordCloud.COLUMN_NAME_WORD_ID));
+            cswc.WordCount = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.WordCloud.COLUMN_NAME_WORD_COUNT));
             cursor.close();
         }
 
@@ -195,8 +195,8 @@ public class CyberScouterWordCloud {
         return MatchScoutingID;
     }
 
-    public int getSeq() {
-        return Seq;
+    public int getWordCount() {
+        return WordCount;
     }
 
     public String getTeam() {
@@ -219,8 +219,8 @@ public class CyberScouterWordCloud {
         MatchScoutingID = matchScoutingID;
     }
 
-    public void setSeq(int seq) {
-        Seq = seq;
+    public void setWordCount(int wordCount) {
+        WordCount = wordCount;
     }
 
     public void setTeam(String team) {
