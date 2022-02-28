@@ -82,92 +82,86 @@
         android:id="@+id/textView25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="309dp"
         android:text="@string/upper_text"
         android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="@+id/btnTeleUpperAdd"
-        app:layout_constraintHorizontal_bias="0.7"
-        app:layout_constraintStart_toStartOf="@+id/btnTeleUpperSubtract"
+        app:layout_constraintEnd_toStartOf="@+id/textView_roleTag"
         app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
 
     <Button
         android:id="@+id/btnTeleUpperSubtract"
-        android:layout_width="71dp"
-        android:layout_height="85dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="25dp"
         android:text="@string/MinusButton"
         android:textSize="60sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toTopOf="@+id/textView25" />
+        app:layout_constraintEnd_toStartOf="@+id/btnTeleUpperCounter"
+        app:layout_constraintTop_toTopOf="@+id/btnTeleUpperCounter" />
 
     <Button
         android:id="@+id/btnTeleUpperAdd"
-        android:layout_width="81dp"
-        android:layout_height="102dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="80dp"
         android:text="@string/PlusButton"
         android:textSize="60sp"
         app:layout_constraintStart_toEndOf="@+id/btnTeleUpperCounter"
-        app:layout_constraintTop_toTopOf="@+id/textView25" />
+        app:layout_constraintTop_toTopOf="@+id/btnTeleUpperCounter" />
 
     <Button
         android:id="@+id/btnTeleUpperCounter"
-        android:layout_width="106dp"
-        android:layout_height="136dp"
-        android:layout_marginStart="28dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
         android:text="@string/ZeroText"
         android:textSize="60sp"
-        app:layout_constraintStart_toEndOf="@+id/btnTeleUpperSubtract"
+        app:layout_constraintEnd_toEndOf="@+id/textView25"
+        app:layout_constraintStart_toStartOf="@+id/textView25"
         app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
     <Button
         android:id="@+id/btnTeleLowerCounter"
-        android:layout_width="98dp"
-        android:layout_height="131dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
         android:text="@string/ZeroText"
         android:textSize="60sp"
-        app:layout_constraintStart_toEndOf="@+id/btnTeleLowerSubtract"
-        app:layout_constraintTop_toTopOf="@+id/textView16" />
+        app:layout_constraintEnd_toEndOf="@+id/textView16"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <Button
         android:id="@+id/btnTeleLowerAdd"
-        android:layout_width="81dp"
-        android:layout_height="106dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="76dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
         android:text="@string/PlusButton"
         android:textSize="60sp"
         app:layout_constraintStart_toEndOf="@+id/btnTeleLowerCounter"
-        app:layout_constraintTop_toTopOf="@+id/textView16" />
+        app:layout_constraintTop_toTopOf="@+id/btnTeleLowerCounter" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="50dp"
         android:text="@string/lower_text"
         android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="@+id/btnTeleLowerAdd"
-        app:layout_constraintHorizontal_bias="0.638"
-        app:layout_constraintStart_toStartOf="@+id/btnTeleLowerSubtract"
+        app:layout_constraintStart_toStartOf="@+id/textView25"
         app:layout_constraintTop_toBottomOf="@+id/btnTeleUpperCounter" />
 
     <Button
         android:id="@+id/btnTeleLowerSubtract"
-        android:layout_width="71dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="48dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="25dp"
         android:text="@string/MinusButton"
         android:textSize="60sp"
         app:layout_constraintEnd_toStartOf="@+id/btnTeleLowerCounter"
-        app:layout_constraintTop_toTopOf="@+id/textView16" />
+        app:layout_constraintTop_toTopOf="@+id/btnTeleLowerCounter" />
 
     <ImageView
         android:id="@+id/HubView"
@@ -175,13 +169,11 @@
         android:layout_height="516dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="73dp"
         android:adjustViewBounds="false"
         android:background="#00FFFFFF"
         android:cropToPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/MissedMinusButton"
         app:layout_constraintStart_toEndOf="@+id/btnTeleLowerAdd"
         app:layout_constraintTop_toBottomOf="@+id/textView_roleTag"
         app:layout_constraintVertical_bias="1.0"
@@ -191,44 +183,43 @@
         android:id="@+id/MissedText"
         android:layout_width="208dp"
         android:layout_height="81dp"
-        android:layout_marginStart="91dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginEnd="40dp"
         android:text="Missed"
         android:textSize="60sp"
-        app:layout_constraintStart_toEndOf="@+id/HubView"
-        app:layout_constraintTop_toBottomOf="@+id/textView_teamNumber" />
+        app:layout_constraintBottom_toTopOf="@+id/btnTeleLowerCounter"
+        app:layout_constraintEnd_toEndOf="@+id/textView_teamNumber"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
     <Button
         android:id="@+id/MissedMinusButton"
-        android:layout_width="89dp"
+        android:layout_width="80dp"
         android:layout_height="100dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="25dp"
         android:text="@string/MinusButton"
         android:textSize="60sp"
-        app:layout_constraintStart_toEndOf="@+id/HubView"
-        app:layout_constraintTop_toBottomOf="@+id/MissedText" />
+        app:layout_constraintEnd_toStartOf="@+id/MissedCounter"
+        app:layout_constraintTop_toTopOf="@+id/MissedCounter" />
 
     <Button
         android:id="@+id/MissedPlusButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="46dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
         android:text="@string/PlusButton"
         android:textSize="60sp"
         app:layout_constraintStart_toEndOf="@+id/MissedCounter"
-        app:layout_constraintTop_toBottomOf="@+id/MissedText" />
+        app:layout_constraintTop_toTopOf="@+id/MissedCounter" />
 
     <Button
         android:id="@+id/MissedCounter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="49dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="46dp"
+        android:background="@android:color/transparent"
         android:text="@string/ZeroText"
         android:textSize="60sp"
-        app:layout_constraintEnd_toStartOf="@+id/MissedPlusButton"
-        app:layout_constraintStart_toEndOf="@+id/MissedMinusButton"
+        app:layout_constraintEnd_toEndOf="@+id/MissedText"
+        app:layout_constraintStart_toStartOf="@+id/MissedText"
         app:layout_constraintTop_toBottomOf="@+id/MissedText" />
 
 </android.support.constraint.ConstraintLayout>

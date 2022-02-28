@@ -28,9 +28,9 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
 
-    private boolean[] qAnswered = {false, false, false, false, false, false, false, false, false, false};
+    private int[] qAnswered = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
-    private int groundPickupVar, terminalPickupVar, playedDefenseVar, defenseAgainstVar, shootWhileVar, brokeDownVar, lostCommVar, subsystemBrokeVar, scoreOppVar, shootFromVar;
+    private int groundPickupVar = -1, terminalPickupVar = -1, playedDefenseVar = -1, defenseAgainstVar = -1, shootWhileVar = -1, brokeDownVar = -1, lostCommVar = -1, subsystemBrokeVar = -1, scoreOppVar = -1, shootFromVar = -1;
     //private int lastCheckedButton;
 
     String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD,
@@ -265,66 +265,66 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 tv = findViewById(R.id.textView_endTeamNumber);
                 tv.setText(getString(R.string.tagTeam, csm.getTeam()));
 
-                int val = csm.getSummGroundPickup();
+                /*int val = csm.getSummGroundPickup();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, groundPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[0] = true;
+                    qAnswered[0] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummTerminalPickup();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, terminalPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[1] = true;
+                    qAnswered[1] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummPlayedDefense();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, playedDefenseArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[2] = true;
+                    qAnswered[2] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummDefPlayedAgainst();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, defenseAgainstArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[3] = true;
+                    qAnswered[3] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummShootDriving();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, shootWhileArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[4] = true;
+                    qAnswered[4] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummBrokeDown();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, brokeDownArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[5] = true;
+                    qAnswered[5] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummLostComm();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, lostCommArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[6] = true;
+                    qAnswered[6] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummSubsystemBroke();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, subsystemBrokeArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[7] = true;
+                    qAnswered[7] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummSortCargo();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, scoreOppArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[8] = true;
+                    qAnswered[8] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummLaunchPad();
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, shootFromArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[9] = true;
+                    qAnswered[9] = 1;
                     shouldEnableNext();
-                }
+                }*/
             }
         }
 
@@ -367,149 +367,157 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private void GroundPickupNo() {
         FakeRadioGroup.buttonPressed(this, 0, groundPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         groundPickupVar = 0;
-        qAnswered[0] = true;
+        qAnswered[0] = 1;
         shouldEnableNext();
     }
 
     private void GroundPickupYes() {
         FakeRadioGroup.buttonPressed(this, 1, groundPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         groundPickupVar = 1;
-        qAnswered[0] = true;
+        qAnswered[0] = 1;
         shouldEnableNext();
     }
 
     private void TerminalPickupNo() {
         FakeRadioGroup.buttonPressed(this, 0, terminalPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         terminalPickupVar = 0;
-        qAnswered[1] = true;
+        qAnswered[1] = 1;
         shouldEnableNext();
     }
 
     private void TerminalPickupYes() {
         FakeRadioGroup.buttonPressed(this, 1, terminalPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         terminalPickupVar = 1;
-        qAnswered[1] = true;
+        qAnswered[1] = 1;
         shouldEnableNext();
     }
 
     private void PlayedDefenseNo() {
         FakeRadioGroup.buttonPressed(this, 0, playedDefenseArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         playedDefenseVar = 0;
-        qAnswered[2] = true;
+        qAnswered[2] = 1;
         shouldEnableNext();
     }
 
     private void PlayedDefenseYes() {
         FakeRadioGroup.buttonPressed(this, 1, playedDefenseArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         playedDefenseVar = 1;
-        qAnswered[2] = true;
+        qAnswered[2] = 1;
         shouldEnableNext();
     }
 
     private void DefenseAgainstNo() {
         FakeRadioGroup.buttonPressed(this, 0, defenseAgainstArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         defenseAgainstVar = 0;
-        qAnswered[3] = true;
+        qAnswered[3] = 1;
         shouldEnableNext();
     }
 
     private void DefenseAgainstYes() {
         FakeRadioGroup.buttonPressed(this, 1, defenseAgainstArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         defenseAgainstVar = 1;
-        qAnswered[3] = true;
+        qAnswered[3] = 1;
         shouldEnableNext();
     }
 
     private void ShootWhileNo() {
         FakeRadioGroup.buttonPressed(this, 0, shootWhileArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         shootWhileVar = 0;
-        qAnswered[4] = true;
+        qAnswered[4] = 1;
         shouldEnableNext();
     }
 
     private void ShootWhileYes() {
         FakeRadioGroup.buttonPressed(this, 1, shootWhileArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         shootWhileVar = 1;
-        qAnswered[4] = true;
+        qAnswered[4] = 1;
         shouldEnableNext();
     }
 
     private void BrokeDownNo() {
         FakeRadioGroup.buttonPressed(this, 0, brokeDownArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         brokeDownVar = 0;
-        qAnswered[5] = true;
+        qAnswered[5] = 1;
         shouldEnableNext();
     }
 
     private void BrokeDownYes() {
         FakeRadioGroup.buttonPressed(this, 1, brokeDownArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         brokeDownVar = 1;
-        qAnswered[5] = true;
+        qAnswered[5] = 1;
         shouldEnableNext();
     }
 
     private void LostCommNo() {
         FakeRadioGroup.buttonPressed(this, 0, lostCommArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         lostCommVar = 0;
-        qAnswered[6] = true;
+        qAnswered[6] = 1;
         shouldEnableNext();
     }
 
     private void LostCommYes() {
         FakeRadioGroup.buttonPressed(this, 1, lostCommArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         lostCommVar = 1;
-        qAnswered[6] = true;
+        qAnswered[6] = 1;
         shouldEnableNext();
     }
 
     private void SubsystemBrokeNo() {
         FakeRadioGroup.buttonPressed(this, 0, subsystemBrokeArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         subsystemBrokeVar = 0;
-        qAnswered[7] = true;
+        qAnswered[7] = 1;
         shouldEnableNext();
     }
 
     private void SubsystemBrokeYes() {
         FakeRadioGroup.buttonPressed(this, 1, subsystemBrokeArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         subsystemBrokeVar = 1;
-        qAnswered[7] = true;
+        qAnswered[7] = 1;
         shouldEnableNext();
     }
 
     private void ScoreOppNo() {
         FakeRadioGroup.buttonPressed(this, 0, scoreOppArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         scoreOppVar = 0;
-        qAnswered[8] = true;
+        qAnswered[8] = 1;
         shouldEnableNext();
     }
 
     private void ScoreOppYes() {
         FakeRadioGroup.buttonPressed(this, 1, scoreOppArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         scoreOppVar = 1;
-        qAnswered[8] = true;
+        qAnswered[8] = 1;
         shouldEnableNext();
     }
 
     private void ShootFromNo() {
         FakeRadioGroup.buttonPressed(this, 0, shootFromArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         shootFromVar = 0;
-        qAnswered[9] = true;
+        qAnswered[9] = 1;
         shouldEnableNext();
     }
 
     private void ShootFromYes() {
         FakeRadioGroup.buttonPressed(this, 1, shootFromArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         shootFromVar = 1;
-        qAnswered[9] = true;
+        qAnswered[9] = 1;
         shouldEnableNext();
     }
 
 
     private void shouldEnableNext() {
-        boolean bAll = qAnswered[0] && qAnswered[1] && qAnswered[2] && qAnswered[3] && qAnswered[4]
-                && qAnswered[5] && qAnswered[6] && qAnswered[7] && qAnswered[8] && qAnswered[9];
-        button = findViewById(R.id.button_sumqNext);
-        button.setEnabled(bAll);
+        boolean bAll = true;
+        for(int i : qAnswered)
+        {
+            if (i == -1) {
+                bAll = false;
+                break;
+            }
+        }
+        if (bAll) {
+            button = findViewById(R.id.button_sumqNext);
+            button.setEnabled(bAll);
+        }
     }
 
     /*

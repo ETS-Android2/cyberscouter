@@ -72,7 +72,7 @@
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/BrokeDownText"
         android:textAlignment="center"
-        android:textSize="48sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,7 +99,7 @@
         android:text="@string/LostCommText"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textSize="48sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,7 +112,7 @@
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/OppAllianceCargoText"
         android:textAlignment="center"
-        android:textSize="28sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -410,7 +410,7 @@
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/TerminalPickupText"
         android:textAlignment="center"
-        android:textSize="34dp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

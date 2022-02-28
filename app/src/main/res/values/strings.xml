@@ -115,7 +115,7 @@
     <string name="ShootWhileText">Shoot while driving?</string>
     <string name="NamePickerTitle">Select Your Name</string>
     <string name="SubsystemBrokeText">Subsystem broke?</string>
-    <string name="OppAllianceCargoText">Score any opposing alliance’s cargo?</string>
+    <string name="OppAllianceCargoText">Score wrong color cargo?</string>
     <string name="ShootFromLaunchpad">Did they shoot from the launchpad?</string>
     <string name="PickupText">Pick Up Cargo</string>
     <string name="NumberOfPreloads">Preload</string>
