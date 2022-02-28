@@ -94,7 +94,7 @@ public class SubmitPage extends AppCompatActivity {
             CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
             CyberScouterMatchScouting.submitMatch(db, g_matchScoutingID);
-            notifyUser("Submit Scouting Report", "Scouting report sucessfully submitted!");
+            notifyUser("Submit Scouting Report", "Scouting report successfully submitted!");
         } catch (Exception e) {
             MessageBox.showMessageBox(this, "Submit Match Failed Alert", "submitMatch",
                     "Update of UploadStatus and ScoutingStatus failed!\n\n" +

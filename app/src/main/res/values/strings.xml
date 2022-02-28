@@ -266,5 +266,6 @@
     <string name="TeamThree">Team 3</string>
     <string name="SelectOne">Select One</string>
     <string name="title_activity_level_two_scouting_two_team_two">LevelTwoScoutingTwoTeamTwo</string>
+    <string name="balls_picked_up">Balls Picked Up</string>
 
 </resources>

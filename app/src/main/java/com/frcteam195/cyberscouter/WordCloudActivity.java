@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 /* + or - block briefly turns alliance color when tapped
@@ -35,27 +34,28 @@ public class WordCloudActivity extends AppCompatActivity {
         return (_activity);
     }
 
-    private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
+    final private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
     private SQLiteDatabase _db = null;
 
     private ViewPager mPager;
 
-    private Integer fastCountT1, driverCountT1, aggressiveCountT1, cargoCountT1, evasiveCountT1, sturdyCountT1, powerfulCountT1;
+    
+    private Integer[] Team1Cntrs = {0, 0, 0, 0, 0, 0, 0};
    /* String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLHIGH,
             CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLLOW,
             CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLMISS}; */
 
-    private Integer fastCountT2, driverCountT2, aggressiveCountT2, cargoCountT2, evasiveCountT2, sturdyCountT2, powerfulCountT2;
+    private Integer[] Team2Cntrs = {0, 0, 0, 0, 0, 0, 0};
    /* String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLHIGH,
             CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLLOW,
             CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLMISS}; */
 
-    private Integer fastCountT3, driverCountT3, aggressiveCountT3, cargoCountT3, evasiveCountT3, sturdyCountT3, powerfulCountT3;
+    private Integer[] Team3Cntrs = {0, 0, 0, 0, 0, 0, 0};
    /* String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLHIGH,
             CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLLOW,
             CyberScouterContract.MatchScouting.COLUMN_NAME_TELEBALLMISS}; */
 
-    private Handler mFetchHandler;
+    static private Handler mFetchHandler;
     private Thread fetcherThread;
     private final int START_PROGRESS = 0;
     private final int FETCH_WORDS = 1;
@@ -378,21 +378,21 @@ public class WordCloudActivity extends AppCompatActivity {
             }
         });
 
-        button = findViewById(R.id.powerfulPlusTeam);
+        button = findViewById(R.id.powerfulMinusTeam1);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PowerfulMinusTeam1Clicked();
             }
         });
-        button = findViewById(R.id.powerfulPlusTeam2);
+        button = findViewById(R.id.powerfulMinusTeam2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 powerfulMinusTeam2Clicked();
             }
         });
-        button = findViewById(R.id.PowerfulPlusTeam3);
+        button = findViewById(R.id.powerfulMinusTeam3);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -437,6 +437,7 @@ public class WordCloudActivity extends AppCompatActivity {
             try {
                 Thread.sleep(500);
             } catch (Exception e) {
+                e.printStackTrace();
             }
             Message msg2 = new Message();
             msg2.what = FETCH_WORDS;
@@ -444,6 +445,7 @@ public class WordCloudActivity extends AppCompatActivity {
             try {
                 Thread.sleep(500);
             } catch (Exception e) {
+                e.printStackTrace();
             }
             Message msg3 = new Message();
             msg3.what = FETCH_MATCHES;
@@ -481,9 +483,7 @@ public class WordCloudActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if(null != mDbHelper) {
-            mDbHelper.close();
-        }
+        mDbHelper.close();
         unregisterReceiver(mWordsReceiver);
         unregisterReceiver(mMatchesL2Receiver);
         super.onDestroy();
@@ -522,814 +522,377 @@ public class WordCloudActivity extends AppCompatActivity {
         }
     }
 
+    private void setTextColor(TextView et, int val) {
+        if (val == -1) {
+            et.setTextColor(getColor(R.color.yellow));
+        }
+        else if (val == -2) {
+            et.setTextColor(getColor(R.color.red));
+        }
+        else if (val == -3) {
+            et.setTextColor(getColor(R.color.black));
+        }
+        if (val == 0) {
+            et.setTextColor(getColor(android.R.color.darker_gray));
+        }
+        if (val == 1) {
+            et.setTextColor(getColor(R.color.green));
+        }
+        else if (val == 2) {
+            et.setTextColor(getColor(R.color.blue));
+        }
+        else if (val == 3) {
+            et.setTextColor(getColor(R.color.purple));
+        }
+    }
+
     private void FastMinusTeam1Clicked() {
-        Button button = findViewById(R.id.FastMinusTeam1);
-        if (fastCountT1 > -3) {
-            fastCountT1--;
-             if (fastCountT1 == -1) {
-                 TextView et = findViewById(R.id.fastTextTeam1);
-                 et.setTextColor(getColor(R.color.yellow));
-            }
-             else if (fastCountT1 == -2) {
-                 TextView et = findViewById(R.id.fastTextTeam1);
-                 et.setTextColor(getColor(R.color.red));
-            }
-             else if (fastCountT1 == -3) {
-                 TextView et = findViewById(R.id.fastTextTeam1);
-                 et.setTextColor(getColor(R.color.black));
-            }
+        if (Team1Cntrs[0] > -3) {
+            Team1Cntrs[0]--;
+            TextView et = findViewById(R.id.fastTextTeam1);
+            setTextColor(et, Team1Cntrs[0]);
         }
     }
 
     private void FastMinusTeam2Clicked() {
-        Button button = findViewById(R.id.fastMinusTeam2);
-        if (fastCountT2 > -3) {
-            fastCountT2--;
-            if (fastCountT2 == -1) {
-                TextView et = findViewById(R.id.fastText2);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (fastCountT2 == -2) {
-                TextView et = findViewById(R.id.fastText2);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (fastCountT2 == -3) {
-                TextView et = findViewById(R.id.fastText2);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team2Cntrs[0] > -3) {
+            Team2Cntrs[0]--;
+            TextView et = findViewById(R.id.fastText2);
+            setTextColor(et, Team2Cntrs[0]);
         }
     }
 
     private void FastMinusTeam3Clicked() {
-        Button button = findViewById(R.id.fastMinusTeam3);
-        if (fastCountT3 > -3) {
-            fastCountT3--;
-            if (fastCountT3 == -1) {
-                TextView et = findViewById(R.id.fastText3);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (fastCountT3 == -2) {
-                TextView et = findViewById(R.id.fastText3);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (fastCountT3 == -3) {
-                TextView et = findViewById(R.id.fastText3);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team3Cntrs[0] > -3) {
+            Team3Cntrs[0]--;
+            TextView et = findViewById(R.id.fastText3);
+            setTextColor(et, Team3Cntrs[0]);
         }
     }
 
     private void fastPlusTeamClicked() {
-        Button button = findViewById(R.id.fastPlusTeam);
-        if (fastCountT1 < 3) {
-            fastCountT1++;
-            if (fastCountT1 == 1) {
-                TextView et = findViewById(R.id.fastTextTeam1);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (fastCountT1 == 2) {
-                TextView et = findViewById(R.id.fastTextTeam1);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (fastCountT1 == 3) {
-                TextView et = findViewById(R.id.fastTextTeam1);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team1Cntrs[0] < 3) {
+            Team1Cntrs[0]++;
+            TextView et = findViewById(R.id.fastTextTeam1);
+            setTextColor(et, Team1Cntrs[0]);
         }
     }
 
     private void fastPlusTeam2Clicked() {
-        Button button = findViewById(R.id.fastPlusTeam2);
-        if (fastCountT2 < 3) {
-            fastCountT2++;
-            if (fastCountT2 == 1) {
-                TextView et = findViewById(R.id.fastText2);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (fastCountT2 == 2) {
-                TextView et = findViewById(R.id.fastText2);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (fastCountT2 == 3) {
-                TextView et = findViewById(R.id.fastText2);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team2Cntrs[0] < 3) {
+            Team2Cntrs[0]++;
+            TextView et = findViewById(R.id.fastText2);
+            setTextColor(et, Team2Cntrs[0]);
         }
     }
 
     private void FastPlusTeam3Clicked() {
-        Button button = findViewById(R.id.FastPlusTeam3);
-        if (fastCountT3 < 3) {
-            fastCountT3++;
-            if (fastCountT3 == 1) {
-                TextView et = findViewById(R.id.fastText3);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (fastCountT3 == 2) {
-                TextView et = findViewById(R.id.fastText3);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (fastCountT3 == 3) {
-                TextView et = findViewById(R.id.fastText3);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team3Cntrs[0] < 3) {
+            Team3Cntrs[0]++;
+            TextView et = findViewById(R.id.fastText3);
+            setTextColor(et, Team3Cntrs[0]);
         }
     }
 
     private void GoodDriverMinusTeam1Clicked() {
-        Button button = findViewById(R.id.GoodDriverMinusTeam1);
-        if (driverCountT1 > -3) {
-            driverCountT1--;
-            if (driverCountT1 == -1) {
-                TextView et = findViewById(R.id.goodDriverTextTeam1);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (driverCountT1 == -2) {
-                TextView et = findViewById(R.id.goodDriverTextTeam1);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (driverCountT1 == -3) {
-                TextView et = findViewById(R.id.goodDriverTextTeam1);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team1Cntrs[1] > -3) {
+            Team1Cntrs[1]--;
+            TextView et = findViewById(R.id.goodDriverTextTeam1);
+            setTextColor(et, Team1Cntrs[1]);
         }
     }
 
     private void goodDriverMinusTeam2Clicked() {
-        Button button = findViewById(R.id.goodDriverMinusTeam2);
-        if (driverCountT2 > -3) {
-            driverCountT2--;
-            if (driverCountT2 == -1) {
-                TextView et = findViewById(R.id.goodDriverText2);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (driverCountT2 == -2) {
-                TextView et = findViewById(R.id.goodDriverText2);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (driverCountT2 == -3) {
-                TextView et = findViewById(R.id.goodDriverText2);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team2Cntrs[1] > -3) {
+            Team2Cntrs[1]--;
+            TextView et = findViewById(R.id.goodDriverText2);
+            setTextColor(et, Team2Cntrs[1]);
         }
     }
 
     private void goodDriverMinusTeam3Clicked() {
-        Button button = findViewById(R.id.goodDriverMinusTeam3);
-        if (driverCountT3 > -3) {
-            driverCountT3--;
-            if (driverCountT3 == -1) {
-                TextView et = findViewById(R.id.goodDriverText3);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (driverCountT3 == -2) {
-                TextView et = findViewById(R.id.goodDriverText3);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (driverCountT3 == -3) {
-                TextView et = findViewById(R.id.goodDriverText3);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team3Cntrs[1] > -3) {
+            Team3Cntrs[1]--;
+            TextView et = findViewById(R.id.goodDriverText3);
+            setTextColor(et, Team3Cntrs[1]);
         }
     }
 
     private void goodDriverPlusTeamClicked() {
-        Button button = findViewById(R.id.goodDriverTeam);
-        if (driverCountT1 < 3) {
-            driverCountT1++;
-            if (driverCountT1 == 1) {
-                TextView et = findViewById(R.id.goodDriverTextTeam1);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (driverCountT1 == 2) {
-                TextView et = findViewById(R.id.goodDriverTextTeam1);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (driverCountT1 == 3) {
-                TextView et = findViewById(R.id.goodDriverTextTeam1);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team1Cntrs[1] < 3) {
+            Team1Cntrs[1]++;
+            TextView et = findViewById(R.id.goodDriverTextTeam1);
+            setTextColor(et, Team1Cntrs[1]);
         }
     }
 
     private void goodDriverPlusTeam2Clicked() {
-        Button button = findViewById(R.id.goodDriverTeam2);
-        if (driverCountT2 < 3) {
-            driverCountT2++;
-            if (driverCountT2 == 1) {
-                TextView et = findViewById(R.id.goodDriverText2);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (driverCountT2 == 2) {
-                TextView et = findViewById(R.id.goodDriverText2);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (driverCountT2 == 3) {
-                TextView et = findViewById(R.id.goodDriverText2);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team2Cntrs[1] < 3) {
+            Team2Cntrs[1]++;
+            TextView et = findViewById(R.id.goodDriverText2);
+            setTextColor(et, Team2Cntrs[1]);
         }
     }
 
     private void GoodDriverPlusTeam3Clicked() {
-        Button button = findViewById(R.id.GoodDriverTeam3);
-        if (driverCountT3 < 3) {
-            driverCountT3++;
-            if (driverCountT3 == 1) {
-                TextView et = findViewById(R.id.goodDriverText3);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (driverCountT3 == 2) {
-                TextView et = findViewById(R.id.goodDriverText3);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (driverCountT3 == 3) {
-                TextView et = findViewById(R.id.goodDriverText3);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team3Cntrs[1] < 3) {
+            Team3Cntrs[1]++;
+            TextView et = findViewById(R.id.goodDriverText3);
+            setTextColor(et, Team3Cntrs[1]);
         }
     }
 
     private void AggressiveMinusTeam1Clicked() {
-        Button button = findViewById(R.id.AggessiveMinusTeam1);
-        if (aggressiveCountT1 > -3) {
-            aggressiveCountT1--;
-            if (aggressiveCountT1 == -1) {
-                TextView et = findViewById(R.id.aggressiveText);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (aggressiveCountT1 == -2) {
-                TextView et = findViewById(R.id.aggressiveText);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (aggressiveCountT1 == -3) {
-                TextView et = findViewById(R.id.aggressiveText);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team1Cntrs[2] > -3) {
+            Team1Cntrs[2]--;
+            TextView et = findViewById(R.id.aggressiveText);
+            setTextColor(et, Team1Cntrs[2]);
         }
     }
 
     private void aggressiveMinusTeam2Clicked() {
-        Button button = findViewById(R.id.aggessiveMinusTeam2);
-        if (aggressiveCountT2 > -3) {
-            aggressiveCountT2--;
-            if (aggressiveCountT2 == -1) {
-                TextView et = findViewById(R.id.aggressiveText2);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (aggressiveCountT2 == -2) {
-                TextView et = findViewById(R.id.aggressiveText2);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (aggressiveCountT2 == -3) {
-                TextView et = findViewById(R.id.aggressiveText2);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team2Cntrs[2] > -3) {
+            Team2Cntrs[2]--;
+            TextView et = findViewById(R.id.aggressiveText2);
+            setTextColor(et, Team2Cntrs[2]);
         }
     }
 
     private void aggressiveMinusTeam3Clicked() {
-        Button button = findViewById(R.id.aggessiveMinusTeam3);
-        if (aggressiveCountT3 > -3) {
-            aggressiveCountT3--;
-            if (aggressiveCountT3 == -1) {
-                TextView et = findViewById(R.id.aggressiveText3);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (aggressiveCountT3 == -2) {
-                TextView et = findViewById(R.id.aggressiveText3);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (aggressiveCountT3 == -3) {
-                TextView et = findViewById(R.id.aggressiveText3);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team3Cntrs[2] > -3) {
+            Team3Cntrs[2]--;
+            TextView et = findViewById(R.id.aggressiveText3);
+            setTextColor(et, Team3Cntrs[2]);
         }
     }
 
     private void aggressivePlusTeamClicked() {
-        Button button = findViewById(R.id.aggressivePlusTeam);
-        if (aggressiveCountT1 < 3) {
-            aggressiveCountT1++;
-            if (aggressiveCountT1 == 1) {
-                TextView et = findViewById(R.id.aggressiveText);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (aggressiveCountT1 == 2) {
-                TextView et = findViewById(R.id.aggressiveText);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (aggressiveCountT1 == 3) {
-                TextView et = findViewById(R.id.aggressiveText);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team1Cntrs[2] < 3) {
+            Team1Cntrs[2]++;
+            TextView et = findViewById(R.id.aggressiveText);
+            setTextColor(et, Team1Cntrs[2]);
         }
     }
 
     private void aggressivePlusTeam2Clicked() {
-        Button button = findViewById(R.id.aggressivePlusTeam2);
-        if (aggressiveCountT2 < 3) {
-            aggressiveCountT2++;
-            if (aggressiveCountT2 == 1) {
-                TextView et = findViewById(R.id.aggressiveText2);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (aggressiveCountT2 == 2) {
-                TextView et = findViewById(R.id.aggressiveText2);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (aggressiveCountT2 == 3) {
-                TextView et = findViewById(R.id.aggressiveText2);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team2Cntrs[2] < 3) {
+            Team2Cntrs[2]++;
+            TextView et = findViewById(R.id.aggressiveText2);
+            setTextColor(et, Team2Cntrs[2]);
         }
     }
 
     private void AggressivePlusTeam3Clicked() {
-        Button button = findViewById(R.id.AggressivePlusTeam3);
-        if (aggressiveCountT3 < 3) {
-            aggressiveCountT3++;
-            if (aggressiveCountT3 == 1) {
-                TextView et = findViewById(R.id.aggressiveText3);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (aggressiveCountT3 == 2) {
-                TextView et = findViewById(R.id.aggressiveText3);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (aggressiveCountT3 == 3) {
-                TextView et = findViewById(R.id.aggressiveText3);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team3Cntrs[2] < 3) {
+            Team3Cntrs[2]++;
+            TextView et = findViewById(R.id.aggressiveText3);
+            setTextColor(et, Team3Cntrs[2]);
         }
     }
 
     private void BlockMinusTeam1Clicked() {
-        Button button = findViewById(R.id.BlockMinusTeam1);
-        if (cargoCountT1 > -3) {
-            cargoCountT1--;
-            if (cargoCountT1 == -1) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (cargoCountT1 == -2) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (cargoCountT1 == -3) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team1Cntrs[3] > -3) {
+            Team1Cntrs[3]--;
+            TextView et = findViewById(R.id.blockTextTeam1);
+            setTextColor(et, Team1Cntrs[3]);
         }
     }
 
     private void blockMinusTeam2Clicked() {
-        Button button = findViewById(R.id.blockMinusTeam2);
-        if (cargoCountT2 > -3) {
-            cargoCountT2--;
-            if (cargoCountT2 == -1) {
-                TextView et = findViewById(R.id.blockText2);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (cargoCountT2 == -2) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (cargoCountT2 == -3) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team2Cntrs[3] > -3) {
+            Team2Cntrs[3]--;
+            TextView et = findViewById(R.id.blockText2);
+            setTextColor(et, Team2Cntrs[3]);
         }
     }
 
     private void blockMinusTeam3Clicked() {
-        Button button = findViewById(R.id.blockMinusTeam3);
-        if (cargoCountT3 > -3) {
-            cargoCountT3--;
-            if (cargoCountT3 == -1) {
-                TextView et = findViewById(R.id.blockText3);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (cargoCountT3 == -2) {
-                TextView et = findViewById(R.id.blockText3);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (cargoCountT3 == -3) {
-                TextView et = findViewById(R.id.blockText3);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team3Cntrs[3] > -3) {
+            Team3Cntrs[3]--;
+            TextView et = findViewById(R.id.blockText3);
+            setTextColor(et, Team3Cntrs[3]);
         }
     }
 
     private void blockPlusTeamClicked() {
-        Button button = findViewById(R.id.blockPlusTeam);
-        if (cargoCountT1 < 3) {
-            cargoCountT1++;
-            if (cargoCountT1 == 1) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (cargoCountT1 == 2) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (cargoCountT1 == 3) {
-                TextView et = findViewById(R.id.blockTextTeam1);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team1Cntrs[3] < 3) {
+            Team1Cntrs[3]++;
+            TextView et = findViewById(R.id.blockTextTeam1);
+            setTextColor(et, Team1Cntrs[3]);
         }
     }
 
     private void blockPlusTeam2Clicked() {
-        Button button = findViewById(R.id.blockPlusTeam2);
-        if (cargoCountT2 < 3) {
-            cargoCountT2++;
-            if (cargoCountT2 == 1) {
-                TextView et = findViewById(R.id.blockText2);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (cargoCountT2 == 2) {
-                TextView et = findViewById(R.id.blockText2);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (cargoCountT2 == 3) {
-                TextView et = findViewById(R.id.blockText2);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team2Cntrs[3] < 3) {
+            Team2Cntrs[3]++;
+            TextView et = findViewById(R.id.blockText2);
+            setTextColor(et, Team2Cntrs[3]);
         }
     }
 
     private void BlockPlusTeam3Clicked() {
-        Button button = findViewById(R.id.BlockPlusTeam3);
-        if (cargoCountT3 < 3) {
-            cargoCountT3++;
-            if (cargoCountT3 == 1) {
-                TextView et = findViewById(R.id.blockText3);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (cargoCountT3 == 2) {
-                TextView et = findViewById(R.id.blockText3);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (cargoCountT3 == 3) {
-                TextView et = findViewById(R.id.blockText3);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team3Cntrs[3] < 3) {
+            Team3Cntrs[3]++;
+            TextView et = findViewById(R.id.blockText3);
+            setTextColor(et, Team3Cntrs[3]);
         }
     }
 
     private void EvasiveMinusTeam1Clicked() {
-        Button button = findViewById(R.id.EvasiveMinusTeam1);
-        if (evasiveCountT1 > -3) {
-            evasiveCountT1--;
-            if (evasiveCountT1 == -1) {
-                TextView et = findViewById(R.id.evasiveTextTeam1);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (evasiveCountT1 == -2) {
-                TextView et = findViewById(R.id.evasiveTextTeam1);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (evasiveCountT1 == -3) {
-                TextView et = findViewById(R.id.evasiveTextTeam1);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team1Cntrs[4] > -3) {
+            Team1Cntrs[4]--;
+            TextView et = findViewById(R.id.evasiveTextTeam1);
+            setTextColor(et, Team1Cntrs[4]);
         }
     }
 
     private void evasiveMinusTeam2Clicked() {
-        Button button = findViewById(R.id.evasiveMinusTeam2);
-        if (evasiveCountT2 > -3) {
-            evasiveCountT2--;
-            if (evasiveCountT2 == -1) {
-                TextView et = findViewById(R.id.evasiveText2);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (evasiveCountT2 == -2) {
-                TextView et = findViewById(R.id.evasiveText2);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (evasiveCountT2 == -3) {
-                TextView et = findViewById(R.id.evasiveText2);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team2Cntrs[4] > -3) {
+            Team2Cntrs[4]--;
+            TextView et = findViewById(R.id.evasiveText2);
+            setTextColor(et, Team2Cntrs[4]);
         }
     }
 
     private void evasiveMinusTeam3Clicked() {
-        Button button = findViewById(R.id.evasiveMinusTeam3);
-        if (evasiveCountT3 > -3) {
-            evasiveCountT3--;
-            if (evasiveCountT3 == -1) {
-                TextView et = findViewById(R.id.evasiveText3);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (evasiveCountT3 == -2) {
-                TextView et = findViewById(R.id.evasiveText3);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (evasiveCountT3 == -3) {
-                TextView et = findViewById(R.id.evasiveText3);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team3Cntrs[4] > -3) {
+            Team3Cntrs[4]--;
+            TextView et = findViewById(R.id.evasiveText3);
+            setTextColor(et, Team3Cntrs[4]);
         }
     }
 
     private void evasivePlusTeamClicked() {
-        Button button = findViewById(R.id.evasivePlusTeam);
-        if (evasiveCountT1 < 3) {
-            evasiveCountT1++;
-            if (evasiveCountT1 == 1) {
-                TextView et = findViewById(R.id.evasiveTextTeam1);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (evasiveCountT1 == 2) {
-                TextView et = findViewById(R.id.evasiveTextTeam1);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (evasiveCountT1 == 3) {
-                TextView et = findViewById(R.id.evasiveTextTeam1);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team1Cntrs[4] < 3) {
+            Team1Cntrs[4]++;
+            TextView et = findViewById(R.id.evasiveTextTeam1);
+            setTextColor(et, Team1Cntrs[4]);
         }
     }
 
     private void evasivePlusTeam2Clicked() {
-        Button button = findViewById(R.id.evasivePlusTeam2);
-        if (evasiveCountT2 < 3) {
-            evasiveCountT2++;
-            if (evasiveCountT2 == 1) {
-                TextView et = findViewById(R.id.evasiveText2);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (evasiveCountT2 == 2) {
-                TextView et = findViewById(R.id.evasiveText2);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (evasiveCountT2 == 3) {
-                TextView et = findViewById(R.id.evasiveText2);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team2Cntrs[4] < 3) {
+            Team2Cntrs[4]++;
+            TextView et = findViewById(R.id.evasiveText2);
+            setTextColor(et, Team2Cntrs[4]);
         }
     }
 
     private void EvasivePlusTeam3Clicked() {
-        Button button = findViewById(R.id.EvasivePlusTeam3);
-        if (evasiveCountT3 < 3) {
-            evasiveCountT3++;
-            if (evasiveCountT3 == 1) {
-                TextView et = findViewById(R.id.evasiveText3);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (evasiveCountT3 == 2) {
-                TextView et = findViewById(R.id.evasiveText3);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (evasiveCountT3 == 3) {
-                TextView et = findViewById(R.id.evasiveText3);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team3Cntrs[4] < 3) {
+            Team3Cntrs[4]++;
+            TextView et = findViewById(R.id.evasiveText3);
+            setTextColor(et, Team3Cntrs[4]);
         }
     }
 
     private void SturdyMinusTeam1Clicked() {
-        Button button = findViewById(R.id.SturdyMinusTeam1);
-        if (sturdyCountT1 > -3) {
-            sturdyCountT1--;
-            if (sturdyCountT1 == -1) {
-                TextView et = findViewById(R.id.sturdyTextTeam1);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (sturdyCountT1 == -2) {
-                TextView et = findViewById(R.id.sturdyTextTeam1);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (sturdyCountT1 == -3) {
-                TextView et = findViewById(R.id.sturdyTextTeam1);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team1Cntrs[5] > -3) {
+            Team1Cntrs[5]--;
+            TextView et = findViewById(R.id.sturdyTextTeam1);
+            setTextColor(et, Team1Cntrs[5]);
         }
     }
 
     private void sturdyMinusTeam2Clicked() {
-        Button button = findViewById(R.id.sturdyMinusTeam2);
-        if (sturdyCountT2 > -3) {
-            sturdyCountT2--;
-            if (sturdyCountT2 == -1) {
-                TextView et = findViewById(R.id.sturdyText2);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (sturdyCountT2 == -2) {
-                TextView et = findViewById(R.id.sturdyText2);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (sturdyCountT2 == -3) {
-                TextView et = findViewById(R.id.sturdyText2);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team2Cntrs[5] > -3) {
+            Team2Cntrs[5]--;
+            TextView et = findViewById(R.id.sturdyText2);
+            setTextColor(et, Team2Cntrs[5]);
         }
     }
 
     private void sturdyMinusTeam3Clicked() {
-        Button button = findViewById(R.id.sturdyMinusTeam3);
-        if (sturdyCountT3 > -3) {
-            sturdyCountT3--;
-            if (sturdyCountT3 == -1) {
-                TextView et = findViewById(R.id.sturdyText3);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (sturdyCountT3 == -2) {
-                TextView et = findViewById(R.id.sturdyText3);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (sturdyCountT3 == -3) {
-                TextView et = findViewById(R.id.sturdyText3);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team3Cntrs[5] > -3) {
+            Team3Cntrs[5]--;
+            TextView et = findViewById(R.id.sturdyText3);
+            setTextColor(et, Team3Cntrs[5]);
         }
     }
 
     private void sturdyPlusTeamClicked() {
-        Button button = findViewById(R.id.sturdyPlusTeam);
-        if (sturdyCountT1 < 3) {
-            sturdyCountT1++;
-            if (sturdyCountT1 == 1) {
-                TextView et = findViewById(R.id.sturdyTextTeam1);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (sturdyCountT1 == 2) {
-                TextView et = findViewById(R.id.sturdyTextTeam1);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (sturdyCountT1 == 3) {
-                TextView et = findViewById(R.id.sturdyTextTeam1);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team1Cntrs[5] < 3) {
+            Team1Cntrs[5]++;
+            TextView et = findViewById(R.id.sturdyTextTeam1);
+            setTextColor(et, Team1Cntrs[5]);
         }
     }
 
     private void sturdyPlusTeam2Clicked() {
-        Button button = findViewById(R.id.sturdyPlusTeam2);
-        if (sturdyCountT2 < 3) {
-            sturdyCountT2++;
-            if (sturdyCountT2 == 1) {
-                TextView et = findViewById(R.id.sturdyText2);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (sturdyCountT2 == 2) {
-                TextView et = findViewById(R.id.sturdyText2);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (sturdyCountT2 == 3) {
-                TextView et = findViewById(R.id.sturdyText2);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team2Cntrs[5] < 3) {
+            Team2Cntrs[5]++;
+            TextView et = findViewById(R.id.sturdyText2);
+            setTextColor(et, Team2Cntrs[5]);
         }
     }
 
     private void SturdyPlusTeam3Clicked() {
-        Button button = findViewById(R.id.SturdyPlusTeam3);
-        if (sturdyCountT3 < 3) {
-            sturdyCountT3++;
-            if (sturdyCountT3 == 1) {
-                TextView et = findViewById(R.id.sturdyText3);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (sturdyCountT3 == 2) {
-                TextView et = findViewById(R.id.sturdyText3);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (sturdyCountT3 == 3) {
-                TextView et = findViewById(R.id.sturdyText3);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team3Cntrs[5] < 3) {
+            Team3Cntrs[5]++;
+            TextView et = findViewById(R.id.sturdyText3);
+            setTextColor(et, Team3Cntrs[5]);
         }
     }
 
     private void PowerfulMinusTeam1Clicked() {
-        //Button button = findViewById(R.id.PowerulMinusTeam1);
-        if (powerfulCountT1 > -3) {
-            powerfulCountT1--;
-            if (powerfulCountT1 == -1) {
-                TextView et = findViewById(R.id.powerfulTextTeam1);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (powerfulCountT1 == -2) {
-                TextView et = findViewById(R.id.powerfulTextTeam1);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (powerfulCountT1 == -3) {
-                TextView et = findViewById(R.id.powerfulTextTeam1);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team1Cntrs[6] > -3) {
+            Team1Cntrs[6]--;
+            TextView et = findViewById(R.id.powerfulTextTeam1);
+            setTextColor(et, Team1Cntrs[6]);
         }
     }
 
     private void powerfulMinusTeam2Clicked() {
-        //Button button = findViewById(R.id.powerulMinusTeam2);
-        if (powerfulCountT2 > -3) {
-            powerfulCountT2--;
-            if (powerfulCountT2 == -1) {
-                TextView et = findViewById(R.id.powerfulText2);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (powerfulCountT2 == -2) {
-                TextView et = findViewById(R.id.powerfulText2);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (powerfulCountT2 == -3) {
-                TextView et = findViewById(R.id.powerfulText2);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team2Cntrs[6] > -3) {
+            Team2Cntrs[6]--;
+            TextView et = findViewById(R.id.powerfulText2);
+            setTextColor(et, Team2Cntrs[6]);
         }
     }
 
     private void powerfulMinusTeam3Clicked() {
-        //Button button = findViewById(R.id.PowerulMinusTeam3);
-        if (powerfulCountT3 > -3) {
-            powerfulCountT3--;
-            if (powerfulCountT3 == -1) {
-                TextView et = findViewById(R.id.powerfulText3);
-                et.setTextColor(getColor(R.color.yellow));
-            }
-            else if (powerfulCountT3 == -2) {
-                TextView et = findViewById(R.id.powerfulText3);
-                et.setTextColor(getColor(R.color.red));
-            }
-            else if (powerfulCountT3 == -3) {
-                TextView et = findViewById(R.id.powerfulText3);
-                et.setTextColor(getColor(R.color.black));
-            }
+        if (Team3Cntrs[6] > -3) {
+            Team3Cntrs[6]--;
+            TextView et = findViewById(R.id.powerfulText3);
+            setTextColor(et, Team3Cntrs[6]);
         }
     }
 
     private void powerfulPlusTeamClicked() {
-        Button button = findViewById(R.id.powerfulPlusTeam);
-        if (powerfulCountT1 < 3) {
-            powerfulCountT1++;
-            if (powerfulCountT1 == 1) {
-                TextView et = findViewById(R.id.powerfulTextTeam1);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (powerfulCountT1 == 2) {
-                TextView et = findViewById(R.id.powerfulTextTeam1);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (powerfulCountT1 == 3) {
-                TextView et = findViewById(R.id.powerfulTextTeam1);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team1Cntrs[6] < 3) {
+            Team1Cntrs[6]++;
+            TextView et = findViewById(R.id.powerfulTextTeam1);
+            setTextColor(et, Team1Cntrs[6]);
         }
     }
 
     private void powerfulPlusTeam2Clicked() {
-        Button button = findViewById(R.id.powerfulPlusTeam2);
-        if (powerfulCountT2 < 3) {
-            powerfulCountT2++;
-            if (powerfulCountT2 == 1) {
-                TextView et = findViewById(R.id.powerfulText2);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (powerfulCountT2 == 2) {
-                TextView et = findViewById(R.id.powerfulText2);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (powerfulCountT2 == 3) {
-                TextView et = findViewById(R.id.powerfulText2);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team2Cntrs[6] < 3) {
+            Team2Cntrs[6]++;
+            TextView et = findViewById(R.id.powerfulText2);
+            setTextColor(et, Team2Cntrs[6]);
         }
     }
 
     private void PowerfulPlusTeam3Clicked() {
-        Button button = findViewById(R.id.PowerfulPlusTeam3);
-        if (powerfulCountT3 < 3) {
-            powerfulCountT3++;
-            if (powerfulCountT3 == 1) {
-                TextView et = findViewById(R.id.powerfulText3);
-                et.setTextColor(getColor(R.color.green));
-            }
-            else if (powerfulCountT3 == 2) {
-                TextView et = findViewById(R.id.powerfulText3);
-                et.setTextColor(getColor(R.color.blue));
-            }
-            else if (powerfulCountT3 == 3) {
-                TextView et = findViewById(R.id.powerfulText3);
-                et.setTextColor(getColor(R.color.purple));
-            }
+        if (Team3Cntrs[6] < 3) {
+            Team3Cntrs[6]++;
+            TextView et = findViewById(R.id.powerfulText3);
+            setTextColor(et, Team3Cntrs[6]);
         }
     }
 
-    /* private void updateWordCloudData() {
+     private void updateWordCloudData() {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
+
         try {
             Integer[] _lValues = {};
-            CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
+//            CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
         } catch(Exception e) {
             e.printStackTrace();
             MessageBox.showMessageBox(this, "Update Error",
                     "WordCloudPage.updateWordCloudData", "SQLite update failed!\n "+e.getMessage());
         }
-    } */
+    }
 
 }

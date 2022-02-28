@@ -146,6 +146,7 @@ class CyberScouterMatchScouting {
             JSONObject jo = new JSONObject();
             jo.put("cmd", "put-match-scouting");
             jo.put("key", matchScoutingID);
+            jo.put("table_name", CyberScouterContract.MatchScouting.TABLE_NAME);
             JSONObject payload = new JSONObject();
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SCOUTINGSTATUS, ScoutingStatus.FINISHED_SUCCESSFULLY);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOSTARTPOS, autoStartPos);
@@ -171,7 +172,7 @@ class CyberScouterMatchScouting {
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS, climbStatus);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT, rungClimbed);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION, climbPosition);
-            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_INSTEADOFCLIMB, insteadOfClimb);
+//            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_INSTEADOFCLIMB, insteadOfClimb);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD, summLaunchPad);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO, summSortCargo);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING, summShootDriving);
@@ -190,6 +191,8 @@ class CyberScouterMatchScouting {
                 response = response.replace("x03", "");
                 JSONObject jresp = new JSONObject(response);
                 ret = jresp.getString("result");
+            } else {
+                ret = null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -358,13 +361,17 @@ class CyberScouterMatchScouting {
                     csm.matchEnded = (cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_MATCHENDED)) == 1);
                     csm.scoutingStatus = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SCOUTINGSTATUS));
                     csm.complete = (cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_COMPLETE)) == 1);
+                    csm.autoStartPos = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOSTARTPOS));
                     if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOPRELOAD))) {
                         csm.autoPreload = -1;
                     } else {
-                        csm.autoStartPos = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOSTARTPOS));
+                        csm.autoPreload = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOPRELOAD));
                     }
-                    csm.autoPreload = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOPRELOAD));
-                    csm.autoDidNotShow = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW));
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW))) {
+                        csm.autoDidNotShow = -1;
+                    } else {
+                        csm.autoDidNotShow = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW));
+                    }
                     if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOMOVEBONUS))){
                         csm.autoMoveBonus = -1;
                     } else {
@@ -389,16 +396,56 @@ class CyberScouterMatchScouting {
                     csm.climbStatus = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS));
                     csm.rungClimbed = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT));
                     csm.climbPosition = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION));
-                    csm.summLaunchPad = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD));
-                    csm.summSortCargo = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO));
-                    csm.summShootDriving = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING));
-                    csm.summBrokeDown = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN));
-                    csm.summLostComm = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM));
-                    csm.summSubsystemBroke = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE));
-                    csm.summGroundPickup = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP));
-                    csm.summTerminalPickup = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP));
-                    csm.summPlayedDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE));
-                    csm.summDefPlayedAgainst = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST));
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD))) {
+                        csm.summLaunchPad = -1;
+                    } else {
+                        csm.summLaunchPad = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO))) {
+                        csm.summSortCargo = -1;
+                    } else {
+                        csm.summSortCargo = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING))) {
+                        csm.summShootDriving = -1;
+                    } else {
+                        csm.summShootDriving = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN))) {
+                        csm.summBrokeDown = -1;
+                    } else {
+                        csm.summBrokeDown = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM))) {
+                        csm.summLostComm = -1;
+                    } else {
+                        csm.summLostComm = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE))) {
+                        csm.summSubsystemBroke = -1;
+                    } else {
+                        csm.summSubsystemBroke = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP))) {
+                        csm.summGroundPickup = -1;
+                    } else {
+                        csm.summGroundPickup = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP))) {
+                        csm.summTerminalPickup = -1;
+                    } else {
+                        csm.summTerminalPickup = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE))) {
+                        csm.summPlayedDefense = -1;
+                    } else {
+                        csm.summPlayedDefense = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE));
+                    }
+                    if(cursor.isNull(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST))) {
+                        csm.summDefPlayedAgainst = -1;
+                    } else {
+                        csm.summDefPlayedAgainst = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST));
+                    }
                     csm.uploadStatus = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_UPLOADSTATUS));
 
                     csmv.add(csm);
@@ -655,7 +702,15 @@ class CyberScouterMatchScouting {
         RequestQueue rq = Volley.newRequestQueue(activity);
         String url = String.format("%s/update", FakeBluetoothServer.webServiceBaseUrl);
         String requestBody = jo.toString();
+        Integer matchId = -99;
 
+        try {
+            matchId = jo.getInt("key");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Integer finalMatchId = matchId;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -664,7 +719,7 @@ class CyberScouterMatchScouting {
                         try {
                             Intent i = new Intent(MATCH_SCOUTING_UPDATED_FILTER);
                             webResponse = response;
-                            i.putExtra("cyberscoutermatches", "update");
+                            i.putExtra("cyberscoutermatch", finalMatchId);
                             activity.sendBroadcast(i);
                         } catch (Exception e) {
                             e.printStackTrace();

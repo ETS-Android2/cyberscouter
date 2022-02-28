@@ -82,9 +82,11 @@ public class BackgroundUpdater extends Service {
                             if (null != csmsa) {
                                 for (CyberScouterMatchScouting csms : csmsa) {
                                     String ret = csms.setMatchesRemote(MainActivity._activity);
-                                    if (ret.equalsIgnoreCase("success")) {
+                                    if (ret != null && ret.equalsIgnoreCase("success")) {
                                         CyberScouterMatchScouting.updateMatchUploadStatus(db, csms.getMatchScoutingID(), UploadStatus.UPLOADED);
                                         popToast(String.format(Locale.getDefault(), "Match %d, Team %s was uploaded successfully.", csms.getMatchNo(), csms.getTeam()));
+                                    } else if (ret == null) {
+                                        System.out.println("Return from Web service commit of MatchScouting records");
                                     } else {
                                         popToast(String.format(Locale.getDefault(), "Loop #%d failed to upload a match.", cnt));
                                     }

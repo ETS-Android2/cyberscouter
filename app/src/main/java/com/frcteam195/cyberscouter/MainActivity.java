@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private ComponentName _serviceComponentName = null;
@@ -51,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
     BroadcastReceiver mMatchesUpdater = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String ret = intent.getStringExtra("cyberscoutermatches");
-//            updateMatchesLocal(ret);
+            Integer iret = intent.getIntExtra("cyberscoutermatch", -99);
+            matchScoutingWebUpdated(iret);
         }
     };
 
@@ -198,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         mDbHelper.close();
         unregisterReceiver(mConfigReceiver);
         unregisterReceiver(mOnlineStatusReceiver);
+        unregisterReceiver(mMatchesUpdater);
         super.onDestroy();
     }
 
@@ -277,5 +283,28 @@ public class MainActivity extends AppCompatActivity {
     void updateStatusIndicator(int color) {
         ImageView iv = findViewById(R.id.imageView_btIndicator);
         BluetoothComm.updateStatusIndicator(iv, color);
+    }
+
+    void matchScoutingWebUpdated(Integer iret) {
+        try {
+            if( iret != -99) {
+                CyberScouterMatchScouting.updateMatchUploadStatus(_db, iret, UploadStatus.UPLOADED);
+                System.out.println(String.format("CyberScouterMatchScouting id %d updated in AWS!!", iret));
+                popToast(String.format(Locale.getDefault(), "Match Scouting id %d was uploaded successfully.", iret));
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void popToast(final String msg) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

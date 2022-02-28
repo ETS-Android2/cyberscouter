@@ -302,12 +302,14 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
     private void updateMatchesLocal(String json){
         try {
             CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
-            if(!json.equalsIgnoreCase("skip")) {
-                if(json.equalsIgnoreCase("fetch")) {
-                    json = CyberScouterMatchScouting.getWebResponse();
+            if (json != null) {
+                if (!json.equalsIgnoreCase("skip")) {
+                    if (json.equalsIgnoreCase("fetch")) {
+                        json = CyberScouterMatchScouting.getWebResponse();
+                    }
+                    CyberScouterMatchScouting.deleteOldMatches(_db, cfg.getEvent_id());
+                    CyberScouterMatchScouting.mergeMatches(_db, json);
                 }
-                CyberScouterMatchScouting.deleteOldMatches(_db, cfg.getEvent_id());
-                CyberScouterMatchScouting.mergeMatches(_db, json);
             }
             CyberScouterMatchScouting csm = CyberScouterMatchScouting.getCurrentMatch(_db, TeamMap.getNumberForTeam(cfg.getAlliance_station()));
             if (null != csm) {

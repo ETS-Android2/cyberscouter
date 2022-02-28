@@ -21,9 +21,8 @@ public class PreAutoPage extends AppCompatActivity {
     private final int[] preloadButtons = {R.id.preloadYesBtn, R.id.preloadNoBtn};
     private int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
-    private Button didnotshowyesbutton;
     private int currentCommStatusColor;
-    private int preload = 0;
+    private int preload = -1;
 
     //used to check if all data fields are completed
     private boolean[] compCheck = {false, false};
@@ -236,7 +235,14 @@ public class PreAutoPage extends AppCompatActivity {
                 compCheck[0] = false;
             }
             preload = csm.getAutoPreload();
-            FakeRadioGroup.buttonDisplay(this, preload, preloadButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+            if(preload != -1) {
+                FakeRadioGroup.buttonDisplay(this, preload, preloadButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+                button = findViewById(R.id.PreAutoContinueButton);
+                button.setEnabled(true);
+            } else {
+                button = findViewById(R.id.PreAutoContinueButton);
+                button.setEnabled(false);
+            }
         }
     }
 
@@ -269,34 +275,20 @@ public class PreAutoPage extends AppCompatActivity {
         FakeRadioGroup.buttonPressed(this, val - 1, startPositionButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOSTARTPOS, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         _startPos = val;
         compCheck[0] = true;
-        if(compCheck[0] && compCheck[1]) {
-            button = findViewById(R.id.PreAutoContinueButton);
-            button.setEnabled(true);
-        }
     }
 
     private void preloadYes()
     {
         FakeRadioGroup.buttonPressed(this, 0, preloadButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOSTARTPOS, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         compCheck[1] = true;
-        preload = 1;
-        if(compCheck[0])
-        {
-            button = findViewById(R.id.PreAutoContinueButton);
-            button.setEnabled(true);
-        }
+        preload = 0;
     }
 
     private void preloadNo()
     {
         FakeRadioGroup.buttonPressed(this, 1, preloadButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOSTARTPOS, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        preload = 0;
+        preload = 1;
         compCheck[1] = true;
-        if(compCheck[0])
-        {
-            button = findViewById(R.id.PreAutoContinueButton);
-            button.setEnabled(true);
-        }
     }
 
     private void updateStatusIndicator(int color) {

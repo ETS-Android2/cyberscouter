@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+//import android.widget.ImageView;
+//import android.hardware.camera2.CameraDevice;
 
 import java.util.Locale;
 
@@ -179,6 +182,15 @@ public class PhysicalPropertiesTab extends Fragment implements IOnEditTextSaveLi
                 pneumaticsYes();
             }
         });
+
+//        button = view.findViewById(R.id.takePictureBtn);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ImageView iv = view.findViewById(R.id.robotPicture);
+//                iv.setImageResource(MediaStore.ACTION_IMAGE_CAPTURE);
+//            }
+//        });
 
         button = view.findViewById(R.id.pneumaticsNo);
         button.setOnClickListener(new View.OnClickListener() {

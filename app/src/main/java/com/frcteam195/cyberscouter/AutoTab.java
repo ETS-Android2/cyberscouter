@@ -24,7 +24,7 @@ public class AutoTab extends Fragment implements IOnEditTextSaveListener {
     private int typicalLowCargo = 0;
     private int typicalHighCargo = 0;
     private View _view;
-    private int defaultButtonBackgroundColor = Color.RED;
+    private int defaultButtonBackgroundColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
     private String[] StartPosSpinner = {"1", "2", "3", "4", "5", "6"};
     private String[] HumanSpinner = {"Accurate", "Partially Accurate", "Not Accurate", "Does Not Use"};

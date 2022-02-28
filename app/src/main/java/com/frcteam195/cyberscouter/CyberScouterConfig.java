@@ -157,6 +157,7 @@ public class CyberScouterConfig {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println(error.getMessage());
                 error.printStackTrace();
             }
         });
