@@ -183,6 +183,8 @@ class CyberScouterMatchScouting {
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP, summTerminalPickup);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE, summPlayedDefense);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, summDefPlayedAgainst);
+            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_COMPUTERID, computerID);
+            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SCOUTERID, scouterID);
             jo.put("payload", payload);
 
             BluetoothComm btcomm = new BluetoothComm();

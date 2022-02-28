@@ -159,6 +159,8 @@ class CyberScouterTeams {
             payload.put(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_STRATEGY, ClimbStrategy);
             payload.put(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_TIME, ClimbTime);
             payload.put(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_HEIGHT_ID, ClimbHeightID);
+//            payload.put(CyberScouterContract.Teams.COLUMN_NAME_COMPUTERID, computerID);
+//            payload.put(CyberScouterContract.Teams.COLUMN_NAME_SCOUTERID, scouterID);
 
             jo.put("payload", payload);
 

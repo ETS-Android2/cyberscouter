@@ -120,6 +120,9 @@ public class CyberScouterMatchScoutingL2 {
             payload.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_SCOUTINGSTATUS, ScoutingStatus.FINISHED_SUCCESSFULLY);
             payload.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_COMMENT_RED, commentRed);
             payload.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_COMMENT_BLUE, commentBlue);
+            payload.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_COMPUTERID, computerID);
+            payload.put(CyberScouterContract.MatchScoutingL2.COLUMN_NAME_SCOUTERID, scouterID);
+
             jo.put("payload", payload);
 
             BluetoothComm btcomm = new BluetoothComm();
