@@ -183,6 +183,10 @@ public class CyberScouterWordCloud {
 
     }
 
+    public static void setWordMetric(SQLiteDatabase db, CyberScouterConfig cfg, int _wordId, int cntr) {
+        return;
+    }
+
     public int getEventID() {
         return EventID;
     }
