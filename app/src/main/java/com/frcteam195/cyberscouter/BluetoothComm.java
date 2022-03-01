@@ -115,6 +115,10 @@ public class BluetoothComm {
         String returnJson = _errorJson;
         try {
             String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+            if(btname == null) {
+                btname = FakeBluetoothServer.default_fakeBluetoothComputerName;
+            }
+            System.out.println("tablet name is " + btname);
             JSONObject jr = new JSONObject();
             JSONObject j1 = new JSONObject();
 

@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             mConfigHandler.sendMessage(msg);
             int loops = 0;
             while( BluetoothComm.bLastBTCommFailed() && loops < 10) {
-                try{ Thread.sleep(1000); } catch(Exception e) {}
+                try{ Thread.sleep(2000); } catch(Exception e) {}
                 loops++;
             }
             Message msg2 = new Message();
