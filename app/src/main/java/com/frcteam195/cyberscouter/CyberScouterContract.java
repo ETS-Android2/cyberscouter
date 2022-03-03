@@ -127,6 +127,19 @@ public class CyberScouterContract {
         public static final String COLUMN_NAME_T3HOWLONG = "t3HowLong";
     }
 
+    public static class Matches implements BaseColumns {
+        public static final String TABLE_NAME = "Matches";
+        public static final String COLUMN_NAME_EVENTID = "EventID";
+        public static final String COLUMN_NAME_MATCHID = "MatchID";
+        public static final String COLUMN_NAME_MATCH_NUMBER = "MatchNo";
+        public static final String COLUMN_NAME_RED_TEAM_1 = "RedTeam1";
+        public static final String COLUMN_NAME_RED_TEAM_2 = "RedTeam2";
+        public static final String COLUMN_NAME_RED_TEAM_3 = "RedTeam3";
+        public static final String COLUMN_NAME_BLUE_TEAM_1 = "BlueTeam1";
+        public static final String COLUMN_NAME_BLUE_TEAM_2 = "BlueTeam2";
+        public static final String COLUMN_NAME_BLUE_TEAM_3 = "BlueTeam3";
+    }
+
     public static class Questions implements BaseColumns {
         public static final String TABLE_NAME = "Questions";
         public static final String COLUMN_NAME_QUESTIONID = "QuestionId";

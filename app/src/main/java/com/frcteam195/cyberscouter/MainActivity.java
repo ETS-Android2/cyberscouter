@@ -1,10 +1,12 @@
 package com.frcteam195.cyberscouter;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
@@ -113,6 +115,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView tv = findViewById(R.id.textView_teamName);
+        tv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return(resetDatabase());
+            }
+        });
+
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter _bluetoothAdapter = bluetoothManager.getAdapter();
 
@@ -161,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
             msg.what = START_PROGRESS;
             mConfigHandler.sendMessage(msg);
             int loops = 0;
-            while( BluetoothComm.bLastBTCommFailed() && loops < 10) {
-                try{ Thread.sleep(2000); } catch(Exception e) {}
+            while( BluetoothComm.bLastBTCommFailed() && loops < 5) {
+                try{ Thread.sleep(1000); } catch(Exception e) {}
                 loops++;
             }
             Message msg2 = new Message();
@@ -267,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
         Class nextIntent;
         switch (cfg.getComputer_type_id()) {
             case (CyberScouterConfig.CONFIG_COMPUTER_TYPE_LEVEL_2_SCOUTER):
-                nextIntent = WordCloudActivity.class;
+                nextIntent = L2ScoutingPage.class;
                 break;
             case (CyberScouterConfig.CONFIG_COMPUTER_TYPE_LEVEL_PIT_SCOUTER):
                 nextIntent = PitScoutingActivity.class;
@@ -306,5 +316,42 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean resetDatabase() {
+        AlertDialog.Builder messageBox = new AlertDialog.Builder(MainActivity.this);
+        messageBox.setTitle("Reset Local Database");
+        messageBox.setMessage("Are you sure you want to delete the local database and reload it from the remote server?\n");
+        messageBox.setCancelable(true);
+        //Yes Button
+        messageBox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                doDatabaseReset();
+                dialog.dismiss();
+            }
+        });
+
+        //No Button
+        messageBox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog msb = messageBox.create();
+        msb.show();
+
+        return(true);
+    }
+
+    public void doDatabaseReset(){
+        CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        mDbHelper.onDowngrade(db, 0, 1);
+        Intent intent = this.getIntent();
+        finish();
+        startActivity(intent);
     }
 }

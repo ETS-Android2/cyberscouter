@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".EndPage">
 
+    <TextView
+        android:id="@+id/textView_Highest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:text="@string/Lowest"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Highest" />
+
     <ImageView
         android:id="@+id/imageView_btEndIndicator"
         android:layout_width="32dp"
@@ -18,143 +31,72 @@
         app:srcCompat="@android:color/background_light" />
 
     <Button
+        android:id="@+id/button_CAFailed"
+        android:layout_width="408dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/CAFailed"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/button_Bar2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_NAScoredCargo" />
+
+    <Button
         android:id="@+id/button_CASuccess"
         android:layout_width="408dp"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="6dp"
         android:text="@string/CASuccess"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/button_Bar1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_CAFailed" />
 
     <Button
         android:id="@+id/button_NABrokeDown"
         android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
         android:text="@string/NABrokeDown"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/button_Bar4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_InsteadOfClimb2" />
 
     <Button
-        android:id="@+id/button_CAFailed"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/CAFailed"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_NAScoredCargo" />
-
-    <Button
-        android:id="@+id/button_NAPlayedDefense"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/NAPlayedDefense"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_NABrokeDown" />
-
-    <Button
         android:id="@+id/button_NAScoredCargo"
         android:layout_width="408dp"
-        android:layout_height="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="6dp"
         android:text="@string/NAScoredCargo"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/button_Bar2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_NAPlayedDefense" />
 
     <Button
-        android:id="@+id/climbFailedbutton"
+        android:id="@+id/button_NAPlayedDefense"
         android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/ClimbFailed"
+        android:layout_height="56dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/NAPlayedDefense"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/button_BrokeDown"
-        tools:ignore="DuplicateClickableBoundsCheck,DuplicateClickableBoundsCheck" />
-
-    <Button
-        android:id="@+id/playedDefenseButton"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/PlayedDefense"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView_InsteadOfClimb"
-        tools:ignore="DuplicateClickableBoundsCheck" />
-
-    <Button
-        android:id="@+id/brokeDownButton"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/BrokeDown"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/button_ScoredCargo"
-        tools:ignore="DuplicateClickableBoundsCheck" />
-
-    <Button
-        android:id="@+id/scoredCargoButton"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/ScoredCargo"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/button_PlayedDefense"
-        tools:ignore="DuplicateClickableBoundsCheck" />
+        app:layout_constraintEnd_toStartOf="@+id/button_Bar3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_NABrokeDown" />
 
     <TextView
         android:id="@+id/textView_InsteadOfClimb2"
-        android:layout_width="256dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="196dp"
         android:text="@string/ClimbStatus"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="26sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/button_Bar4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_ClimbFailed"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/ClimbFailed"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/button_BrokeDown" />
-
-    <Button
-        android:id="@+id/button_BrokeDown"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/BrokeDown"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/button_ScoredCargo" />
-
-    <Button
-        android:id="@+id/button_ScoredCargo"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:text="@string/ScoredCargo"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/button_PlayedDefense" />
 
     <Button
         android:id="@+id/button_Previous"
@@ -195,22 +137,33 @@
 
     <TextView
         android:id="@+id/textView_RungPosition"
-        android:layout_width="408dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="472dp"
+        android:layout_marginEnd="132dp"
         android:text="@string/PositionOnTheRungs"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/button_ClimbFailed" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_positionRight"
+        android:layout_width="132dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/PositionRight"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_RungPosition" />
 
     <Button
         android:id="@+id/button_positionCenter"
         android:layout_width="132dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="6dp"
         android:text="@string/PositionCenter"
         android:textSize="18sp"
@@ -221,110 +174,85 @@
         android:id="@+id/button_positionLeft"
         android:layout_width="132dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="6dp"
         android:text="@string/PositionLeft"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/button_positionCenter"
         app:layout_constraintTop_toBottomOf="@+id/textView_RungPosition" />
 
-    <Button
-        android:id="@+id/button_positionRight"
-        android:layout_width="132dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="44dp"
-        android:text="@string/PositionRight"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_RungPosition" />
-
-    <TextView
-        android:id="@+id/textView_InsteadOfClimb"
-        android:layout_width="408dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="192dp"
-        android:text="@string/InsteadOfClimb"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="26sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_RobotProblem"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="280dp"
         android:layout_height="244dp"
-        android:layout_marginStart="500dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_RobotProblem"
+        android:layout_marginTop="182dp"
+        android:layout_marginEnd="112dp"
+        android:rotation="90"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/climbrungs_2022" />
 
     <Button
-        android:id="@+id/button_Middle"
-        android:layout_width="140dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="640dp"
-        android:layout_marginTop="12dp"
+        android:id="@+id/button_Bar2"
+        android:layout_width="280dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="588dp"
+        android:layout_marginTop="6dp"
         android:rotation="0"
         android:text="@string/MiddleClimb"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/button_Bar3" />
 
     <Button
-        android:id="@+id/button_High"
-        android:layout_width="140dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="500dp"
-        android:layout_marginTop="84dp"
+        android:id="@+id/button_Bar3"
+        android:layout_width="280dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="588dp"
+        android:layout_marginTop="6dp"
         android:rotation="0"
         android:text="@string/HighClimb"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/button_Bar4" />
 
     <Button
-        android:id="@+id/button_Traversal"
-        android:layout_width="140dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="500dp"
+        android:id="@+id/button_Bar4"
+        android:layout_width="280dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="588dp"
         android:layout_marginTop="12dp"
         android:rotation="0"
         android:text="@string/TraversalClimb"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_RobotProblem" />
 
     <Button
-        android:id="@+id/button_Low"
-        android:layout_width="140dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="640dp"
-        android:layout_marginTop="84dp"
+        android:id="@+id/button_Bar1"
+        android:layout_width="280dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="588dp"
+        android:layout_marginTop="6dp"
         android:rotation="0"
         android:text="@string/LowClimb"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/button_Bar2" />
 
     <TextView
         android:id="@+id/textView_RobotProblem"
-        android:layout_width="280dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="500dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="500dp"
+        android:layout_marginStart="588dp"
+        android:layout_marginTop="132dp"
         android:text="@string/HighestRungClimbed"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_endgameMatch"
@@ -347,15 +275,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_endgameMatch" />
 
-    <Button
-        android:id="@+id/button_PlayedDefense"
-        android:layout_width="408dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/PlayedDefense"
-        android:textSize="20sp"
+    <TextView
+        android:id="@+id/textView_Highest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:text="@string/Highest"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView_InsteadOfClimb" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_endgameTeam" />
 
 </android.support.constraint.ConstraintLayout>

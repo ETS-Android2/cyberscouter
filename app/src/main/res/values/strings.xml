@@ -50,7 +50,10 @@
     <string name="NAPlayedDefense">No Attempt - Played Defense</string>
     <string name="NAScoredCargo">No Attempt - Scored Cargo</string>
     <string name="CAFailed">Climb Attempted - Failed</string>
-    <string name="CASuccess">Climd Attempted - Success</string>
+    <string name="CASuccess">Climb Attempted - Success</string>
+    <string name="Highest">Highest</string>
+    <string name="Lowest">Lowest</string>
+
     <string name="GroundStartingPositionRightButton">Ground right</string>
     <string name="LevelOneStartingPositionLeftButton">Lvl 1 left</string>
     <string name="LevelTwoStartingPositionLeftButton">Lvl 2 left</string>
@@ -174,10 +177,10 @@
     <string name="LevelText">Level</string>
     <string name="InsteadOfClimb">What Did They Do Instead Of Climb</string>
     <string name="NoAttempt">No Attempt</string>
-    <string name="LowClimb">Low</string>
-    <string name="MiddleClimb">Middle</string>
-    <string name="HighClimb">High</string>
-    <string name="TraversalClimb">Traversal</string>
+    <string name="LowClimb">Bar 1</string>
+    <string name="MiddleClimb">Bar 2</string>
+    <string name="HighClimb">Bar 3</string>
+    <string name="TraversalClimb">Bar 4</string>
     <string name="ClimbPosition">Can They Climb?</string>
     <string name="AutoSummary">Auto Summary</string>
     <string name="HighestRungClimbed">Highest Rung Climbed</string>
@@ -244,9 +247,9 @@
     <string name="resync">Sync</string>
     <string name="stage">Stage</string>
 
-    <string name="Team1">Team 1</string>
-    <string name="Team2">Team 2</string>
-    <string name="Team3">Team 3</string>
+    <string name="Team1">Team 1111</string>
+    <string name="Team2">Team 2222</string>
+    <string name="Team3">Team 3333</string>
     <string name="Fast">Fast</string>
     <string name="GoodDriver">Good Driver</string>
     <string name="Aggressive">Aggressive</string>
@@ -267,5 +270,7 @@
     <string name="SelectOne">Select One</string>
     <string name="title_activity_level_two_scouting_two_team_two">LevelTwoScoutingTwoTeamTwo</string>
     <string name="balls_picked_up">Balls Picked Up</string>
+    <string name="L2ScoutingPage">Level Two Scouting</string>
+    <string name="MatchLabel">Match:</string>
 
 </resources>

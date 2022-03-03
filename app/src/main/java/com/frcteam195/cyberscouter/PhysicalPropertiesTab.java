@@ -1,6 +1,7 @@
 package com.frcteam195.cyberscouter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,8 +30,8 @@ public class PhysicalPropertiesTab extends Fragment implements IOnEditTextSaveLi
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
     private int numberOfMotors = 0;
     private int numberOfWheels = 0;
-    private int pneumatics = 0;
-    private int gearSpeed = 0;
+    private int pneumatics = -1;
+    private int gearSpeed = -1;
     private String[] driveTypes = {"Swerve", "Mecanum", "Tank", "H-Drive", "Other"};
     private String[] motorTypes = {"CIM", "NEO", "Falcon", "Other"};
     private String[] wheelTypes = {"Colson", "Mecanum", "Tread", "Omni", "Pneumatic", "Traction", "Other"};

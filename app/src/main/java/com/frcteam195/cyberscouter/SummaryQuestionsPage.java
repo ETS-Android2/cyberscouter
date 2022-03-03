@@ -30,26 +30,31 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
     private int[] qAnswered = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
+    private SQLiteDatabase _db;
+
+
     private int groundPickupVar = -1, terminalPickupVar = -1, playedDefenseVar = -1, defenseAgainstVar = -1, shootWhileVar = -1, brokeDownVar = -1, lostCommVar = -1, subsystemBrokeVar = -1, scoreOppVar = -1, shootFromVar = -1;
     //private int lastCheckedButton;
 
-    String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO,
+    String[] _lColumns = {
+            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP,
+            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP,
+            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
+            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST
+            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO,
+            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD
+
+
     };
 
     private int currentCommStatusColor;
 
 
     private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
-    private SQLiteDatabase _db;
 
     public SummaryQuestionsPage() {
     }
@@ -58,6 +63,10 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary_questions_page);
+
+        _db = mDbHelper.getWritableDatabase();
+
+        CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
 
         Intent intent = getIntent();
         currentCommStatusColor = intent.getIntExtra("commstatuscolor", Color.LTGRAY);
@@ -584,7 +593,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             MessageBox.showMessageBox(this, "Update Error",
-                    "EndPage.updateEndPageData", "SQLite update failed!\n " + e.getMessage());
+                    "SummaryQuestionsPage.updateSummaryQuestionsPageData", "SQLite update failed!\n " + e.getMessage());
         }
     }
 }

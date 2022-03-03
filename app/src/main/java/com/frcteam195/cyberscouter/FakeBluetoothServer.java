@@ -13,7 +13,7 @@ public class FakeBluetoothServer {
     final private static String _webHost = "8zaof0vuah.execute-api.us-east-1.amazonaws.com";
     final public static String webServiceBaseUrl = String.format("https://%s", _webHost);
 
-    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 2A";
+    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 7A";
 
     public static String fakeBluetoothComputerName = null;
     //Change the scout number to change which tablet you are emulating, the numbers correspond as follows
@@ -56,16 +56,25 @@ public class FakeBluetoothServer {
                     eventId = payload.getInt("eventId");
                     CyberScouterMatchScoutingL2.getMatchesL2WebService(activity, eventId);
                     break;
+                case "get-matches-all":
+                    CyberScouterMatches.getMatchesWebService(activity);
+                    break;
                 case "get-teams":
                     CyberScouterTeams.getTeamsWebService(activity);
                     break;
                 case "get-words":
                     CyberScouterWords.getWordsWebService(activity);
                     break;
+                case "get-word-cloud":
+                    CyberScouterWordCloud.getWordCloudWebService(activity);
+                    break;
                 case "put-match-scouting":
                     CyberScouterMatchScouting.setMatchesWebService(activity, obj);
                 case "put-teams":
                     CyberScouterTeams.setTeamsWebService(activity, obj);
+                    break;
+                case "put-word-cloud":
+                    CyberScouterWordCloud.setWordCloudWebService(activity, obj);
                     break;
             }
         } catch(Exception e) {

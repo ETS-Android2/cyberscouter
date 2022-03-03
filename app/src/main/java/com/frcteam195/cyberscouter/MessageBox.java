@@ -2,6 +2,7 @@ package com.frcteam195.cyberscouter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.Toast;
 
 public class MessageBox {
@@ -16,4 +17,5 @@ public class MessageBox {
         if(null != ctx)
             messageBox.show();
     }
+
 }

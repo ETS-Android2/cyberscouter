@@ -81,7 +81,7 @@ public class BackgroundUpdater extends Service {
                                     cfg.getEvent_id(), cfg.getAlliance_station_id());
                             if (null != csmsa) {
                                 for (CyberScouterMatchScouting csms : csmsa) {
-                                    String ret = csms.setMatchesRemote(MainActivity._activity);
+                                    String ret = csms.setMatchesRemote(MainActivity._activity, cfg);
                                     if (ret != null && ret.equalsIgnoreCase("success")) {
                                         CyberScouterMatchScouting.updateMatchUploadStatus(db, csms.getMatchScoutingID(), UploadStatus.UPLOADED);
                                         popToast(String.format(Locale.getDefault(), "Match %d, Team %s was uploaded successfully.", csms.getMatchNo(), csms.getTeam()));

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScoutingPage">
+
+    <TextView
+        android:id="@+id/textView_l2Blue3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/BlueThreeText"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_l2Blue2"
+        app:layout_constraintTop_toBottomOf="@+id/textView_l2Blue2" />
+
+    <TextView
+        android:id="@+id/textView_l2Blue2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/BlueTwoText"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_l2Blue1"
+        app:layout_constraintTop_toBottomOf="@+id/textView_l2Blue1" />
+
+    <TextView
+        android:id="@+id/textView_l2BlueAlliance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="96dp"
+        android:text="@string/BlueAllianceText"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
+
+    <TextView
+        android:id="@+id/textView_l2Blue1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/BlueOneText"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_l2BlueAlliance"
+        app:layout_constraintTop_toBottomOf="@+id/textView_l2BlueAlliance" />
+
+    <Button
+        android:id="@+id/Button_NamePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/NamePickerPage"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Button_Start" />
+
+    <Button
+        android:id="@+id/Button_Return"
+        android:layout_width="283dp"
+        android:layout_height="84dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/ReturnToMainMenu"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/Button_Start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:enabled="false"
+        android:text="@string/StartMatch"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_L2Match" />
+
+    <TextView
+        android:id="@+id/textView_L2Match"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/MatchLabel"
+        android:textColor="@android:color/black"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
+
+    <EditText
+        android:id="@+id/editText_l2MatchNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:inputType="number"
+        android:text="1"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_L2Match"
+        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
+
+    <TextView
+        android:id="@+id/textView_l2RedAlliance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/RedAllianceText"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="36sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
+
+    <TextView
+        android:id="@+id/textView_l2Red1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/RedOneText"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_l2RedAlliance"
+        app:layout_constraintTop_toBottomOf="@+id/textView_l2RedAlliance" />
+
+    <TextView
+        android:id="@+id/textView_l2Red2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/RedTwoText"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_l2Red1"
+        app:layout_constraintTop_toBottomOf="@+id/textView_l2Red1" />
+
+    <TextView
+        android:id="@+id/textView_l2Red3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/RedThreeText"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_l2Red2"
+        app:layout_constraintTop_toBottomOf="@+id/textView_l2Red2" />
+
+    <TextView
+        android:id="@+id/textView_roleTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/L2ScoutingPage"
+        android:textColor="@android:color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.061" />
+
+    <ImageView
+        android:id="@+id/imageView_btIndicator"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/logo_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/ic_launcher_background" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_scoutingDataAccess"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="639dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="201dp"
+        android:indeterminateTint="@android:color/background_dark"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/textView_l2Blue3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_l2RedAlliance"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioButton_l2Red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:checked="true"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView_l2RedAlliance"
+        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
+
+    <RadioButton
+        android:id="@+id/radioButton_l2Blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="100dp"
+        android:checked="false"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toEndOf="@+id/textView_l2BlueAlliance"
+        app:layout_constraintTop_toBottomOf="@+id/textView_roleTag" />
+
+</android.support.constraint.ConstraintLayout>

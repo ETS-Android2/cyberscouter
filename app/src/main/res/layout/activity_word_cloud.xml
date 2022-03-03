@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".WordCloudActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar_wordCloud"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="639dp"
+        android:layout_height="400dp"
+        android:indeterminateTint="@android:color/background_dark"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/sturdyPlusTeam2"
         android:layout_width="wrap_content"
@@ -73,14 +86,16 @@
         app:layout_constraintTop_toBottomOf="@+id/aggressivePlusTeam2" />
 
     <TextView
-        android:id="@+id/team1Text2"
+        android:id="@+id/team3Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
+        android:layout_marginStart="160dp"
         android:layout_marginTop="32dp"
         android:text="@string/Team3"
         android:textColor="@color/black"
-        android:textSize="48sp"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/team2Text"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,8 +107,10 @@
         android:text="@string/Fast"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/team3Text"
         app:layout_constraintStart_toEndOf="@+id/fastMinusTeam3"
-        app:layout_constraintTop_toBottomOf="@+id/team1Text2" />
+        app:layout_constraintStart_toStartOf="@+id/team3Text"
+        app:layout_constraintTop_toBottomOf="@+id/team3Text" />
 
     <Button
         android:id="@+id/goodDriverTeam2"
@@ -116,7 +133,7 @@
         android:textColor="@color/black"
         android:textSize="35sp"
         app:layout_constraintStart_toEndOf="@+id/fastTextTeam1"
-        app:layout_constraintTop_toBottomOf="@+id/Team1Text" />
+        app:layout_constraintTop_toBottomOf="@+id/team1Text" />
 
     <Button
         android:id="@+id/blockPlusTeam"
@@ -243,228 +260,209 @@
         android:id="@+id/blockMinusTeam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/blockPlusTeam"
+        app:layout_constraintEnd_toStartOf="@+id/blockText2"
         app:layout_constraintTop_toBottomOf="@+id/aggessiveMinusTeam2" />
 
     <Button
         android:id="@+id/fastMinusTeam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginTop="24dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/fastPlusTeam"
+        app:layout_constraintEnd_toStartOf="@+id/fastText2"
         app:layout_constraintTop_toBottomOf="@+id/team2Text" />
 
     <Button
         android:id="@+id/powerfulMinusTeam2"
         android:layout_width="73dp"
         android:layout_height="53dp"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="34sp"
-        app:layout_constraintStart_toEndOf="@+id/powerfulPlusTeam"
+        app:layout_constraintEnd_toStartOf="@+id/powerfulText2"
         app:layout_constraintTop_toBottomOf="@+id/sturdyMinusTeam2" />
 
     <Button
         android:id="@+id/sturdyMinusTeam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/sturdyPlusTeam"
+        app:layout_constraintEnd_toStartOf="@+id/sturdyText2"
         app:layout_constraintTop_toBottomOf="@+id/evasiveMinusTeam2" />
 
     <Button
         android:id="@+id/evasiveMinusTeam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/evasivePlusTeam"
+        app:layout_constraintEnd_toStartOf="@+id/evasiveText2"
         app:layout_constraintTop_toBottomOf="@+id/blockMinusTeam2" />
 
     <Button
         android:id="@+id/goodDriverMinusTeam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/goodDriverTeam"
+        app:layout_constraintEnd_toStartOf="@+id/goodDriverText2"
         app:layout_constraintTop_toBottomOf="@+id/fastMinusTeam2" />
 
     <Button
         android:id="@+id/aggessiveMinusTeam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/aggressivePlusTeam"
+        app:layout_constraintEnd_toStartOf="@+id/aggressiveText2"
         app:layout_constraintTop_toBottomOf="@+id/goodDriverMinusTeam2" />
 
     <Button
         android:id="@+id/evasiveMinusTeam3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/evasivePlusTeam2"
+        app:layout_constraintEnd_toStartOf="@+id/evasiveText3"
         app:layout_constraintTop_toBottomOf="@+id/blockMinusTeam3" />
 
     <Button
         android:id="@+id/aggessiveMinusTeam3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/aggressivePlusTeam2"
+        app:layout_constraintEnd_toStartOf="@+id/aggressiveText3"
         app:layout_constraintTop_toBottomOf="@+id/goodDriverMinusTeam3" />
 
     <Button
         android:id="@+id/fastMinusTeam3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
         android:layout_marginTop="24dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/fastPlusTeam2"
-        app:layout_constraintTop_toBottomOf="@+id/team1Text2" />
+        app:layout_constraintEnd_toStartOf="@+id/fastText3"
+        app:layout_constraintTop_toBottomOf="@+id/team3Text" />
 
     <Button
         android:id="@+id/goodDriverMinusTeam3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/goodDriverTeam2"
+        app:layout_constraintEnd_toStartOf="@+id/goodDriverText3"
         app:layout_constraintTop_toBottomOf="@+id/fastMinusTeam3" />
 
     <Button
         android:id="@+id/powerfulMinusTeam3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/powerfulPlusTeam2"
+        app:layout_constraintEnd_toStartOf="@+id/powerfulText3"
         app:layout_constraintTop_toBottomOf="@+id/sturdyMinusTeam3" />
 
     <Button
         android:id="@+id/sturdyMinusTeam3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/sturdyPlusTeam2"
+        app:layout_constraintEnd_toStartOf="@+id/sturdyText3"
         app:layout_constraintTop_toBottomOf="@+id/evasiveMinusTeam3" />
 
     <Button
         android:id="@+id/blockMinusTeam3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/blockPlusTeam2"
+        app:layout_constraintEnd_toStartOf="@+id/blockText3"
         app:layout_constraintTop_toBottomOf="@+id/aggessiveMinusTeam3" />
 
     <Button
         android:id="@+id/powerfulMinusTeam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/powerfulTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/SturdyMinusTeam1" />
 
     <Button
         android:id="@+id/SturdyMinusTeam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sturdyTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/EvasiveMinusTeam1" />
 
     <Button
         android:id="@+id/EvasiveMinusTeam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/evasiveTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/BlockMinusTeam1" />
 
     <Button
         android:id="@+id/BlockMinusTeam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/blockTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/AggessiveMinusTeam1" />
 
     <Button
         android:id="@+id/AggessiveMinusTeam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/aggressiveText"
         app:layout_constraintTop_toBottomOf="@+id/GoodDriverMinusTeam1" />
 
     <TextView
@@ -475,7 +473,9 @@
         android:text="@string/Block"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/aggressiveText3"
         app:layout_constraintStart_toEndOf="@+id/blockMinusTeam3"
+        app:layout_constraintStart_toStartOf="@+id/aggressiveText3"
         app:layout_constraintTop_toBottomOf="@+id/aggressiveText3" />
 
     <TextView
@@ -486,7 +486,9 @@
         android:text="@string/Sturdy"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/evasiveText3"
         app:layout_constraintStart_toEndOf="@+id/sturdyMinusTeam3"
+        app:layout_constraintStart_toStartOf="@+id/evasiveText3"
         app:layout_constraintTop_toBottomOf="@+id/evasiveText3" />
 
     <TextView
@@ -497,7 +499,9 @@
         android:text="@string/GoodDriver"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/fastText3"
         app:layout_constraintStart_toEndOf="@+id/goodDriverMinusTeam3"
+        app:layout_constraintStart_toStartOf="@+id/fastText3"
         app:layout_constraintTop_toBottomOf="@+id/fastText3" />
 
     <TextView
@@ -508,7 +512,9 @@
         android:text="@string/Aggressive"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/goodDriverText3"
         app:layout_constraintStart_toEndOf="@+id/aggessiveMinusTeam3"
+        app:layout_constraintStart_toStartOf="@+id/goodDriverText3"
         app:layout_constraintTop_toBottomOf="@+id/goodDriverText3" />
 
     <TextView
@@ -519,7 +525,9 @@
         android:text="@string/Powerful"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/sturdyText3"
         app:layout_constraintStart_toEndOf="@+id/powerfulMinusTeam3"
+        app:layout_constraintStart_toStartOf="@+id/sturdyText3"
         app:layout_constraintTop_toBottomOf="@+id/sturdyText3" />
 
     <TextView
@@ -530,7 +538,9 @@
         android:text="@string/Evasive"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/blockText3"
         app:layout_constraintStart_toEndOf="@+id/evasiveMinusTeam3"
+        app:layout_constraintStart_toStartOf="@+id/blockText3"
         app:layout_constraintTop_toBottomOf="@+id/blockText3" />
 
     <TextView
@@ -541,7 +551,9 @@
         android:text="@string/Fast"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/team2Text"
         app:layout_constraintStart_toEndOf="@+id/fastMinusTeam2"
+        app:layout_constraintStart_toStartOf="@+id/team2Text"
         app:layout_constraintTop_toBottomOf="@+id/team2Text" />
 
     <TextView
@@ -552,7 +564,9 @@
         android:text="@string/Aggressive"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/goodDriverText2"
         app:layout_constraintStart_toEndOf="@+id/aggessiveMinusTeam2"
+        app:layout_constraintStart_toStartOf="@+id/goodDriverText2"
         app:layout_constraintTop_toBottomOf="@+id/goodDriverText2" />
 
     <TextView
@@ -563,7 +577,9 @@
         android:text="@string/Powerful"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/sturdyText2"
         app:layout_constraintStart_toEndOf="@+id/powerfulMinusTeam2"
+        app:layout_constraintStart_toStartOf="@+id/sturdyText2"
         app:layout_constraintTop_toBottomOf="@+id/sturdyText2" />
 
     <TextView
@@ -574,7 +590,9 @@
         android:text="@string/GoodDriver"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/fastText2"
         app:layout_constraintStart_toEndOf="@+id/goodDriverMinusTeam2"
+        app:layout_constraintStart_toStartOf="@+id/fastText2"
         app:layout_constraintTop_toBottomOf="@+id/fastText2" />
 
     <TextView
@@ -585,7 +603,9 @@
         android:text="@string/Evasive"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/blockText2"
         app:layout_constraintStart_toEndOf="@+id/evasiveMinusTeam2"
+        app:layout_constraintStart_toStartOf="@+id/blockText2"
         app:layout_constraintTop_toBottomOf="@+id/blockText2" />
 
     <TextView
@@ -596,7 +616,9 @@
         android:text="@string/Sturdy"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/evasiveText2"
         app:layout_constraintStart_toEndOf="@+id/sturdyMinusTeam2"
+        app:layout_constraintStart_toStartOf="@+id/evasiveText2"
         app:layout_constraintTop_toBottomOf="@+id/evasiveText2" />
 
     <TextView
@@ -607,7 +629,9 @@
         android:text="@string/Block"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/aggressiveText2"
         app:layout_constraintStart_toEndOf="@+id/blockMinusTeam2"
+        app:layout_constraintStart_toStartOf="@+id/aggressiveText2"
         app:layout_constraintTop_toBottomOf="@+id/aggressiveText2" />
 
     <TextView
@@ -618,7 +642,9 @@
         android:text="@string/Powerful"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/sturdyTextTeam1"
         app:layout_constraintStart_toEndOf="@+id/powerfulMinusTeam1"
+        app:layout_constraintStart_toStartOf="@+id/sturdyTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/sturdyTextTeam1" />
 
     <TextView
@@ -629,7 +655,9 @@
         android:text="@string/Sturdy"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/evasiveTextTeam1"
         app:layout_constraintStart_toEndOf="@+id/SturdyMinusTeam1"
+        app:layout_constraintStart_toStartOf="@+id/evasiveTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/evasiveTextTeam1" />
 
     <TextView
@@ -640,7 +668,9 @@
         android:text="@string/GoodDriver"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/fastTextTeam1"
         app:layout_constraintStart_toEndOf="@+id/GoodDriverMinusTeam1"
+        app:layout_constraintStart_toStartOf="@+id/fastTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/fastTextTeam1" />
 
     <TextView
@@ -651,7 +681,9 @@
         android:text="@string/Block"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/aggressiveText"
         app:layout_constraintStart_toEndOf="@+id/BlockMinusTeam1"
+        app:layout_constraintStart_toStartOf="@+id/aggressiveText"
         app:layout_constraintTop_toBottomOf="@+id/aggressiveText" />
 
     <TextView
@@ -662,7 +694,8 @@
         android:text="@string/Evasive"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/EvasiveMinusTeam1"
+        app:layout_constraintEnd_toEndOf="@+id/blockTextTeam1"
+        app:layout_constraintStart_toStartOf="@+id/blockTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/blockTextTeam1" />
 
     <TextView
@@ -675,9 +708,11 @@
         android:text="@string/Fast"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/team1Text"
         app:layout_constraintEnd_toStartOf="@+id/fastPlusTeam"
         app:layout_constraintStart_toEndOf="@+id/FastMinusTeam1"
-        app:layout_constraintTop_toBottomOf="@+id/Team1Text" />
+        app:layout_constraintStart_toStartOf="@+id/team1Text"
+        app:layout_constraintTop_toBottomOf="@+id/team1Text" />
 
     <TextView
         android:id="@+id/aggressiveText"
@@ -687,18 +722,22 @@
         android:text="@string/Aggressive"
         android:textColor="@android:color/darker_gray"
         android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/goodDriverTextTeam1"
         app:layout_constraintStart_toEndOf="@+id/AggessiveMinusTeam1"
+        app:layout_constraintStart_toStartOf="@+id/goodDriverTextTeam1"
         app:layout_constraintTop_toBottomOf="@+id/goodDriverTextTeam1" />
 
     <TextView
-        android:id="@+id/Team1Text"
+        android:id="@+id/team1Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
         android:text="@string/Team1"
         android:textColor="@color/black"
-        android:textSize="48sp"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/team2Text"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -706,35 +745,36 @@
         android:id="@+id/team2Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="32dp"
         android:text="@string/Team2"
         android:textColor="@color/black"
-        android:textSize="48sp"
-        app:layout_constraintStart_toEndOf="@+id/Team1Text"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/team3Text"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/team1Text"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/FastMinusTeam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
         android:layout_marginTop="24dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Team1Text" />
+        app:layout_constraintEnd_toStartOf="@+id/fastTextTeam1"
+        app:layout_constraintTop_toBottomOf="@+id/team1Text" />
 
     <Button
         android:id="@+id/GoodDriverMinusTeam1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
         android:text="@string/MinusButton"
         android:textColor="@color/black"
         android:textSize="35sp"
+        app:layout_constraintEnd_toStartOf="@+id/goodDriverTextTeam1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/FastMinusTeam1" />
 
@@ -747,7 +787,7 @@
         android:textColor="@color/black"
         android:textSize="35sp"
         app:layout_constraintStart_toEndOf="@+id/fastText3"
-        app:layout_constraintTop_toBottomOf="@+id/team1Text2" />
+        app:layout_constraintTop_toBottomOf="@+id/team3Text" />
 
     <Button
         android:id="@+id/PowerfulPlusTeam3"
@@ -772,12 +812,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnWcNext"
+        android:id="@+id/btnWcFinish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/NextButton"
+        android:text="@string/SubmitButton"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

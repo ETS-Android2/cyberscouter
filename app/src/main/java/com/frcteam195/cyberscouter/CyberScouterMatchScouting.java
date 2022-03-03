@@ -116,7 +116,7 @@ class CyberScouterMatchScouting {
             int last_hash = CyberScouterTimeCode.getLast_update(db);
             System.out.println(String.format(">>>>>>>>>>>>>>>>>>>>>>>LastUpdate=%d", last_hash));
             BluetoothComm btcomm = new BluetoothComm();
-            String response = btcomm.getMatches(activity, eventId, last_hash);
+            String response = btcomm.getMatchesL1(activity, eventId, last_hash);
             if (null != response) {
                 JSONObject jo = new JSONObject(response);
                 String result = jo.getString("result");
@@ -140,7 +140,7 @@ class CyberScouterMatchScouting {
         return ret;
     }
 
-    public String setMatchesRemote(AppCompatActivity activity) {
+    public String setMatchesRemote(AppCompatActivity activity, CyberScouterConfig cfg) {
         String ret = "failed";
         try {
             JSONObject jo = new JSONObject();
@@ -184,7 +184,7 @@ class CyberScouterMatchScouting {
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE, summPlayedDefense);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, summDefPlayedAgainst);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_COMPUTERID, computerID);
-            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SCOUTERID, scouterID);
+            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SCOUTERID, cfg.getUser_id());
             jo.put("payload", payload);
 
             BluetoothComm btcomm = new BluetoothComm();

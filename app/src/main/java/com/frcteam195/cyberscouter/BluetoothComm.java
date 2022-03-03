@@ -117,6 +117,7 @@ public class BluetoothComm {
             String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
             if(btname == null) {
                 btname = FakeBluetoothServer.default_fakeBluetoothComputerName;
+                FakeBluetoothServer.bUseFakeBluetoothServer = true;
             }
             System.out.println("tablet name is " + btname);
             JSONObject jr = new JSONObject();
@@ -166,7 +167,7 @@ public class BluetoothComm {
         return (returnJson);
     }
 
-    public String getMatches(AppCompatActivity activity, int eventId, int last_hash) {
+    public String getMatchesL1(AppCompatActivity activity, int eventId, int last_hash) {
         String returnJson = _errorJson;
         try {
             JSONObject jr = new JSONObject();
@@ -202,6 +203,31 @@ public class BluetoothComm {
             j1.put("eventId", eventId);
             jr.put("cmd", "get-matches-l2");
             jr.put("payload", j1);
+            jr.put("last_hash", last_hash);
+
+            if (FakeBluetoothServer.bUseFakeBluetoothServer) {
+                if (!bLastBTCommFailed) {
+                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
+                    fbts.getResponse(activity, jr);
+                    returnJson = null;
+                }
+            } else {
+                returnJson = sendCommand(activity, jr.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (returnJson);
+    }
+
+    public String getMatches(AppCompatActivity activity, int last_hash) {
+        String returnJson = _errorJson;
+        try {
+            JSONObject jr = new JSONObject();
+            JSONObject j1 = new JSONObject();
+
+            jr.put("cmd", "get-matches-all");
             jr.put("last_hash", last_hash);
 
             if (FakeBluetoothServer.bUseFakeBluetoothServer) {

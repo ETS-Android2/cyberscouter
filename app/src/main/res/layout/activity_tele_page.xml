@@ -181,7 +181,7 @@
 
     <TextView
         android:id="@+id/MissedText"
-        android:layout_width="208dp"
+        android:layout_width="215dp"
         android:layout_height="81dp"
         android:layout_marginEnd="40dp"
         android:text="Missed"

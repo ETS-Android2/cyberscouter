@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class CyberScouterDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 53;
+    private static final int DATABASE_VERSION = 55;
     private static final String DATABASE_NAME = "CyberScouter.db";
 
     private static final String SQL_CREATE_CONFIG_ENTRIES =
@@ -32,7 +32,7 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_CONFIG_ENTRIES =
             "DROP TABLE IF EXISTS " + CyberScouterContract.ConfigEntry.TABLE_NAME;
 
-    private static final String SQL_CREATE_MATCHES =
+    private static final String SQL_CREATE_MATCH_SCOUTING =
             "CREATE TABLE " + CyberScouterContract.MatchScouting.TABLE_NAME + " (" +
                     CyberScouterContract.MatchScouting.COLUMN_NAME_MATCHSCOUTINGID + " INTEGER PRIMARY KEY," +
                     CyberScouterContract.MatchScouting.COLUMN_NAME_EVENTID + " INTEGER," +
@@ -85,10 +85,10 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
                     CyberScouterContract.MatchScouting.COLUMN_NAME_UPLOADSTATUS + " INTEGER)"
             ;
 
-    private static final String SQL_DELETE_MATCHES =
+    private static final String SQL_DELETE_MATCH_SCOUTING =
             "DROP TABLE IF EXISTS " + CyberScouterContract.MatchScouting.TABLE_NAME;
 
-    private static final String SQL_CREATE_MATCHES_L2 =
+    private static final String SQL_CREATE_MATCH_SCOUTING_L2 =
             "CREATE TABLE " + CyberScouterContract.MatchScoutingL2.TABLE_NAME + " (" +
                     CyberScouterContract.MatchScoutingL2.COLUMN_NAME_MATCHSCOUTINGL2ID + " INTEGER PRIMARY KEY," +
                     CyberScouterContract.MatchScoutingL2.COLUMN_NAME_EVENTID + " INTEGER," +
@@ -122,8 +122,24 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
                     CyberScouterContract.MatchScouting.COLUMN_NAME_UPLOADSTATUS + " INTEGER)"
             ;
 
-    private static final String SQL_DELETE_MATCHES_L2 =
+    private static final String SQL_DELETE_MATCH_SCOUTING_L2 =
             "DROP TABLE IF EXISTS " + CyberScouterContract.MatchScoutingL2.TABLE_NAME;
+
+    private static final String SQL_CREATE_MATCHES =
+            "CREATE TABLE " + CyberScouterContract.Matches.TABLE_NAME + " (" +
+                    CyberScouterContract.Matches.COLUMN_NAME_EVENTID + " INTEGER," +
+                    CyberScouterContract.Matches.COLUMN_NAME_MATCHID + " INTEGER PRIMARY KEY," +
+                    CyberScouterContract.Matches.COLUMN_NAME_MATCH_NUMBER + " INTEGER," +
+                    CyberScouterContract.Matches.COLUMN_NAME_RED_TEAM_1 + " TEXT," +
+                    CyberScouterContract.Matches.COLUMN_NAME_RED_TEAM_2 + " TEXT," +
+                    CyberScouterContract.Matches.COLUMN_NAME_RED_TEAM_3 + " TEXT," +
+                    CyberScouterContract.Matches.COLUMN_NAME_BLUE_TEAM_1 + " TEXT," +
+                    CyberScouterContract.Matches.COLUMN_NAME_BLUE_TEAM_2 + " TEXT," +
+                    CyberScouterContract.Matches.COLUMN_NAME_BLUE_TEAM_3 + " TEXT)"
+            ;
+
+    private static final String SQL_DELETE_MATCHES =
+            "DROP TABLE IF EXISTS " + CyberScouterContract.Matches.TABLE_NAME;
 
     private static final String SQL_CREATE_USER_ENTRIES =
             "CREATE TABLE " + CyberScouterContract.Users.TABLE_NAME + " (" +
@@ -213,7 +229,8 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
                     CyberScouterContract.WordCloud.COLUMN_NAME_DONE_SCOUTING + " INTEGER," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_UPLOAD_STATUS + " INTEGER, " +
                     "UNIQUE(" +
-                    CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_SCOUTING_ID + "," +
+                    CyberScouterContract.WordCloud.COLUMN_NAME_EVENT_ID + "," +
+                    CyberScouterContract.WordCloud.COLUMN_NAME_MATCH_ID + "," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_WORD_ID + "," +
                     CyberScouterContract.WordCloud.COLUMN_NAME_TEAM +
                     "))";
@@ -245,8 +262,9 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_CONFIG_ENTRIES);
+        db.execSQL(SQL_CREATE_MATCH_SCOUTING);
+        db.execSQL(SQL_CREATE_MATCH_SCOUTING_L2);
         db.execSQL(SQL_CREATE_MATCHES);
-        db.execSQL(SQL_CREATE_MATCHES_L2);
         db.execSQL(SQL_CREATE_USER_ENTRIES);
         db.execSQL(SQL_CREATE_QUESTIONS);
         db.execSQL(SQL_CREATE_TEAMS);
@@ -259,8 +277,9 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
         // This database is only a cache for online data, so its upgrade policy is
         // simply to discard the data and start over
         db.execSQL(SQL_DELETE_CONFIG_ENTRIES);
+        db.execSQL(SQL_DELETE_MATCH_SCOUTING);
+        db.execSQL(SQL_DELETE_MATCH_SCOUTING_L2);
         db.execSQL(SQL_DELETE_MATCHES);
-        db.execSQL(SQL_DELETE_MATCHES_L2);
         db.execSQL(SQL_DELETE_USER_ENTRIES);
         db.execSQL(SQL_DELETE_QUESTIONS);
         db.execSQL(SQL_DELETE_TEAMS);

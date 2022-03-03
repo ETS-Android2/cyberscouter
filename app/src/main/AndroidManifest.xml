@@ -17,10 +17,10 @@
             android:name=".PitScoutingActivity"
             android:label="@string/title_activity_pit_scouting"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
+<!--        <activity
             android:name=".WordCloudFragment"
             android:label=".WordCloudActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" /> -->
 
         <service
             android:name=".BackgroundUpdater"
@@ -43,6 +43,10 @@
         <activity
             android:name=".ScoutingPage"
             android:label="@string/ScoutingPage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".L2ScoutingPage"
+            android:label="@string/L2ScoutingPage"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AutoPage"
