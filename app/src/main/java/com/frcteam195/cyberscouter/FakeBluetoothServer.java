@@ -13,7 +13,7 @@ public class FakeBluetoothServer {
     final private static String _webHost = "8zaof0vuah.execute-api.us-east-1.amazonaws.com";
     final public static String webServiceBaseUrl = String.format("https://%s", _webHost);
 
-    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 7A";
+    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 2A";
 
     public static String fakeBluetoothComputerName = null;
     //Change the scout number to change which tablet you are emulating, the numbers correspond as follows

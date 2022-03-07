@@ -270,70 +270,80 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
             if (null != csm) {
                 TextView tv = findViewById(R.id.textView_endMatch);
-                tv.setText(getString(R.string.tagMatch, csm.getTeamMatchNo()));
+                tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
                 tv = findViewById(R.id.textView_endTeamNumber);
                 tv.setText(getString(R.string.tagTeam, csm.getTeam()));
 
-                /*int val = csm.getSummGroundPickup();
+                int val = csm.getSummGroundPickup();
+                groundPickupVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, groundPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[0] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummTerminalPickup();
+                terminalPickupVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, terminalPickupArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[1] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummPlayedDefense();
+                playedDefenseVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, playedDefenseArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[2] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummDefPlayedAgainst();
+                defenseAgainstVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, defenseAgainstArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[3] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummShootDriving();
+                shootWhileVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, shootWhileArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[4] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummBrokeDown();
+                brokeDownVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, brokeDownArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[5] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummLostComm();
+                lostCommVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, lostCommArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[6] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummSubsystemBroke();
+                subsystemBrokeVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, subsystemBrokeArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[7] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummSortCargo();
+                scoreOppVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, scoreOppArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[8] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummLaunchPad();
+                shootFromVar = val;
                 if(val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, shootFromArray, CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[9] = 1;
                     shouldEnableNext();
-                }*/
+                }
             }
         }
 

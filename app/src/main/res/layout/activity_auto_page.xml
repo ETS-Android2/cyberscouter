@@ -103,14 +103,13 @@
 
         <Button
             android:id="@+id/button_moveBonusYes"
-            android:layout_width="260dp"
+            android:layout_width="263dp"
             android:layout_height="96dp"
-            android:layout_marginStart="15dp"
             android:layout_marginTop="12dp"
             android:enabled="true"
             android:text="Achieved Move Bonus"
             android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintStart_toStartOf="@+id/button_attempted"
             app:layout_constraintTop_toBottomOf="@+id/button_attempted" />
 
         <Button
@@ -287,6 +286,7 @@
             android:layout_height="636dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="96dp"
+            android:rotation="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/betterbluefield2022" />
@@ -309,7 +309,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="48dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@color/blue"
             android:text="2"
             android:textAlignment="center"
             android:textSize="24sp"
@@ -322,7 +322,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginTop="32dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@color/blue"
             android:text="5"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/Ball4"
@@ -345,7 +345,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
             android:layout_marginEnd="44dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@color/blue"
             android:text="7"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/Ball4"
@@ -367,56 +367,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@color/blue"
             android:text="4"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@+id/Ball3"
             app:layout_constraintTop_toBottomOf="@+id/Ball3" />
-
-        <Button
-            android:id="@+id/PickedUpCounter"
-            android:layout_width="84dp"
-            android:layout_height="76dp"
-            android:layout_marginTop="8dp"
-            android:background="#0000"
-            android:text="0"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/button_BallsPickedUpPlus"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <Button
-            android:id="@+id/button_BallsMovedMinus"
-            android:layout_width="85dp"
-            android:layout_height="78dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:text="-"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/PickedUpCounter"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <Button
-            android:id="@+id/button_BallsPickedUpPlus"
-            android:layout_width="87dp"
-            android:layout_height="78dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="29dp"
-            android:text="+"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/button_missedGoalMinus"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="60dp"
-            android:text="@string/balls_picked_up"
-            android:textColor="@color/black"
-            android:textSize="35sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/button_moveBonusYes" />
 
 
     </android.support.constraint.ConstraintLayout>

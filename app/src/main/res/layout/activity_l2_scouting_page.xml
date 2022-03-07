@@ -206,6 +206,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="100dp"
+        android:buttonTint="@color/blue"
         android:checked="false"
         android:minWidth="48dp"
         android:minHeight="48dp"

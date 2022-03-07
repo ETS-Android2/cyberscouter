@@ -85,6 +85,28 @@ public class CyberScouterUsers {
     }
 
     static CyberScouterUsers[] getLocalUsers(SQLiteDatabase db) {
+        String sortOrder =
+                CyberScouterContract.Users.COLUMN_NAME_LASTNAME + " ASC, " + CyberScouterContract.Users.COLUMN_NAME_LASTNAME + " ASC";
+        CyberScouterUsers[] csua = getLocalUsersWithSelect(db, null, null, sortOrder);
+        return csua;
+    }
+
+    static CyberScouterUsers getLocalUser(SQLiteDatabase db, String userName) {
+        CyberScouterUsers csu = null;
+        String[] name_parts = userName.split(" ");
+        if(name_parts.length == 2) {
+            String selection = CyberScouterContract.Users.COLUMN_NAME_FIRSTNAME + " = ? AND " + CyberScouterContract.Users.COLUMN_NAME_LASTNAME + " = ?";
+            String[] selectionArgs = {name_parts[0], name_parts[1]};
+            CyberScouterUsers[] csua = getLocalUsersWithSelect(db, selection, selectionArgs, null);
+            if(csua != null) {
+                csu = csua[0];
+            }
+        }
+
+        return(csu);
+    }
+
+    static CyberScouterUsers[] getLocalUsersWithSelect(SQLiteDatabase db, String selection, String[] selectionArgs, String sortOrder) {
         Cursor cursor = null;
 
         Vector<CyberScouterUsers> csuv = new Vector<CyberScouterUsers>();
@@ -99,14 +121,16 @@ public class CyberScouterUsers {
                 CyberScouterContract.Users.COLUMN_NAME_EMAIL
         };
 
-        String sortOrder =
-                CyberScouterContract.Users.COLUMN_NAME_LASTNAME + " ASC, " + CyberScouterContract.Users.COLUMN_NAME_LASTNAME + " ASC";
+        if( sortOrder == null) {
+            sortOrder =
+                    CyberScouterContract.Users.COLUMN_NAME_LASTNAME + " ASC, " + CyberScouterContract.Users.COLUMN_NAME_LASTNAME + " ASC";
+        }
 
         cursor = db.query(
                 CyberScouterContract.Users.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
                 null,                   // don't group the rows
                 null,                   // don't filter by row groups
                 sortOrder               // The sort order
