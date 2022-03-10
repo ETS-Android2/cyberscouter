@@ -84,7 +84,7 @@
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:text="@string/ifNoClimb"
         android:textAlignment="center"
         android:textSize="45sp"
@@ -92,7 +92,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/editText_climbHeight"
+        android:id="@+id/editText_endgameStrat"
         android:layout_width="530dp"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
@@ -133,7 +133,7 @@
         android:layout_width="5dp"
         android:layout_height="798dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toStartOf="@+id/editText_climbHeight"
+        app:layout_constraintEnd_toStartOf="@+id/editText_endgameStrat"
         app:layout_constraintStart_toEndOf="@+id/moveOnBar"
         app:layout_constraintTop_toTopOf="parent" />
 

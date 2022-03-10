@@ -329,10 +329,12 @@ public class AutoPage extends AppCompatActivity {
         button = findViewById(R.id.Ball5);
         button.setX(-350);
         button.setY(-75);
+        button = findViewById(R.id.Ball6);
+        button.setX(-600);
+        button.setY(30);
         button = findViewById(R.id.Ball7);
         button.setX(300);
         button.setY(-350);
-
     }
 
 

@@ -117,7 +117,7 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
         CyberScouterTeams cst = CyberScouterTeams.getCurrentTeam(_db, currentTeam);
 
         if (null != cst) {
-            EditText et = _view.findViewById(R.id.editText_climbHeight);
+            EditText et = _view.findViewById(R.id.editText_endgameStrat);
             et.setText(String.valueOf(cst.getClimbHeightID()));
             et.setSelectAllOnFocus(true);
 
@@ -141,9 +141,12 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
 
     public void saveTextValues() {
         try {
-            EditText et = _view.findViewById(R.id.editText_climbHeight);
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_CLIMB_HEIGHT_ID,
+            EditText et = _view.findViewById(R.id.editText_endgameStrat);
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_CLIMB_TIME,
                     Integer.parseInt(et.getText().toString()), currentTeam);
+            et = _view.findViewById(R.id.editText_endgameStrat);
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_CLIMB_STRATEGY,
+                    et.getText().toString(), currentTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

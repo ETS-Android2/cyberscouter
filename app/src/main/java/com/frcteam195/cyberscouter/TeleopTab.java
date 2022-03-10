@@ -344,7 +344,7 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
                 CyberScouterContract.Teams.COLUMN_NAME_TELE_DEFENSE_EVADE, SELECTED_BUTTON_TEXT_COLOR,
                 defaultButtonBackgroundColor);
         try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_DEFENSE_EVADE, 0, currentTeam);
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_SHOOT_WHILE_DRIVE, 0, currentTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -355,7 +355,7 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
                 CyberScouterContract.Teams.COLUMN_NAME_TELE_DEFENSE_EVADE, SELECTED_BUTTON_TEXT_COLOR,
                 defaultButtonBackgroundColor);
         try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_DEFENSE_EVADE, 1, currentTeam);
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_SHOOT_WHILE_DRIVE, 1, currentTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -398,6 +398,9 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
         try {
             EditText et = _view.findViewById(R.id.editText_teleopStrat);
             CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_STRATEGY,
+                    et.getText().toString(), currentTeam);
+            et = _view.findViewById(R.id.editText_defenseStrat);
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_DEFENSE_STRAT,
                     et.getText().toString(), currentTeam);
         } catch (Exception e) {
             e.printStackTrace();
