@@ -538,25 +538,25 @@ public class WordCloudActivity extends AppCompatActivity {
                     }
                 }
                 CyberScouterMatches csm = CyberScouterMatches.getLocalMatch(_db, cfg.getEvent_id(), currentMatch);
-                CyberScouterWordCloud.deleteOldMatches(_db, currentMatch);
+                CyberScouterWordCloud.deleteOldMatches(_db, csm.getMatchID());
                 CyberScouterWordCloud.mergeWordCloudMatchInfo(_db, csm, json, Team1Cntrs.length, redSelected);
 
                 TextView tv;
-                CyberScouterWordCloud[] cswcs = CyberScouterWordCloud.getLocalWordCloud(_db, team1, currentMatch);
+                CyberScouterWordCloud[] cswcs = CyberScouterWordCloud.getLocalWordCloud(_db, team1, csm.getMatchID());
                 for(int i=0; i<cswcs.length; ++i) {
                     Team1Cntrs[cswcs[i].getWordID()-1] = cswcs[i].getWordCount();
                     tv = findViewById(Team1CntrViews[cswcs[i].getWordID()-1]);
                     setTextColor(tv, cswcs[i].getWordCount());
                 }
 
-                cswcs = CyberScouterWordCloud.getLocalWordCloud(_db, team2, currentMatch);
+                cswcs = CyberScouterWordCloud.getLocalWordCloud(_db, team2, csm.getMatchID());
                 for(int i=0; i<cswcs.length; ++i) {
                     Team2Cntrs[cswcs[i].getWordID()-1] = cswcs[i].getWordCount();
                     tv = findViewById(Team2CntrViews[cswcs[i].getWordID()-1]);
                     setTextColor(tv, cswcs[i].getWordCount());
                 }
 
-                cswcs = CyberScouterWordCloud.getLocalWordCloud(_db, team3, currentMatch);
+                cswcs = CyberScouterWordCloud.getLocalWordCloud(_db, team3, csm.getMatchID());
                 for(int i=0; i<cswcs.length; ++i) {
                     Team3Cntrs[cswcs[i].getWordID()-1] = cswcs[i].getWordCount();
                     tv = findViewById(Team3CntrViews[cswcs[i].getWordID()-1]);
@@ -943,14 +943,15 @@ public class WordCloudActivity extends AppCompatActivity {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
 
         try {
+            CyberScouterMatches csm = CyberScouterMatches.getLocalMatch(_db, cfg.getEvent_id(), currentMatch);
             for(int i=0; i<Team1Cntrs.length; ++i) {
-                CyberScouterWordCloud.setWordCloudMetric(_db, cfg.getEvent_id(), team1, currentMatch, i+1, Team1Cntrs[i]);
+                CyberScouterWordCloud.setWordCloudMetric(_db, cfg.getEvent_id(), team1, csm.getMatchID(), i+1, Team1Cntrs[i]);
             }
             for(int i=0; i<Team2Cntrs.length; ++i) {
-                CyberScouterWordCloud.setWordCloudMetric(_db, cfg.getEvent_id(), team2, currentMatch, i+1, Team2Cntrs[i]);
+                CyberScouterWordCloud.setWordCloudMetric(_db, cfg.getEvent_id(), team2, csm.getMatchID(), i+1, Team2Cntrs[i]);
             }
             for(int i=0; i<Team3Cntrs.length; ++i) {
-                CyberScouterWordCloud.setWordCloudMetric(_db, cfg.getEvent_id(), team3, currentMatch, i+1, Team3Cntrs[i]);
+                CyberScouterWordCloud.setWordCloudMetric(_db, cfg.getEvent_id(), team3, csm.getMatchID(), i+1, Team3Cntrs[i]);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -966,11 +967,16 @@ public class WordCloudActivity extends AppCompatActivity {
 
 
     private void submit() {
-        updateWordCloudData();
-        CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
-        String[] teams = {team1, team2, team3};
-        CyberScouterWordCloud[] cswca = CyberScouterWordCloud.getLocalWordCloud(_db, teams, currentMatch);
-        CyberScouterWordCloud.setWordCloudRemote(this, cfg, cswca);
+        try {
+            updateWordCloudData();
+            CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
+            String[] teams = {team1, team2, team3};
+            CyberScouterMatches csm = CyberScouterMatches.getLocalMatch(_db, cfg.getEvent_id(), currentMatch);
+            CyberScouterWordCloud[] cswca = CyberScouterWordCloud.getLocalWordCloud(_db, teams, csm.getMatchID());
+            CyberScouterWordCloud.setWordCloudRemote(this, cfg, cswca);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateComplete(){
