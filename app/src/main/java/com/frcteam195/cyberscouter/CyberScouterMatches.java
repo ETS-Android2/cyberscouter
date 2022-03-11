@@ -95,7 +95,7 @@ public class CyberScouterMatches {
     public static CyberScouterMatches getLocalMatch(SQLiteDatabase db, int l_eventID, int l_matchID) throws Exception {
         String selection =
                 CyberScouterContract.Matches.COLUMN_NAME_EVENTID + " = ? AND "
-                        + CyberScouterContract.Matches.COLUMN_NAME_MATCHID + " = ?";
+                        + CyberScouterContract.Matches.COLUMN_NAME_MATCH_NUMBER + " = ?";
         String[] selectionArgs = {
                 String.format(Locale.getDefault(), "%d", l_eventID),
                 String.format(Locale.getDefault(), "%d", l_matchID),
