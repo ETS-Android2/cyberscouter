@@ -31,6 +31,7 @@ public class AutoPage extends AppCompatActivity {
     private int moveBonus = -1;
     private int blueField = R.drawable.betterbluefield2022;
     private int redField = R.drawable.betterredfield2022;
+    private boolean fieldThing = ScoutingPage.getIsRed();
     private int[] BallsPickedUp = {0, 0, 0, 0, 0, 0, 0};
     private final int[] allBallButtons = {R.id.Ball1, R.id.Ball2, R.id.Ball3, R.id.Ball4,
         R.id.Ball5, R.id.Ball6, R.id.Ball7};

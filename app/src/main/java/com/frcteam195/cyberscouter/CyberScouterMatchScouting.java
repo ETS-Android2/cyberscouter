@@ -145,6 +145,7 @@ class CyberScouterMatchScouting {
         try {
             JSONObject jo = new JSONObject();
             jo.put("cmd", "put-match-scouting");
+            jo.put("key_column", CyberScouterContract.MatchScouting.COLUMN_NAME_MATCHID);
             jo.put("key", matchScoutingID);
             jo.put("table_name", CyberScouterContract.MatchScouting.TABLE_NAME);
             JSONObject payload = new JSONObject();

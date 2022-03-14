@@ -126,6 +126,14 @@ public class ScoutingTab extends Fragment {
                 }
 
             });
+
+            for (int i = 0; i < team_array.length; i++) {
+                if (Integer.parseInt(team_array[i]) == PitScoutingActivity.getCurrentTeam()) {
+                    teams_spinner.setSelection(i);
+                    break;
+                }
+            }
+
             PitScoutingActivity.setCurrentTeam(Integer.parseInt(team_array[teams_spinner.getSelectedItemPosition()]));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

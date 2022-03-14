@@ -235,7 +235,7 @@ public class AutoTab extends Fragment implements IOnEditTextSaveListener {
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getMoveBonus(), moveBonusButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getAutoPickUp(), pickupButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getPreload(), preloadButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
-            FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getAutoPickUp(), workingAutoButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
+            FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getHasAuto(), workingAutoButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
 
             Spinner sp = _view.findViewById(R.id.spinner_StartPosition);
             sp.setSelection(cst.getAutoStartPosID());
@@ -310,7 +310,7 @@ public class AutoTab extends Fragment implements IOnEditTextSaveListener {
     public void workingAutoNo() {
         FakeRadioGroup.buttonPressed(getActivity(), _view, 0, workingAutoButtons, CyberScouterContract.Teams.COLUMN_NAME_HAS_AUTO, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
         try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_HAS_AUTO, 1, currentTeam);
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_HAS_AUTO, 0, currentTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

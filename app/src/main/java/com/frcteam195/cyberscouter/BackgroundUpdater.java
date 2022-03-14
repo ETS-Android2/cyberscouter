@@ -103,11 +103,13 @@ public class BackgroundUpdater extends Service {
                             if (null != csta && !BluetoothComm.bLastBTCommFailed()) {
                                 for (CyberScouterTeams cst : csta) {
                                     String ret = cst.setTeamsRemote(MainActivity._activity);
-                                    if (ret.equalsIgnoreCase("success")) {
+                                    if (ret != null && ret.equalsIgnoreCase("success")) {
                                         String l_column = CyberScouterContract.Teams.COLUMN_NAME_UPLOAD_STATUS;
                                         Integer l_value = UploadStatus.UPLOADED;
                                         CyberScouterTeams.updateTeamMetric(db, l_column, l_value, cst.getTeam());
                                         popToast(String.format(Locale.getDefault(), "Team %d was uploaded successfully.", cst.getTeam()));
+                                    } else if (ret == null) {
+                                        System.out.println("Return from Web service commit of Teams records");
                                     } else {
                                         popToast(String.format(Locale.getDefault(), "Loop #%d failed to upload a team.", cnt));
                                     }

@@ -216,13 +216,13 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
             button.setText(String.valueOf(cst.getTeleBallsScoredHigh()));
             scoredHighTele = cst.getTeleBallsScoredHigh();
             button = _view.findViewById(R.id.textButton_scoredLowTeleCounter);
-            button.setText(String.valueOf(cst.getMaxBallCapacity()));
-            scoredLowTele = cst.getMaxBallCapacity();
+            button.setText(String.valueOf(cst.getTeleBallsScoredLow()));
+            scoredLowTele = cst.getTeleBallsScoredLow();
 
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleSortCargo(), sortCargoYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleDefense(), defenseYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleDefenseEvade(), evadeYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
-            FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getMaxBallCapacity(), shootWhileDriveYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
+            FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleShootWhileDrive(), shootWhileDriveYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getMaxBallCapacity(), carryCapacityButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
         }
     }

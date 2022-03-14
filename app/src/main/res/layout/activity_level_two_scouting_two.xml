@@ -10,8 +10,8 @@
         android:id="@+id/textView_HowLong"
         android:layout_width="324dp"
         android:layout_height="64dp"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="128dp"
         android:text="@string/HowLong"
         android:textAlignment="center"
         android:textColor="@android:color/black"
@@ -23,7 +23,7 @@
         android:id="@+id/spinner_HowLong"
         android:layout_width="324dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="128dp"
         android:contentDescription="@string/SelectOne"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_HowLong"
@@ -57,7 +57,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="64dp"
         android:text="@string/NoButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/black"
@@ -70,7 +70,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="64dp"
         android:text="@string/YesButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/black"
@@ -154,13 +154,13 @@
         android:layout_width="324dp"
         android:layout_height="64dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="64dp"
         android:text="@string/MultiRobotDefense"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button_Team1" />
 
     <TextView
         android:id="@+id/textView__MutliRobotDefense2"
@@ -189,12 +189,25 @@
         android:id="@+id/editTextTextMultiLine"
         android:layout_width="324dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="128dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_HowLong" />
+        app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="324dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="128dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_HowLong"
+        tools:text="@string/DefenseSummary" />
 
 </android.support.constraint.ConstraintLayout>

@@ -119,7 +119,9 @@ class CyberScouterTeams {
         try {
             JSONObject jo = new JSONObject();
             jo.put("cmd", "put-teams");
+            jo.put("key_column", CyberScouterContract.Teams.COLUMN_NAME_TEAM);
             jo.put("key", team);
+            jo.put("table_name", CyberScouterContract.Teams.TABLE_NAME);
             JSONObject payload = new JSONObject();
             payload.put(CyberScouterContract.Teams.COLUMN_NAME_NUM_WHEELS, NumWheels);
             payload.put(CyberScouterContract.Teams.COLUMN_NAME_DRIVE_MOTORS, NumDriveMotors);
@@ -170,6 +172,8 @@ class CyberScouterTeams {
                 response = response.replace("x03", "");
                 JSONObject jresp = new JSONObject(response);
                 ret = jresp.getString("result");
+            } else {
+                ret = null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -192,6 +196,7 @@ class CyberScouterTeams {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        webQueryInProgress = false;
                         try {
                             Intent i = new Intent(TEAMS_UPDATED_FILTER);
                             webResponse = response;
@@ -204,7 +209,16 @@ class CyberScouterTeams {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                webQueryInProgress = false;
+                String msg;
+                if (null == error.networkResponse) {
+                    msg = error.getMessage();
+                } else {
+                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
+                }
+
+                MessageBox.showMessageBox(activity, "Fetch of Teams Record Failed", "CyberScouterTeams.getTeamsWebService",
+                        String.format("Failed to fetch remote Teams records!\nContact a scouting mentor right away\n\n%s\n", msg));
             }
         });
 
@@ -249,8 +263,8 @@ class CyberScouterTeams {
                     msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
                 }
 
-                MessageBox.showMessageBox(activity, "Update of Match Scouting Records Failed", "CyberScouterMatchScouting.setMatchScoutingWebService",
-                        String.format("Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n", msg));
+                MessageBox.showMessageBox(activity, "Update of Teams Records Failed", "CyberScouterTeams.setTeamsWebService",
+                        String.format("Can't update team information.\nContact a scouting mentor right away\n\n%s\n", msg));
             }
         }) {
             @Override
@@ -465,6 +479,7 @@ class CyberScouterTeams {
         try {
             String[] projection = {
                     CyberScouterContract.Teams.COLUMN_NAME_TEAM,
+                    CyberScouterContract.Teams.COLUMN_NAME_TEAM_NAME,
                     CyberScouterContract.Teams.COLUMN_NAME_NUM_WHEELS,
                     CyberScouterContract.Teams.COLUMN_NAME_DRIVE_MOTORS,
                     CyberScouterContract.Teams.COLUMN_NAME_WHEEL_TYPE_ID,
@@ -521,6 +536,7 @@ class CyberScouterTeams {
                 while (cursor.moveToNext()) {
                     cst = new CyberScouterTeams();
                     cst.team = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_TEAM));
+                    cst.TeamName = cursor.getString(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_TEAM_NAME));
                     cst.NumWheels = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_NUM_WHEELS));
                     cst.NumDriveMotors = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_DRIVE_MOTORS));
                     cst.WheelTypeID = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_WHEEL_TYPE_ID));

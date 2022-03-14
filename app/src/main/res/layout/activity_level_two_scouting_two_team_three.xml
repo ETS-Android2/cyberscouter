@@ -6,12 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".LevelTwoScoutingTwo">
 
+    <EditText
+        android:id="@+id/editTextTextMultiLine3"
+        android:layout_width="324dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="128dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+    <TextView
+        android:id="@+id/textView38"
+        android:layout_width="324dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="128dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_HowLong"
+        tools:text="@string/DefenseSummary" />
+
     <TextView
         android:id="@+id/textView_HowLong"
         android:layout_width="324dp"
         android:layout_height="64dp"
         android:layout_marginTop="65dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="128dp"
         android:text="@string/HowLong"
         android:textAlignment="center"
         android:textColor="@android:color/black"
@@ -23,7 +48,7 @@
         android:id="@+id/spinner_HowLong"
         android:layout_width="324dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="128dp"
         android:contentDescription="@string/SelectOne"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_HowLong"
@@ -184,17 +209,5 @@
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView__MutliRobotDefense2" />
-
-    <EditText
-        android:id="@+id/editTextTextMultiLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="178dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_HowLong" />
 
 </android.support.constraint.ConstraintLayout>
