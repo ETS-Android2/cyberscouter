@@ -60,13 +60,14 @@ public class AutoPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auto_page);
         ImageView iv = findViewById(R.id.imageView5);
-        if (ScoutingPage.getFieldOrientation() == 0) {
-            moveButtons();
-        }
+
+
         if (ScoutingPage.getIsRed()) {
             redPositionButtons = mainColorButtons;
             bluePositionButtons = otherColorButtons;
+            iv.setImageResource(redField);
         } else {
+            iv.setImageResource(blueField);
             redPositionButtons = otherColorButtons;
             bluePositionButtons = mainColorButtons;
         }
@@ -83,6 +84,7 @@ public class AutoPage extends AppCompatActivity {
         iv = findViewById(R.id.imageView5);
         if (!(ScoutingPage.getIsRed()) && ScoutingPage.getFieldOrientation() == 0 || (ScoutingPage.getIsRed() && ScoutingPage.getFieldOrientation() == 1)) {
             iv.setRotation(iv.getRotation() + 180);
+            moveButtons();
         }
 //        button = findViewById(R.id.FlipFieldButton);
 //        button.setOnClickListener(new View.OnClickListener() {
@@ -298,6 +300,13 @@ public class AutoPage extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy(){
+        _db.close();
+        mDbHelper.close();
+        super.onDestroy();
+    }
+
     public void StartMatch() {
         if (-1 == moveBonus) {
             return;
@@ -381,6 +390,7 @@ public class AutoPage extends AppCompatActivity {
         //   if(iv.image)
         iv.setImageResource(R.drawable.betterredfield2022);
     }
+
 
     public void upperGoalPlus() {
         button = findViewById(R.id.upperCounter);

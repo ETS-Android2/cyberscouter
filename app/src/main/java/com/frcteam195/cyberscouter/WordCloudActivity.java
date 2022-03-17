@@ -973,8 +973,21 @@ public class WordCloudActivity extends AppCompatActivity {
             String[] teams = {team1, team2, team3};
             CyberScouterMatches csm = CyberScouterMatches.getLocalMatch(_db, cfg.getEvent_id(), currentMatch);
             CyberScouterWordCloud[] cswca = CyberScouterWordCloud.getLocalWordCloud(_db, teams, csm.getMatchID());
-            CyberScouterWordCloud.setWordCloudRemote(this, cfg, cswca);
+            String ret = CyberScouterWordCloud.setWordCloudRemote(this, cfg, cswca);
+            if(ret != null) {
+                if (ret.equalsIgnoreCase("success")) {
+                    ReturnToPreviousPage();
+                } else {
+                    MessageBox.showMessageBox(this, "Update Match Information Failed",
+                            "submit",
+                            String.format("Attempt to submit changes to remote database failed!\n%s",
+                                    ret));
+                }
+            }
         } catch (Exception e) {
+            MessageBox.showMessageBox(this, "Update Match Information Failed",
+                    "submit",
+                    String.format("Attempt to fetch local match info failed!\n%s", e.getMessage()));
             e.printStackTrace();
         }
     }

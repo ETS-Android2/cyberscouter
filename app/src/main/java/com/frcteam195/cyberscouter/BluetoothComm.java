@@ -49,6 +49,7 @@ public class BluetoothComm {
 
     private String sendCommand(Activity activity, String json) {
         String resp = _errorJson;
+        BluetoothSocket mmSocket = null;
 
         synchronized (OneNineFive) {
 
@@ -63,39 +64,50 @@ public class BluetoothComm {
                             String deviceName = device.getName();
                             String deviceHardwareAddress = device.getAddress();
                             if (deviceName.equals(_serviceName)) {
-                                BluetoothSocket mmSocket = device.createRfcommSocketToServiceRecord(UUID.fromString(_serviceUuid));
+                                mmSocket = device.createRfcommSocketToServiceRecord(UUID.fromString(_serviceUuid));
                                 mmSocket.connect();
                                 OutputStream mmOutputStream = mmSocket.getOutputStream();
                                 InputStream mmInputStream = mmSocket.getInputStream();
                                 mmOutputStream.write(json.getBytes());
                                 Thread.sleep(1);
                                 byte[] ibytes = new byte[mmInputStream.available()];
+                                int icntr = 0;
                                 while (ibytes.length == 0) {
                                     Thread.sleep(10);
                                     ibytes = new byte[mmInputStream.available()];
+                                    if(ibytes.length == 0 && icntr > 2000) {
+                                        break;
+                                    }
+                                    icntr++;
                                 }
                                 System.out.println(String.format("1. Bytes available: %d", ibytes.length));
-                                mmInputStream.read(ibytes);
-                                resp = new String(ibytes);
-                                if (0x03 != ibytes[ibytes.length - 1]) {
-                                    for (int i = 0; i < 500; ++i) {
-                                        Thread.sleep(500);
-                                        ibytes = new byte[mmInputStream.available()];
-                                        if (0 < ibytes.length) {
-                                            System.out.println(String.format("%d. Bytes available: %d", i, ibytes.length));
-                                            mmInputStream.read(ibytes);
-                                            resp = resp.concat(new String(ibytes));
-                                            System.out.println(String.format("%da. Return string length = %d", i, resp.length()));
-                                            if (0x03 == ibytes[ibytes.length - 1]) {
-                                                System.out.println("EOF character received!");
-                                                break;
+                                if(ibytes.length > 0) {
+                                    mmInputStream.read(ibytes);
+                                    resp = new String(ibytes);
+                                    if (0x03 != ibytes[ibytes.length - 1]) {
+                                        for (int i = 0; i < 500; ++i) {
+                                            Thread.sleep(500);
+                                            ibytes = new byte[mmInputStream.available()];
+                                            if (0 < ibytes.length) {
+                                                System.out.println(String.format("%d. Bytes available: %d", i, ibytes.length));
+                                                mmInputStream.read(ibytes);
+                                                resp = resp.concat(new String(ibytes));
+                                                System.out.println(String.format("%da. Return string length = %d", i, resp.length()));
+                                                if (0x03 == ibytes[ibytes.length - 1]) {
+                                                    System.out.println("EOF character received!");
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
+                                } else {
+                                    throw(new
+                                            IOException("Response from bluetooth server timed out!"));
                                 }
                                 mmOutputStream.close();
                                 mmInputStream.close();
                                 mmSocket.close();
+                                mmSocket = null;
 
                                 break;
                             }
@@ -105,6 +117,9 @@ public class BluetoothComm {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
+                if(mmSocket != null) {
+                    try { mmSocket.close(); } catch(Exception deadexp) {deadexp.printStackTrace();}
+                }
             }
         }
 

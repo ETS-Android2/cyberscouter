@@ -30,11 +30,11 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
     private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
     private SQLiteDatabase _db = null;
 
-    private Handler mFetchHandler;
+    static protected Handler mFetchHandler;
     private Thread fetcherThread;
-    private final int START_PROGRESS = 0;
-    private final int FETCH_USERS = 1;
-    private final int FETCH_MATCHES = 2;
+    private final static int START_PROGRESS = 0;
+    private final static int FETCH_USERS = 1;
+    private final static int FETCH_MATCHES = 2;
     private static boolean isRed = true;
 
     public static int getFieldOrientation(){return field_orientation;}
@@ -131,6 +131,8 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                     case FETCH_MATCHES:
                         fetchMatches();
                         break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + msg.what);
                 }
             }
         };
@@ -143,7 +145,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         }
     }
 
-    private class RemoteFetcher implements Runnable {
+    private static final class RemoteFetcher implements Runnable {
 
         @Override
         public void run() {
@@ -191,9 +193,9 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+//        Intent intent = new Intent(this, MainActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
         finish();
     }
 
@@ -205,7 +207,8 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
 
     @Override
     protected void onDestroy() {
-        CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
+        mFetchHandler.removeCallbacksAndMessages(null);
+        _db.close();
         mDbHelper.close();
         unregisterReceiver(mOnlineStatusReceiver);
         unregisterReceiver(mUsersReceiver);

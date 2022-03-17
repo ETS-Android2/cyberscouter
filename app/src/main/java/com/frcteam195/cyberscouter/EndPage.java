@@ -187,6 +187,14 @@ public class EndPage extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy(){
+        _db.close();
+        mDbHelper.close();
+        super.onDestroy();
+    }
+
+
     public void returnToTelePage(){
         updateEndPageData();
         this.finish();

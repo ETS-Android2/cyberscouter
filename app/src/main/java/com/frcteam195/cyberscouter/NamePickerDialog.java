@@ -18,9 +18,11 @@ public class NamePickerDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        CyberScouterDbHelper mDbHelper = null;
+        SQLiteDatabase db = null;
         try {
-            CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(getActivity());
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            mDbHelper = new CyberScouterDbHelper(getActivity());
+            db = mDbHelper.getWritableDatabase();
 
             CyberScouterConfig cfg = CyberScouterConfig.getConfig(db);
 
@@ -38,6 +40,13 @@ public class NamePickerDialog extends DialogFragment {
             return builder.create();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(db != null) {
+                db.close();
+            }
+            if(mDbHelper != null) {
+                mDbHelper.close();
+            }
         }
         return null;
     }

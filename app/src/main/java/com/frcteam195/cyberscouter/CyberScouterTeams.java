@@ -234,9 +234,16 @@ class CyberScouterTeams {
         webQueryInProgress = true;
 
         RequestQueue rq = Volley.newRequestQueue(activity);
+        Integer team = -99;
+        try {
+            team = jo.getInt("key");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         String url = String.format("%s/update", FakeBluetoothServer.webServiceBaseUrl);
         String requestBody = jo.toString();
 
+        Integer finalTeam = team;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -246,6 +253,7 @@ class CyberScouterTeams {
                             Intent i = new Intent(TEAMS_UPDATED_FILTER);
                             webResponse = response;
                             i.putExtra("cyberscouterteams", "update");
+                            i.putExtra("team", finalTeam);
                             activity.sendBroadcast(i);
                         } catch (Exception e) {
                             e.printStackTrace();

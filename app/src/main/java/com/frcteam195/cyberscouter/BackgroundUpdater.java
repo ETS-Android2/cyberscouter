@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
+
 import java.util.Locale;
 
 public class BackgroundUpdater extends Service {
@@ -69,10 +70,12 @@ public class BackgroundUpdater extends Service {
         public void run() {
             int cnt = 0;
             while (keepRunning) {
+                CyberScouterDbHelper mDbHelper = null;
+                SQLiteDatabase db = null;
                 cnt++;
                 try {
-                    CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(getApplicationContext());
-                    SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                    mDbHelper = new CyberScouterDbHelper(getApplicationContext());
+                    db = mDbHelper.getWritableDatabase();
                     CyberScouterConfig cfg = CyberScouterConfig.getConfig(db);
 
                     if (null != cfg && !BluetoothComm.bLastBTCommFailed()) {
@@ -127,6 +130,11 @@ public class BackgroundUpdater extends Service {
                 } catch (InterruptedException ie) {
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    if (db != null) {
+                        db.close();
+                        mDbHelper.close();
+                    }
                 }
             }
             return;
@@ -153,7 +161,7 @@ public class BackgroundUpdater extends Service {
                 try {
                     Thread.yield();
                     if (FakeBluetoothServer.bUseFakeBluetoothServer) {
-                        if(FakeBluetoothServer.pingWebHost()) {
+                        if (FakeBluetoothServer.pingWebHost()) {
                             BluetoothComm.setLastBTCommSucceeded();
                         } else {
                             BluetoothComm.setLastBTCommFailed();

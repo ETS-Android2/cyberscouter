@@ -83,6 +83,9 @@ public class SubmitPage extends AppCompatActivity {
 
             g_matchScoutingID = csm.getMatchScoutingID();
         }
+
+        db.close();
+        mDbHelper.close();
     }
 
     public void returnToPrevious() {
@@ -90,28 +93,46 @@ public class SubmitPage extends AppCompatActivity {
     }
 
     public void submitMatch() {
+        CyberScouterDbHelper mDbHelper = null;
+        SQLiteDatabase db = null;
         try {
-            CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            mDbHelper = new CyberScouterDbHelper(this);
+             db = mDbHelper.getWritableDatabase();
             CyberScouterMatchScouting.submitMatch(db, g_matchScoutingID);
             notifyUser("Submit Scouting Report", "Scouting report successfully submitted!");
         } catch (Exception e) {
             MessageBox.showMessageBox(this, "Submit Match Failed Alert", "submitMatch",
                     "Update of UploadStatus and ScoutingStatus failed!\n\n" +
                             "The error is:\n" + e.getMessage());
+        } finally {
+            if(db != null) {
+                db.close();
+            }
+            if(mDbHelper != null) {
+                mDbHelper.close();
+            }
         }
     }
 
     public void submitMatchForReview() {
+        CyberScouterDbHelper mDbHelper = null;
+        SQLiteDatabase db = null;
         try {
-            CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            mDbHelper = new CyberScouterDbHelper(this);
+            db = mDbHelper.getWritableDatabase();
             CyberScouterMatchScouting.submitMatchForReview(db, g_matchScoutingID);
             notifyUser("Submit Scouting Report for Review", "Scouting report sucessfully submitted for review!");
         } catch (Exception e) {
             MessageBox.showMessageBox(this, "Submit Match Failed Alert", "submitMatchForReview",
                     "Update of UploadStatus and ScoutingStatus failed!\n\n" +
                             "The error is:\n" + e.getMessage());
+        } finally {
+            if(db != null) {
+                db.close();
+            }
+            if(mDbHelper != null) {
+                mDbHelper.close();
+            }
         }
     }
 

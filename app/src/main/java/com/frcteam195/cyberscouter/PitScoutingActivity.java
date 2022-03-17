@@ -56,7 +56,10 @@ public class PitScoutingActivity extends AppCompatActivity {
             if(ret.equalsIgnoreCase("fetch")) {
                 updateTeams(ret);
             } else if (ret.equalsIgnoreCase("update")) {
-                handleTeamRemoteUpdateReturn();
+                Integer team = intent.getIntExtra("team", -99);
+                if(team != -99) {
+                    handleTeamRemoteUpdateReturn(team);
+                }
             }
         }
     };
@@ -183,8 +186,21 @@ public class PitScoutingActivity extends AppCompatActivity {
         }
     }
 
-    private void handleTeamRemoteUpdateReturn() {
-        popToast("Remote Teams record was updated!");
+    private void handleTeamRemoteUpdateReturn(Integer team) {
+        try {
+            SQLiteDatabase _db = mDbHelper.getWritableDatabase();
+            String l_column = CyberScouterContract.Teams.COLUMN_NAME_UPLOAD_STATUS;
+            Integer l_value = UploadStatus.UPLOADED;
+            CyberScouterTeams.updateTeamMetric(_db, l_column, l_value, team);
+        } catch(Exception e) {
+            MessageBox.showMessageBox(this, "Update Team Upload Status Failed",
+                    "handleTeamRemoteUpdateReturn",
+                    String.format("Attempt to update team upload status locally failed!\n%s",
+                            e.getMessage()));
+            e.printStackTrace();
+        }
+
+        popToast(String.format("Remote Team %d record was updated!", team));
     }
 
     private void popToast(final String msg) {
