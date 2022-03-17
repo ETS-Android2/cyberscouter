@@ -251,6 +251,8 @@ public class PreAutoPage extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         unregisterReceiver(mOnlineStatusReceiver);
+        _db.close();
+        mDbHelper.close();
         super.onDestroy();
     }
 

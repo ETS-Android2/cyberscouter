@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -71,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // The following lines allow diagnosis of leaked connections and such
+/*        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .build()); */
         setContentView(R.layout.activity_main);
 
         try {
@@ -217,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        _db.close();
         mDbHelper.close();
         unregisterReceiver(mConfigReceiver);
         unregisterReceiver(mOnlineStatusReceiver);
@@ -295,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, nextIntent);
         startActivity(intent);
+        db.close();
     }
 
     void updateStatusIndicator(int color) {
@@ -360,5 +368,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         finish();
         startActivity(intent);
+        db.close();
     }
 }

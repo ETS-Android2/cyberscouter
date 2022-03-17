@@ -300,6 +300,13 @@ public class AutoPage extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy(){
+        _db.close();
+        mDbHelper.close();
+        super.onDestroy();
+    }
+
     public void StartMatch() {
         if (-1 == moveBonus) {
             return;

@@ -80,16 +80,18 @@ public class CyberScouterContract {
         public static final String COLUMN_NAME_CLIMBHEIGHT = "ClimbHeight";
         public static final String COLUMN_NAME_CLIMBPOSITION = "ClimbPosition";
 //        public static final String COLUMN_NAME_INSTEADOFCLIMB = "InsteadOfClimb";
-        public static final String COLUMN_NAME_SUMMLAUNCHPAD = "SummLaunchPad";
-        public static final String COLUMN_NAME_SUMMSORTCARGO = "SummSortCargo";
-        public static final String COLUMN_NAME_SUMMSHOOTDRIVING = "SummShootDriving";
-        public static final String COLUMN_NAME_SUMMBROKEDOWN = "SummBrokeDown";
-        public static final String COLUMN_NAME_SUMMLOSTCOMM = "SummLostComm";
-        public static final String COLUMN_NAME_SUMMSUBSYSTEMBROKE = "SummSubSystemBroke";
         public static final String COLUMN_NAME_SUMMGROUNDPICKUP = "SummGroundPickup";
         public static final String COLUMN_NAME_SUMMTERMINALPICKUP = "SummTerminalPickup";
         public static final String COLUMN_NAME_SUMMPLAYEDDEFENSE = "SummPlayedDefense";
         public static final String COLUMN_NAME_SUMMDEFPLAYEDAGAINST = "SummDefPlayedAgainst";
+        public static final String COLUMN_NAME_SUMMSHOOTDRIVING = "SummShootDriving";
+        public static final String COLUMN_NAME_SUMMBROKEDOWN = "SummBrokeDown";
+        public static final String COLUMN_NAME_SUMMLOSTCOMM = "SummLostComm";
+        public static final String COLUMN_NAME_SUMMSUBSYSTEMBROKE = "SummSubSystemBroke";
+        public static final String COLUMN_NAME_SUMMSORTCARGO = "SummSortCargo";
+        public static final String COLUMN_NAME_SUMMLAUNCHPAD = "SummLaunchPad";
+        public static final String COLUMN_NAME_SUMMSHOOTFROM = "SummShootHub";
+        public static final String COLUMN_NAME_SUMMRATING = "SummRanking";
         public static final String COLUMN_NAME_UPLOADSTATUS = "UploadStatus";
     }
 
