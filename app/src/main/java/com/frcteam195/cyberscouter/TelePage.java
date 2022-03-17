@@ -144,6 +144,13 @@ public class TelePage extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy(){
+        _db.close();
+        mDbHelper.close();
+        super.onDestroy();
+    }
+
     public void returnToAutoPage() {
         setMetricValues();
         this.finish();

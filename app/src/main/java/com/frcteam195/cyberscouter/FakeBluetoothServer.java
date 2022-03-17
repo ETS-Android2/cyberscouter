@@ -9,11 +9,11 @@ import java.util.Locale;
 
 public class FakeBluetoothServer {
 
-    public static boolean bUseFakeBluetoothServer = true;
+    public static boolean bUseFakeBluetoothServer = false;
     final private static String _webHost = "8zaof0vuah.execute-api.us-east-1.amazonaws.com";
     final public static String webServiceBaseUrl = String.format("https://%s", _webHost);
 
-    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 2A";
+    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 1A";
 
     public static String fakeBluetoothComputerName = null;
     //Change the scout number to change which tablet you are emulating, the numbers correspond as follows
@@ -22,7 +22,7 @@ public class FakeBluetoothServer {
     private FakeBluetoothServer() {}
 
     public FakeBluetoothServer(String btname) {
-        if(btname == null || btname.toLowerCase(Locale.ROOT).endsWith("a")) {
+        if(btname == null || btname.toLowerCase(Locale.ROOT).trim().endsWith("a")) {
             bUseFakeBluetoothServer = true;
             if(btname != null) {
                 fakeBluetoothComputerName = btname;
