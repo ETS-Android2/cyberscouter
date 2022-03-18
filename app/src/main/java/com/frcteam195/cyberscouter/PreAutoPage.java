@@ -222,11 +222,13 @@ public class PreAutoPage extends AppCompatActivity {
             TextView tv = findViewById(R.id.textView_preAutoMatch);
             tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
             tv = findViewById(R.id.textView_preAutoTeam);
+            String teamText = null;
             if(cst != null) {
-                tv.setText(cst.getTeamName());
+                teamText = csm.getTeam() + " - " + cst.getTeamName();
             } else {
-                tv.setText(getString(R.string.tagTeam, csm.getTeam()));
+                teamText = csm.getTeam();
             }
+            tv.setText(getString(R.string.tagTeam, teamText));
 
             String[] lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW};
             Integer[] lval = {0};
