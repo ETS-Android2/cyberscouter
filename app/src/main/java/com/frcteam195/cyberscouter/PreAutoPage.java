@@ -208,8 +208,14 @@ public class PreAutoPage extends AppCompatActivity {
 
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         CyberScouterMatchScouting csm = null;
+        CyberScouterTeams cst = null;
         if (null != cfg) {
             csm = CyberScouterMatchScouting.getCurrentMatch(_db, TeamMap.getNumberForTeam(cfg.getAlliance_station()));
+            cst = CyberScouterTeams.getCurrentTeam(_db, Integer.valueOf(csm.getTeam()));
+        }
+
+        if(cst == null) {
+            System.out.println("CST IS NULL!!!");
         }
 
         if (null != csm) {

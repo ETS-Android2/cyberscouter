@@ -352,7 +352,7 @@ class CyberScouterTeams {
     }
 
     static CyberScouterTeams getCurrentTeam(SQLiteDatabase db, int team) {
-        String selection = CyberScouterContract.Teams.COLUMN_NAME_TEAM + " = ?";
+        String selection = CyberScouterContract.Teams.COLUMN_NAME_TEAM + "=?";
         String[] selectionArgs = {
                 String.format(Locale.getDefault(), "%d", team)
         };
