@@ -30,6 +30,7 @@ import java.util.stream.Stream;
 
 public class CyberScouterWordCloud {
     final static String WORD_CLOUD_UPDATED_FILTER = "frcteam195_cyberscouterwordcloud_word_cloud_updated_intent_filter";
+    final static String WORD_CLOUD_FETCHED_FILTER = "frcteam195_cyberscouterwordcloud_word_cloud_fetched_intent_filter";
 
     private static String webResponse;
 
@@ -291,8 +292,9 @@ public class CyberScouterWordCloud {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Intent i = new Intent(WORD_CLOUD_UPDATED_FILTER);
-                            i.putExtra("cyberscouterwordcloud", response);
+                            webResponse = response;
+                            Intent i = new Intent(WORD_CLOUD_FETCHED_FILTER);
+                            i.putExtra("cyberscouterwordcloud", "fetched");
                             activity.sendBroadcast(i);
                         } catch (Exception e) {
                             e.printStackTrace();
