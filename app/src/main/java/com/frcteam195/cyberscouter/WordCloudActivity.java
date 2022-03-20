@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /* + or - block briefly turns alliance color when tapped
@@ -64,15 +63,19 @@ public class WordCloudActivity extends AppCompatActivity {
 
     private int _currentPos;
 
-    BroadcastReceiver mWordCloudReceiver = new BroadcastReceiver() {
+    BroadcastReceiver mWordCloudFetchReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String ret = intent.getStringExtra("cyberscouterwordcloud");
-            if(ret.equalsIgnoreCase("updated")) {
-                updateComplete();
-            } else {
-                updateWordCloudLocal(ret);
-            }
+            updateWordCloudLocal(ret);
+        }
+    };
+
+    BroadcastReceiver mWordCloudUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String ret = intent.getStringExtra("cyberscouterwordcloud");
+            updateComplete();
         }
     };
 
@@ -83,7 +86,8 @@ public class WordCloudActivity extends AppCompatActivity {
 
         _activity = this;
 
-        registerReceiver(mWordCloudReceiver, new IntentFilter(CyberScouterWordCloud.WORD_CLOUD_UPDATED_FILTER));
+        registerReceiver(mWordCloudFetchReceiver, new IntentFilter(CyberScouterWordCloud.WORD_CLOUD_FETCHED_FILTER));
+        registerReceiver(mWordCloudUpdateReceiver, new IntentFilter(CyberScouterWordCloud.WORD_CLOUD_UPDATED_FILTER));
 
         _db = mDbHelper.getWritableDatabase();
 
@@ -521,12 +525,16 @@ public class WordCloudActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mDbHelper.close();
-        unregisterReceiver(mWordCloudReceiver);
+        unregisterReceiver(mWordCloudFetchReceiver);
+        unregisterReceiver(mWordCloudUpdateReceiver);
         super.onDestroy();
     }
 
 
     protected void updateWordCloudLocal(String json) {
+        if(json.equalsIgnoreCase("fetched")) {
+            json = CyberScouterWordCloud.getWebResponse();
+        }
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         if (cfg != null) {
             try {
