@@ -277,4 +277,6 @@
     <string name="L2ScoutingPage">Level Two Scouting</string>
     <string name="MatchLabel">Match:</string>
 
+    <string name="NoUnscoutedMatches">No remaining unscouted matches for this event</string>
+
 </resources>

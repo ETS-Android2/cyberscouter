@@ -68,6 +68,7 @@ public class BackgroundUpdater extends Service {
 
         @Override
         public void run() {
+            Looper.prepare();
             int cnt = 0;
             while (keepRunning) {
                 CyberScouterDbHelper mDbHelper = null;
@@ -103,7 +104,7 @@ public class BackgroundUpdater extends Service {
                         Thread.sleep(10);
                         try {
                             CyberScouterTeams[] csta = CyberScouterTeams.getTeamsReadyToUpload(db);
-                            if (null != csta && !BluetoothComm.bLastBTCommFailed()) {
+                            if (null != csta && csta.length > 0 && !BluetoothComm.bLastBTCommFailed()) {
                                 for (CyberScouterTeams cst : csta) {
                                     String ret = cst.setTeamsRemote(MainActivity._activity);
                                     if (ret != null && ret.equalsIgnoreCase("success")) {

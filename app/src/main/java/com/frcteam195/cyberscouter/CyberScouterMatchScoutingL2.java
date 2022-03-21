@@ -7,18 +7,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Locale;
 import java.util.Vector;
+
+import cz.msebera.android.httpclient.Header;
 
 public class CyberScouterMatchScoutingL2 {
     final static String MATCH_SCOUTING_L2_UPDATED_FILTER = "frcteam195_cyberscoutermatchscoutingl2_match_scouting_l2_updated_intent_filter";
@@ -492,40 +491,45 @@ public class CyberScouterMatchScoutingL2 {
             return;
 
         webQueryInProgress = true;
-        RequestQueue rq = Volley.newRequestQueue(activity);
-        String url = String.format("%s/match-scouting-l2?eventId=%s", FakeBluetoothServer.webServiceBaseUrl, eventId);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        webQueryInProgress = false;
-                        try {
-                            Intent i = new Intent(MATCH_SCOUTING_L2_UPDATED_FILTER);
-                            webResponse = response;
-                            i.putExtra("cyberscoutermatchesl2", "fetch");
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        RequestParams params = new RequestParams();
+        params.put("eventId", eventId);
+        String url = String.format("%s/match-scouting-l2", FakeBluetoothServer.webServiceBaseUrl);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, params, new AsyncHttpResponseHandler() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                webQueryInProgress = false;
-                String msg;
-                if (null == error.networkResponse) {
-                    msg = error.getMessage();
-                } else {
-                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
-                }
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
 
-                MessageBox.showMessageBox(activity, "Fetch of Match Scouting L2 Records Failed", "CyberScouterMatchScoutingL2.getMatchScoutingL2WebService",
-                        String.format("Can't get list of L2 matches to scout.\nContact a scouting mentor right away\n\n%s\n", msg));
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                webQueryInProgress = false;
+                Intent i = new Intent(MATCH_SCOUTING_L2_UPDATED_FILTER);
+                webResponse = new String(response);
+                i.putExtra("cyberscoutermatchesl2", "fetch");
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                webQueryInProgress = false;
+                MessageBox.showMessageBox(activity,
+                        "Fetch of Match Scouting L2 Records Failed",
+                        "CyberScouterMatchScoutingL2.getMatchScoutingL2WebService",
+                        String.format(
+                                "Can't get list of L2 matches to scout.\nContact a scouting mentor right away\n\n%s\n",
+                                e.getMessage()));
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
         });
-
-        rq.add(stringRequest);
     }
 
 

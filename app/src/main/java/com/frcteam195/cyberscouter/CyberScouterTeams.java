@@ -6,16 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,12 +18,16 @@ import java.security.cert.PolicyNode;
 import java.util.Locale;
 import java.util.Vector;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+
 class CyberScouterTeams {
     public final static String TEAMS_UPDATED_FILTER = "frcteam195_cyberscouterteams_teams_updated_intent_filter";
 
     private static String webResponse;
+
     static String getWebResponse() {
-        return(webResponse);
+        return (webResponse);
     }
 
     private static boolean webQueryInProgress = false;
@@ -95,7 +92,7 @@ class CyberScouterTeams {
                 JSONObject jo = new JSONObject(response);
                 String result = jo.getString("result");
                 if (!result.equalsIgnoreCase("failure")) {
-                    if(result.equalsIgnoreCase("skip")) {
+                    if (result.equalsIgnoreCase("skip")) {
                         ret = "skip";
                     } else {
                         JSONArray payload = jo.getJSONArray("payload");
@@ -179,7 +176,7 @@ class CyberScouterTeams {
             e.printStackTrace();
         }
 
-        return(ret);
+        return (ret);
     }
 
 
@@ -189,42 +186,42 @@ class CyberScouterTeams {
 
         webQueryInProgress = true;
 
-        RequestQueue rq = Volley.newRequestQueue(activity);
         String url = String.format("%s/teams", FakeBluetoothServer.webServiceBaseUrl);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        webQueryInProgress = false;
-                        try {
-                            Intent i = new Intent(TEAMS_UPDATED_FILTER);
-                            webResponse = response;
-                            i.putExtra("cyberscouterteams", "fetch");
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                webQueryInProgress = false;
-                String msg;
-                if (null == error.networkResponse) {
-                    msg = error.getMessage();
-                } else {
-                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
-                }
+        AsyncHttpClient client = new AsyncHttpClient();
 
-                MessageBox.showMessageBox(activity, "Fetch of Teams Record Failed", "CyberScouterTeams.getTeamsWebService",
-                        String.format("Failed to fetch remote Teams records!\nContact a scouting mentor right away\n\n%s\n", msg));
+        client.get(url, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                webQueryInProgress = false;
+                Intent i = new Intent(TEAMS_UPDATED_FILTER);
+                webResponse = new String(response);
+                i.putExtra("cyberscouterteams", "fetch");
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                webQueryInProgress = false;
+                MessageBox.showMessageBox(activity,
+                        "Fetch of Teams Record Failed",
+                        "CyberScouterTeams.getTeamsWebService",
+                        String.format(
+                                "Failed to fetch remote Teams records!\nContact a scouting mentor right away\n\n%s\n",
+                                e.getMessage()));
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
         });
-
-        rq.add(stringRequest);
-        return;
-
     }
 
     static public void setTeamsWebService(final AppCompatActivity activity, JSONObject jo) {
@@ -233,77 +230,59 @@ class CyberScouterTeams {
 
         webQueryInProgress = true;
 
-        RequestQueue rq = Volley.newRequestQueue(activity);
         Integer team = -99;
         try {
             team = jo.getInt("key");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        String url = String.format("%s/update", FakeBluetoothServer.webServiceBaseUrl);
-        String requestBody = jo.toString();
-
         Integer finalTeam = team;
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
+        String url = String.format("%s/update", FakeBluetoothServer.webServiceBaseUrl);
+        StringEntity requestBody = null;
+        try {
+            requestBody = new StringEntity(jo.toString());
+        } catch (UnsupportedEncodingException uee) {
+            uee.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.post(activity, url, requestBody, "application/json",
+                new AsyncHttpResponseHandler() {
+
                     @Override
-                    public void onResponse(String response) {
-                        webQueryInProgress = false;
-                        try {
-                            Intent i = new Intent(TEAMS_UPDATED_FILTER);
-                            webResponse = response;
-                            i.putExtra("cyberscouterteams", "update");
-                            i.putExtra("team", finalTeam);
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onStart() {
+                        System.out.println("Starting get call...");
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                webQueryInProgress = false;
-                error.printStackTrace();
-                String msg;
-                if (null == error.networkResponse) {
-                    msg = error.getMessage();
-                } else {
-                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
-                }
 
-                MessageBox.showMessageBox(activity, "Update of Teams Records Failed", "CyberScouterTeams.setTeamsWebService",
-                        String.format("Can't update team information.\nContact a scouting mentor right away\n\n%s\n", msg));
-            }
-        }) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
-            }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                        webQueryInProgress = false;
+                        Intent i = new Intent(TEAMS_UPDATED_FILTER);
+                        webResponse = new String(response);
+                        i.putExtra("cyberscouterteams", "update");
+                        i.putExtra("team", finalTeam);
+                        activity.sendBroadcast(i);
+                    }
 
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                    return null;
-                }
-            }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                        webQueryInProgress = false;
+                        MessageBox.showMessageBox(activity,
+                                "Update of Teams Records Failed",
+                                "CyberScouterTeams.setTeamsWebService",
+                                String.format(
+                                        "Can't update team information.\nContact a scouting mentor right away\n\n%s\n",
+                                        e.getMessage()));
+                    }
 
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String responseString = "";
-                if (response != null) {
-                    responseString = String.valueOf(response.statusCode);
-                    // can get more details such as response.headers
-                }
-                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-            }
-        };
-
-        rq.add(stringRequest);
-        return;
-
+                    @Override
+                    public void onRetry(int retryNo) {
+                        System.out.println(String.format("Retry number %d", retryNo));
+                    }
+                });
     }
 
     static String[] getTeamNumbers(SQLiteDatabase db, int wasScouted) {
@@ -338,7 +317,6 @@ class CyberScouterTeams {
             }
 
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -347,7 +325,7 @@ class CyberScouterTeams {
             String[] nv2 = new String[teamVector.size()];
             return teamVector.toArray(nv2);
         } else {
-            return(null);
+            return (null);
         }
     }
 
@@ -358,10 +336,10 @@ class CyberScouterTeams {
         };
 
         CyberScouterTeams[] csta = getLocalTeams(db, selection, selectionArgs, null);
-        if(null != csta && 0 < csta.length) {
-            return(csta[0]);
+        if (null != csta && 0 < csta.length) {
+            return (csta[0]);
         } else {
-            return(null);
+            return (null);
         }
     }
 
@@ -470,7 +448,8 @@ class CyberScouterTeams {
 
         String[] selectionArgs = {
                 String.format(Locale.getDefault(), "%d", 1),
-                String.format(Locale.getDefault(), "%d", com.frcteam195.cyberscouter.UploadStatus.NOT_UPLOADED)
+                String.format(Locale.getDefault(), "%d",
+                        com.frcteam195.cyberscouter.UploadStatus.NOT_UPLOADED)
         };
 
         String sortOrder =
@@ -479,7 +458,8 @@ class CyberScouterTeams {
         return (getLocalTeams(db, selection, selectionArgs, sortOrder));
     }
 
-    static CyberScouterTeams[] getLocalTeams(SQLiteDatabase db, String selection, String[] selectionArgs, String sortOrder) {
+    static CyberScouterTeams[] getLocalTeams(SQLiteDatabase db, String selection,
+                                             String[] selectionArgs, String sortOrder) {
         Vector<CyberScouterTeams> cstv = new Vector<>();
         CyberScouterTeams cst = null;
 
@@ -773,5 +753,7 @@ class CyberScouterTeams {
         return ClimbHeightID;
     }
 
-    int getDoneScouting() { return DoneScouting; }
+    int getDoneScouting() {
+        return DoneScouting;
+    }
 }

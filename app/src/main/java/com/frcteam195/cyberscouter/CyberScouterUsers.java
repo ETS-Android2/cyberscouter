@@ -1,29 +1,26 @@
 package com.frcteam195.cyberscouter;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Vector;
 
+import cz.msebera.android.httpclient.Header;
+
 public class CyberScouterUsers {
-    public final static String USERS_UPDATED_FILTER = "frcteam195_cyberscouterusers_users_updated_intent_filter";
+    public final static String USERS_FETCHED_FILTER = "frcteam195_cyberscouterusers_users_updated_intent_filter";
+
+    private static String webResponse;
+    public static String getWebResponse() {return(webResponse);}
 
     public CyberScouterUsers() {
     }
@@ -183,31 +180,36 @@ public class CyberScouterUsers {
     }
 
     static public void getUsersWebService(final AppCompatActivity activity) {
-        RequestQueue rq = Volley.newRequestQueue(activity);
         String url = String.format("%s/users", FakeBluetoothServer.webServiceBaseUrl);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Intent i = new Intent(USERS_UPDATED_FILTER);
-                            i.putExtra("cyberscouterusers", response);
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, new AsyncHttpResponseHandler() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                webResponse = new String(response);
+                Intent i = new Intent(USERS_FETCHED_FILTER);
+                i.putExtra("cyberscouterusers", "fetched");
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
         });
-
-        rq.add(stringRequest);
-        return;
-
     }
 
 
