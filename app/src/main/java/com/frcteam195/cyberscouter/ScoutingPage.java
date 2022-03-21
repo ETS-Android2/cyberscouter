@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,12 +14,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.json.JSONObject;
 
 public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.NamePickerDialogListener {
     final static private int FIELD_ORIENTATION_RIGHT = 0;
@@ -80,7 +76,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         setContentView(R.layout.activity_scouting_page);
 
         registerReceiver(mOnlineStatusReceiver, new IntentFilter(BluetoothComm.ONLINE_STATUS_UPDATED_FILTER));
-        registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_UPDATED_FILTER));
+        registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_FETCHED_FILTER));
         registerReceiver(mTeamsReceiver, new IntentFilter(CyberScouterTeams.TEAMS_UPDATED_FILTER));
         registerReceiver(mMatchesReceiver, new IntentFilter(CyberScouterMatchScouting.MATCH_SCOUTING_UPDATED_FILTER));
 
@@ -327,6 +323,9 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         BluetoothComm.updateStatusIndicator(iv, color);
     }
     private void updateUsers(String json){
+        if(json.equalsIgnoreCase("fetched")) {
+            json = CyberScouterUsers.getWebResponse();
+        }
         if(!json.equalsIgnoreCase("skip")) {
             CyberScouterUsers.setUsers(_db, json);
         }
@@ -398,6 +397,11 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                 }
                 Button button = findViewById(R.id.Button_Start);
                 button.setEnabled(true);
+            } else {
+                TextView tv = findViewById(R.id.textView7);
+                tv.setText(getString(R.string.NoUnscoutedMatches));
+                TextView tvtn = findViewById(R.id.textView_teamNumber);
+                tvtn.setText(getString(R.string.tagTeam, "n/a"));
             }
         } catch(Exception e) {
             MessageBox.showMessageBox(this, "Fetch Match Information Failed", "updateMatchesLocal",

@@ -6,17 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Vector;
+
+import cz.msebera.android.httpclient.Header;
 
 public class CyberScouterWords {
     final static String WORDS_UPDATED_FILTER = "frcteam195_cyberscouterwords_words_updated_intent_filter";
@@ -87,31 +85,33 @@ public class CyberScouterWords {
     }
 
     static public void getWordsWebService(final AppCompatActivity activity) {
-        RequestQueue rq = Volley.newRequestQueue(activity);
         String url = String.format("%s/words", FakeBluetoothServer.webServiceBaseUrl);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Intent i = new Intent(WORDS_UPDATED_FILTER);
-                            i.putExtra("cyberscouterwords", response);
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                Intent i = new Intent(WORDS_UPDATED_FILTER);
+                i.putExtra("cyberscouterwords", new String(response));
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
         });
-
-        rq.add(stringRequest);
-        return;
-
     }
 
     public static void setDoneScouting(SQLiteDatabase db) {

@@ -6,15 +6,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import org.json.JSONObject;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import org.json.JSONObject;
 import java.util.Locale;
+import cz.msebera.android.httpclient.Header;
 
 public class CyberScouterConfig {
     public final static String CONFIG_UPDATED_FILTER = "frcteam195_cyberscouterconfig_config_updated_intent_filter";
@@ -137,33 +135,38 @@ public class CyberScouterConfig {
     }
 
     static public void getConfigWebService(final Activity activity, String computerName) {
-        String ret = null;
+        String url = String.format("%s/config", FakeBluetoothServer.webServiceBaseUrl);
 
-        RequestQueue rq = Volley.newRequestQueue(activity);
-        String url = String.format("%s/config?computerName=%s", FakeBluetoothServer.webServiceBaseUrl, computerName);
+        RequestParams params = new RequestParams();
+        params.put("computerName", computerName);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Intent i = new Intent(CONFIG_UPDATED_FILTER);
-                            i.putExtra("cyberscouterconfig", response);
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, params, new AsyncHttpResponseHandler() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println(error.getMessage());
-                error.printStackTrace();
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                Intent i = new Intent(CONFIG_UPDATED_FILTER);
+                i.putExtra("cyberscouterconfig", new String(response));
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
         });
-
-        rq.add(stringRequest);
-        return;
     }
 
     public static void setConfigLocal(SQLiteDatabase db, JSONObject jo) throws Exception {

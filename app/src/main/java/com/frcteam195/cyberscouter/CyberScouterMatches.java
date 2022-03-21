@@ -6,19 +6,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Locale;
 import java.util.Vector;
+
+import cz.msebera.android.httpclient.Header;
 
 public class CyberScouterMatches {
     final static String MATCHES_UPDATED_FILTER = "frcteam195_cyberscoutermatches_matches_updated_intent_filter";
@@ -221,40 +218,44 @@ public class CyberScouterMatches {
             return;
 
         webQueryInProgress = true;
-        RequestQueue rq = Volley.newRequestQueue(activity);
+
         String url = String.format("%s/matches", FakeBluetoothServer.webServiceBaseUrl);
+        AsyncHttpClient client = new AsyncHttpClient();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        webQueryInProgress = false;
-                        try {
-                            Intent i = new Intent(MATCHES_UPDATED_FILTER);
-                            webResponse = response;
-                            i.putExtra("cyberscoutermatches", "fetch");
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        client.get(url, new AsyncHttpResponseHandler() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                webQueryInProgress = false;
-                String msg;
-                if (null == error.networkResponse) {
-                    msg = error.getMessage();
-                } else {
-                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
-                }
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
 
-                MessageBox.showMessageBox(activity, "Fetch of Match Records Failed", "CyberScouterMatches.getMatchesWebService",
-                        String.format("Can't get list of matches to scout.\nContact a scouting mentor right away\n\n%s\n", msg));
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                webQueryInProgress = false;
+                webResponse = new String(response);
+                Intent i = new Intent(MATCHES_UPDATED_FILTER);
+                i.putExtra("cyberscoutermatches", "fetch");
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                webQueryInProgress = false;
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+                String msg;
+                MessageBox.showMessageBox(activity, "Fetch of Match Records Failed",
+                        "CyberScouterMatches.getMatchesWebService",
+                        String.format(
+                                "Can't get list of matches to scout.\nContact a scouting mentor right away\n\n%s\n",
+                                e.getMessage()));
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
         });
-
-        rq.add(stringRequest);
     }
 
 

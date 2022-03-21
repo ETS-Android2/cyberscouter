@@ -7,16 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +19,9 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Vector;
 import java.util.stream.Stream;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class CyberScouterWordCloud {
     final static String WORD_CLOUD_UPDATED_FILTER = "frcteam195_cyberscouterwordcloud_word_cloud_updated_intent_filter";
@@ -284,32 +279,42 @@ public class CyberScouterWordCloud {
     }
 
     static public void getWordCloudWebService(final AppCompatActivity activity) {
-        RequestQueue rq = Volley.newRequestQueue(activity);
-        String url = String.format("%s/word-cloud", FakeBluetoothServer.webServiceBaseUrl);
+        if(webQueryInProgress) {
+            return;
+        }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            webResponse = response;
-                            Intent i = new Intent(WORD_CLOUD_FETCHED_FILTER);
-                            i.putExtra("cyberscouterwordcloud", "fetched");
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        webQueryInProgress = true;
+
+        String url = String.format("%s/word-cloud", FakeBluetoothServer.webServiceBaseUrl);
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, new AsyncHttpResponseHandler() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                webQueryInProgress = false;
+                webResponse = new String(response);
+                Intent i = new Intent(WORD_CLOUD_FETCHED_FILTER);
+                i.putExtra("cyberscouterwordcloud", "fetched");
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                webQueryInProgress = false;
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
         });
-
-        rq.add(stringRequest);
-        return;
-
     }
 
     static void setWordCloudWebService(final Activity activity, JSONObject jo) {
@@ -318,66 +323,49 @@ public class CyberScouterWordCloud {
             return;
 
         webQueryInProgress = true;
-        RequestQueue rq = Volley.newRequestQueue(activity);
         String url = String.format("%s/insert-table", FakeBluetoothServer.webServiceBaseUrl);
-        String requestBody = jo.toString();
+        StringEntity requestBody = null;
+        try {
+            requestBody = new StringEntity(jo.toString());
+        } catch (UnsupportedEncodingException uee) {
+            uee.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        webQueryInProgress = false;
-                        try {
-                            Intent i = new Intent(WORD_CLOUD_UPDATED_FILTER);
-                            webResponse = response;
-                            i.putExtra("cyberscouterwordcloud", "updated");
-                            activity.sendBroadcast(i);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.post(activity, url, requestBody, "application/json",
+                new AsyncHttpResponseHandler() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 webQueryInProgress = false;
-                String msg;
-                if (null == error.networkResponse) {
-                    msg = error.getMessage();
-                } else {
-                    msg = String.format("Status Code: %d\nMessage: %s", error.networkResponse.statusCode, new String(error.networkResponse.data));
-                }
-
-                MessageBox.showMessageBox(activity, "Update of Match Scouting Records Failed", "CyberScouterWordCloud.setWordCloudWebService",
-                        String.format("Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n", msg));
-            }
-        }) {
-            @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
+                Intent i = new Intent(WORD_CLOUD_UPDATED_FILTER);
+                webResponse = new String(response);
+                i.putExtra("cyberscouterwordcloud", "updated");
+                activity.sendBroadcast(i);
             }
 
             @Override
-            public byte[] getBody() throws AuthFailureError {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                    return null;
-                }
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                webQueryInProgress = false;
+                MessageBox.showMessageBox(activity,
+                        "Update of Match Scouting Records Failed", "CyberScouterWordCloud.setWordCloudWebService",
+                        String.format("Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n",
+                                e.getMessage()));
             }
 
             @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String responseString = "";
-                if (response != null) {
-                    responseString = String.valueOf(response.statusCode);
-                    // can get more details such as response.headers
-                }
-                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
             }
-        };
-
-        rq.add(stringRequest);
+        });
     }
 
 
