@@ -249,12 +249,20 @@ public class AutoPage extends AppCompatActivity {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
 
         CyberScouterMatchScouting csm = CyberScouterMatchScouting.getCurrentMatch(_db, TeamMap.getNumberForTeam(cfg.getAlliance_station()));
+        CyberScouterTeams cst = CyberScouterTeams.getCurrentTeam(_db, Integer.valueOf(csm.getTeam()));
 
         if (null != csm) {
             TextView tv = findViewById(R.id.textView_autoMatch);
             tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
             tv = findViewById(R.id.textView_autoTeam);
-            tv.setText(getString(R.string.tagTeam, csm.getTeam()));
+            String teamText = null;
+            if(cst != null) {
+                teamText = csm.getTeam() + " - " + cst.getTeamName();
+            } else {
+                teamText = csm.getTeam();
+            }
+            tv.setText(getString(R.string.tagTeam, teamText));
+            //tv.setText(getString(R.string.tagTeam, teamText));
 
             moveBonus = csm.getAutoMoveBonus();
             upperGoalCount = csm.getAutoBallHigh();
