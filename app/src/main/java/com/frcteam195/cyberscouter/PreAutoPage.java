@@ -208,15 +208,27 @@ public class PreAutoPage extends AppCompatActivity {
 
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         CyberScouterMatchScouting csm = null;
+        CyberScouterTeams cst = null;
         if (null != cfg) {
             csm = CyberScouterMatchScouting.getCurrentMatch(_db, TeamMap.getNumberForTeam(cfg.getAlliance_station()));
+            cst = CyberScouterTeams.getCurrentTeam(_db, Integer.valueOf(csm.getTeam()));
+        }
+
+        if(cst == null) {
+            System.out.println("CST IS NULL!!!");
         }
 
         if (null != csm) {
             TextView tv = findViewById(R.id.textView_preAutoMatch);
             tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
             tv = findViewById(R.id.textView_preAutoTeam);
-            tv.setText(getString(R.string.tagTeam, csm.getTeam()));
+            String teamText = null;
+            if(cst != null) {
+                teamText = csm.getTeam() + " - " + cst.getTeamName();
+            } else {
+                teamText = csm.getTeam();
+            }
+            tv.setText(getString(R.string.tagTeam, teamText));
 
             String[] lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW};
             Integer[] lval = {0};

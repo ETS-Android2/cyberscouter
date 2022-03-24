@@ -74,7 +74,7 @@ public class L2ScoutingPage extends AppCompatActivity implements NamePickerDialo
         setContentView(R.layout.activity_l2_scouting_page);
 
         registerReceiver(mOnlineStatusReceiver, new IntentFilter(BluetoothComm.ONLINE_STATUS_UPDATED_FILTER));
-        registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_UPDATED_FILTER));
+        registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_FETCHED_FILTER));
         registerReceiver(mMatchesReceiver, new IntentFilter(CyberScouterMatches.MATCHES_UPDATED_FILTER));
 
         button = findViewById(R.id.Button_Start);
@@ -299,6 +299,9 @@ public class L2ScoutingPage extends AppCompatActivity implements NamePickerDialo
         BluetoothComm.updateStatusIndicator(iv, color);
     }
     private void updateUsers(String json){
+        if(json.equalsIgnoreCase("fetched")) {
+            json = CyberScouterUsers.getWebResponse();
+        }
         if(!json.equalsIgnoreCase("skip")) {
             CyberScouterUsers.setUsers(_db, json);
         }

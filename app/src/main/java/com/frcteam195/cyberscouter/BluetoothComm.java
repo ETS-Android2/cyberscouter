@@ -133,6 +133,7 @@ public class BluetoothComm {
             if(btname == null) {
                 btname = FakeBluetoothServer.default_fakeBluetoothComputerName;
                 FakeBluetoothServer.bUseFakeBluetoothServer = true;
+                bLastBTCommFailed = false;
             }
             System.out.println("tablet name is " + btname);
             JSONObject jr = new JSONObject();

@@ -258,7 +258,7 @@
     <string name="Fast">Fast</string>
     <string name="GoodDriver">Good Driver</string>
     <string name="Aggressive">Aggressive</string>
-    <string name="Block">Block Cargo</string>
+    <string name="Block">Accurate</string>
     <string name="Evasive">Evasive</string>
     <string name="Sturdy">Sturdy</string>
     <string name="Powerful">Powerful</string>
@@ -277,5 +277,7 @@
     <string name="balls_picked_up">Balls Picked Up</string>
     <string name="L2ScoutingPage">Level Two Scouting</string>
     <string name="MatchLabel">Match:</string>
+
+    <string name="NoUnscoutedMatches">No remaining unscouted matches for this event</string>
 
 </resources>

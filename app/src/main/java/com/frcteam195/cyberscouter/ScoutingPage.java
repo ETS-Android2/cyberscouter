@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,12 +14,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.json.JSONObject;
 
 public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.NamePickerDialogListener {
     final static private int FIELD_ORIENTATION_RIGHT = 0;
@@ -34,7 +30,8 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
     private Thread fetcherThread;
     private final static int START_PROGRESS = 0;
     private final static int FETCH_USERS = 1;
-    private final static int FETCH_MATCHES = 2;
+    private final static int FETCH_TEAMS = 2;
+    private final static int FETCH_MATCHES = 3;
     private static boolean isRed = true;
 
     public static int getFieldOrientation(){return field_orientation;}
@@ -55,6 +52,14 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         }
     };
 
+    BroadcastReceiver mTeamsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String ret = intent.getStringExtra("cyberscouterteams");
+            updateTeams(ret);
+        }
+    };
+
     BroadcastReceiver mMatchesReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -71,7 +76,8 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         setContentView(R.layout.activity_scouting_page);
 
         registerReceiver(mOnlineStatusReceiver, new IntentFilter(BluetoothComm.ONLINE_STATUS_UPDATED_FILTER));
-        registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_UPDATED_FILTER));
+        registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_FETCHED_FILTER));
+        registerReceiver(mTeamsReceiver, new IntentFilter(CyberScouterTeams.TEAMS_UPDATED_FILTER));
         registerReceiver(mMatchesReceiver, new IntentFilter(CyberScouterMatchScouting.MATCH_SCOUTING_UPDATED_FILTER));
 
         button = findViewById(R.id.Button_Start);
@@ -128,6 +134,9 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                     case FETCH_USERS:
                         fetchUsers();
                         break;
+                    case FETCH_TEAMS:
+                        fetchTeams();
+                        break;
                     case FETCH_MATCHES:
                         fetchMatches();
                         break;
@@ -156,9 +165,13 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
             Message msg2 = new Message();
             msg2.what = FETCH_USERS;
             mFetchHandler.sendMessage(msg2);
+            try{ Thread.sleep(500); } catch(Exception e) {}
             Message msg3 = new Message();
-            msg3.what = FETCH_MATCHES;
+            msg3.what = FETCH_TEAMS;
             mFetchHandler.sendMessage(msg3);
+            Message msg4 = new Message();
+            msg4.what = FETCH_MATCHES;
+            mFetchHandler.sendMessage(msg4);
         }
     }
 
@@ -178,6 +191,13 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         String csu_str = CyberScouterUsers.getUsersRemote(this, _db);
         if(null != csu_str) {
             updateUsers(csu_str);
+        }
+    }
+
+    private void fetchTeams() {
+        String cst_str = CyberScouterTeams.getTeamsRemote(this, _db);
+        if(null != cst_str) {
+            updateTeams(cst_str);
         }
     }
 
@@ -212,6 +232,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         mDbHelper.close();
         unregisterReceiver(mOnlineStatusReceiver);
         unregisterReceiver(mUsersReceiver);
+        unregisterReceiver(mTeamsReceiver);
         unregisterReceiver(mMatchesReceiver);
         super.onDestroy();
     }
@@ -302,9 +323,18 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         BluetoothComm.updateStatusIndicator(iv, color);
     }
     private void updateUsers(String json){
+        if(json.equalsIgnoreCase("fetched")) {
+            json = CyberScouterUsers.getWebResponse();
+        }
         if(!json.equalsIgnoreCase("skip")) {
             CyberScouterUsers.setUsers(_db, json);
         }
+    }
+    private void updateTeams(String teams){
+        if(teams.equalsIgnoreCase("fetch")) {
+            teams = CyberScouterTeams.getWebResponse();
+        }
+        CyberScouterTeams.setTeams(_db, teams);
     }
 
     private void updateMatchesLocal(String json){
@@ -367,6 +397,11 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                 }
                 Button button = findViewById(R.id.Button_Start);
                 button.setEnabled(true);
+            } else {
+                TextView tv = findViewById(R.id.textView7);
+                tv.setText(getString(R.string.NoUnscoutedMatches));
+                TextView tvtn = findViewById(R.id.textView_teamNumber);
+                tvtn.setText(getString(R.string.tagTeam, "n/a"));
             }
         } catch(Exception e) {
             MessageBox.showMessageBox(this, "Fetch Match Information Failed", "updateMatchesLocal",
