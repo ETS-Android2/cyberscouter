@@ -262,12 +262,19 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
             CyberScouterMatchScouting csm = CyberScouterMatchScouting.getCurrentMatch(_db,
                     TeamMap.getNumberForTeam(cfg.getAlliance_station()));
+            CyberScouterTeams cst = CyberScouterTeams.getCurrentTeam(_db, Integer.valueOf(csm.getTeam()));
 
             if (null != csm) {
                 TextView tv = findViewById(R.id.textView_endMatch);
                 tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
                 tv = findViewById(R.id.textView_endTeamNumber);
-                tv.setText(getString(R.string.tagTeam, csm.getTeam()));
+                String teamText = null;
+                if(cst != null) {
+                    teamText = csm.getTeam() + " - " + cst.getTeamName();
+                } else {
+                    teamText = csm.getTeam();
+                }
+                tv.setText(getString(R.string.tagTeam, teamText));
 
                 int val = csm.getSummGroundPickup();
                 groundPickupVar = val;
