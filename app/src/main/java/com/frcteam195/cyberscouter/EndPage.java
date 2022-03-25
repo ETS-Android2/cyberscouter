@@ -16,7 +16,7 @@ public class EndPage extends AppCompatActivity {
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
     private final int[] climbPositionButtons = {R.id.button_positionLeft, R.id.button_positionCenter, R.id.button_positionRight};
     private final int[] rungClimbedButtons = {R.id.button_Bar1, R.id.button_Bar2, R.id.button_Bar3, R.id.button_Bar4};
-    private final int[] climbStatusButtons = {R.id.button_NABrokeDown, R.id.button_NAPlayedDefense, R.id.button_NAScoredCargo, R.id.button_CAFailed, R.id.button_CASuccess};
+    private final int[] climbStatusButtons = {R.id.button_NABrokeDown, R.id.button_NAPlayedDefense, R.id.button_NAScoredCargo, R.id.button_CAFailed, R.id.button_CASuccess, R.id.button_NADidNothing};
 
     String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS,
             CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT,
@@ -259,7 +259,8 @@ public class EndPage extends AppCompatActivity {
         EnableNext();
     }
     public void naDidNothing() {
-        FakeRadioGroup.buttonPressed(this, 0, climbStatusButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+        FakeRadioGroup.buttonPressed(this, 5, climbStatusButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+        climbStatus = 5;
         EnableClimb();
         EnableNext();
     }
@@ -288,7 +289,8 @@ public class EndPage extends AppCompatActivity {
         if( climbStatus == -1) {
             button = findViewById(R.id.button_Next);
             button.setEnabled(false);
-        } else if (climbStatus == 4) {
+        }
+        else if (climbStatus == 4) {
             button = findViewById(R.id.button_Next);
             button.setEnabled(false);
             if (climbPosition != -1 && rungClimbed != -1) {
