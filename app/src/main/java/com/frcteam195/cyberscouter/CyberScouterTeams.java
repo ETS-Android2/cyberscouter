@@ -74,7 +74,7 @@ class CyberScouterTeams {
     private int TeleShootWhileDrive;
     private int CanClimb;
     private int ClimbPosition;
-    private int ClimbStrategy;
+    private String ClimbStrategy;
     private int ClimbTime;
     private int ClimbHeightID;
     private int DoneScouting;
@@ -560,7 +560,7 @@ class CyberScouterTeams {
                     cst.TeleShootWhileDrive = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_TELE_SHOOT_WHILE_DRIVE));
                     cst.CanClimb = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_CAN_CLIMB));
                     cst.ClimbPosition = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_POSITION));
-                    cst.ClimbStrategy = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_STRATEGY));
+                    cst.ClimbStrategy = cursor.getString(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_STRATEGY));
                     cst.ClimbTime = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_TIME));
                     cst.ClimbHeightID = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_CLIMB_HEIGHT_ID));
                     cst.DoneScouting = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.Teams.COLUMN_NAME_DONE_SCOUTING));
@@ -741,7 +741,7 @@ class CyberScouterTeams {
         return ClimbPosition;
     }
 
-    int getClimbStrategy() {
+    String getClimbStrategy() {
         return ClimbStrategy;
     }
 

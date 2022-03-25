@@ -1,7 +1,9 @@
 package com.frcteam195.cyberscouter;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
@@ -230,6 +232,7 @@ public class PreAutoPage extends AppCompatActivity {
             }
             tv.setText(getString(R.string.tagTeam, teamText));
 
+            _didNotShow = 0;
             String[] lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_AUTODIDNOTSHOW};
             Integer[] lval = {0};
             try {
@@ -269,6 +272,31 @@ public class PreAutoPage extends AppCompatActivity {
     }
 
     private void didNotShow() {
+        AlertDialog.Builder messageBox = new AlertDialog.Builder(PreAutoPage.this);
+        messageBox.setTitle("Confirm Did Not Show");
+        messageBox.setMessage("Are you sure that your robot did not show for this match?\n");
+        messageBox.setCancelable(true);
+        //Yes Button
+        messageBox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ConfirmedDNS();
+                dialog.dismiss();
+            }
+        });
+
+        //No Button
+        messageBox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog msb = messageBox.create();
+        msb.show();
+    }
+
+    private void ConfirmedDNS() {
         _didNotShow = 1;
         updatePreAutoData();
         Intent intent = new Intent(this, SubmitPage.class);
