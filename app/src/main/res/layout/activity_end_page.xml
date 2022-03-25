@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".EndPage">
 
+    <Button
+        android:id="@+id/button_NADidNothing"
+        android:layout_width="408dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/DidNothing"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/button_Bar1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_CASuccess" />
+
     <TextView
         android:id="@+id/textView_Highest2"
         android:layout_width="wrap_content"

@@ -188,6 +188,7 @@
     <string name="ClimbPosition">Can They Climb?</string>
     <string name="AutoSummary">Auto Summary</string>
     <string name="HighestRungClimbed">Highest Rung Climbed</string>
+    <string name="DidNothing">No Attempt - Did Nothing</string>
     <string name="connection_indicator_desc">Green=Bluetooth Connected, Yellow=Network Connected, Red=Not Connected</string>
 
     <string name="Size">Size</string>
