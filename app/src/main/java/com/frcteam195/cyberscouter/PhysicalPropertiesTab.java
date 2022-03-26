@@ -25,6 +25,7 @@ public class PhysicalPropertiesTab extends Fragment implements IOnEditTextSaveLi
     private Button button;
     private final int[] gearSpeedButtons = {R.id.gearSpeed1, R.id.gearSpeed2, R.id.gearSpeed3};
     private final int[] pneumaticsYNButtons = {R.id.pneumaticsNo, R.id.pneumaticsYes};
+    private final int[] carryCapacityButtons = {R.id.carryingCapacity1, R.id.carryingCapacity2, R.id.carryingCapacity3};
     private View _view;
     private int defaultButtonBackgroundColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
@@ -32,6 +33,7 @@ public class PhysicalPropertiesTab extends Fragment implements IOnEditTextSaveLi
     private int numberOfWheels = 0;
     private int pneumatics = -1;
     private int gearSpeed = -1;
+    private int carryingCapacity = -1;
     private String[] driveTypes = {"Swerve", "Mecanum", "Tank", "H-Drive", "Other"};
     private String[] motorTypes = {"CIM", "NEO", "Falcon", "Other"};
     private String[] wheelTypes = {"Colson", "Mecanum", "Tread", "Omni", "Pneumatic", "Traction", "Other"};
@@ -201,6 +203,30 @@ public class PhysicalPropertiesTab extends Fragment implements IOnEditTextSaveLi
             }
         });
 
+        button = view.findViewById(R.id.carryingCapacity1);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                carryingCapacityZero();
+            }
+        });
+
+        button = view.findViewById(R.id.carryingCapacity2);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                carryingCapacityOne();
+            }
+        });
+
+        button = view.findViewById(R.id.carryingCapacity3);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                carryingCapacityTwo();
+            }
+        });
+
         return view;
     }
 
@@ -279,6 +305,8 @@ public class PhysicalPropertiesTab extends Fragment implements IOnEditTextSaveLi
             FakeRadioGroup.buttonDisplay(getActivity(), _view, pneumatics, pneumaticsYNButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             gearSpeed = cst.getNumGearSpeed();
             FakeRadioGroup.buttonDisplay(getActivity(), _view, gearSpeed, gearSpeedButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
+            carryingCapacity = cst.getMaxBallCapacity();
+            FakeRadioGroup.buttonDisplay(getActivity(), _view, carryingCapacity, carryCapacityButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
 
             Spinner sp = _view.findViewById(R.id.driveTypePicker);
             sp.setSelection(cst.getDriveTypeID());
@@ -368,6 +396,39 @@ public class PhysicalPropertiesTab extends Fragment implements IOnEditTextSaveLi
         pneumatics = 0;
         try {
             CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_PNEUMATICS, 0, currentTeam);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void carryingCapacityZero() {
+        FakeRadioGroup.buttonPressed(getActivity(), _view, 0, carryCapacityButtons,
+                CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, SELECTED_BUTTON_TEXT_COLOR,
+                defaultButtonBackgroundColor);
+        try {
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, 0, currentTeam);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void carryingCapacityOne() {
+        FakeRadioGroup.buttonPressed(getActivity(), _view, 1, carryCapacityButtons,
+                CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, SELECTED_BUTTON_TEXT_COLOR,
+                defaultButtonBackgroundColor);
+        try {
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, 1, currentTeam);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void carryingCapacityTwo() {
+        FakeRadioGroup.buttonPressed(getActivity(), _view, 2, carryCapacityButtons,
+                CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, SELECTED_BUTTON_TEXT_COLOR,
+                defaultButtonBackgroundColor);
+        try {
+            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, 2, currentTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

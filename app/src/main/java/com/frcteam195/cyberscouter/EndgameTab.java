@@ -48,7 +48,7 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
             }
         });
 
-        Spinner spinnerPositionOnBar = view.findViewById(R.id.spinnerPositionOnBar);
+        /*Spinner spinnerPositionOnBar = view.findViewById(R.id.spinnerPositionOnBar);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, positionOnBar);
         spinnerPositionOnBar.setAdapter(adapter);
@@ -62,7 +62,7 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
 
         Spinner spinnerTypicalHighestRung = view.findViewById(R.id.spinnerTypicalHighestRung);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getActivity(),
