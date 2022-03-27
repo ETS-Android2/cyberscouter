@@ -22,7 +22,6 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
     private final int[] defenseYN = {R.id.button_playDefenseNo, R.id.button_playDefenseYes};
     private final int[] evadeYN = {R.id.button_evadeDefenseNo, R.id.button_evadeDefenseYes};
     private final int[] shootWhileDriveYN = {R.id.button_shootWhileDrivingNo, R.id.button_shootWhileDrivingYes};
-    private final int[] carryCapacityButtons = {R.id.button_carryingCapacityZero, R.id.button_carryingCapacityOne, R.id.button_carryingCapacityTwo};
     private int defaultButtonBackgroundColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
 
@@ -35,42 +34,6 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_teleop, container, false);
         _view = view;
-
-        Button button = view.findViewById(R.id.button_cargoScoredHighTelePlus);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                scoredHighTelePlus();
-            }
-        });
-
-        button = view.findViewById(R.id.button_cargoScoredHighTeleMinus);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                scoredHighTeleMinus();
-            }
-        });
-
-        button = view.findViewById(R.id.button_cargoScoredLowTelePlus);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                scoredLowTelePlus();
-            }
-        });
-
-        button = view.findViewById(R.id.button_cargoScoredLowTeleMinus);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                scoredLowTeleMinus();
-            }
-        });
 
         button = view.findViewById(R.id.button_sortCargoNo);
         button.setOnClickListener(new View.OnClickListener() {
@@ -144,33 +107,6 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
             }
         });
 
-        button = view.findViewById(R.id.button_carryingCapacityZero);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                carryingCapacityZero();
-            }
-        });
-
-        button = view.findViewById(R.id.button_carryingCapacityOne);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                carryingCapacityOne();
-            }
-        });
-
-        button = view.findViewById(R.id.button_carryingCapacityTwo);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                carryingCapacityTwo();
-            }
-        });
-
         return (view);
     }
 
@@ -211,65 +147,14 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
             EditText et = _view.findViewById(R.id.editText_teleopStrat);
             et.setText(String.valueOf(cst.getTeleStrategy()));
             et.setSelectAllOnFocus(true);
-
-            button = _view.findViewById(R.id.textButton_cargoScoredHighTeleCounter);
-            button.setText(String.valueOf(cst.getTeleBallsScoredHigh()));
-            scoredHighTele = cst.getTeleBallsScoredHigh();
-            button = _view.findViewById(R.id.textButton_scoredLowTeleCounter);
-            button.setText(String.valueOf(cst.getTeleBallsScoredLow()));
-            scoredLowTele = cst.getTeleBallsScoredLow();
+            et = _view.findViewById(R.id.editText_defenseStrat);
+            et.setText(String.valueOf(cst.getTeleDefenseStrat()));
+            et.setSelectAllOnFocus(true);
 
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleSortCargo(), sortCargoYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleDefense(), defenseYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleDefenseEvade(), evadeYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getTeleShootWhileDrive(), shootWhileDriveYN, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
-            FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getMaxBallCapacity(), carryCapacityButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
-        }
-    }
-
-    private void scoredHighTelePlus() {
-        button = _view.findViewById(R.id.textButton_cargoScoredHighTeleCounter);
-        scoredHighTele++;
-        button.setText(String.valueOf(scoredHighTele));
-        try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_BALLS_SCORED_HIGH, scoredHighTele, currentTeam);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void scoredHighTeleMinus() {
-        button = _view.findViewById(R.id.textButton_cargoScoredHighTeleCounter);
-        if (scoredHighTele > 0)
-            scoredHighTele--;
-        button.setText(String.valueOf(scoredHighTele));
-        try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_BALLS_SCORED_HIGH, scoredHighTele, currentTeam);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void scoredLowTelePlus() {
-        button = _view.findViewById(R.id.textButton_scoredLowTeleCounter);
-        scoredLowTele++;
-        button.setText(String.valueOf(scoredLowTele));
-        try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_BALLS_SCORED_LOW, scoredLowTele, currentTeam);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void scoredLowTeleMinus() {
-        button = _view.findViewById(R.id.textButton_scoredLowTeleCounter);
-        if (scoredLowTele > 0)
-            scoredLowTele--;
-        button.setText(String.valueOf(scoredLowTele));
-        try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_BALLS_SCORED_LOW, scoredLowTele, currentTeam);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -356,39 +241,6 @@ public class TeleopTab extends Fragment implements IOnEditTextSaveListener {
                 defaultButtonBackgroundColor);
         try {
             CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_TELE_SHOOT_WHILE_DRIVE, 1, currentTeam);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void carryingCapacityZero() {
-        FakeRadioGroup.buttonPressed(getActivity(), _view, 0, carryCapacityButtons,
-                CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, SELECTED_BUTTON_TEXT_COLOR,
-                defaultButtonBackgroundColor);
-        try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, 0, currentTeam);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void carryingCapacityOne() {
-        FakeRadioGroup.buttonPressed(getActivity(), _view, 1, carryCapacityButtons,
-                CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, SELECTED_BUTTON_TEXT_COLOR,
-                defaultButtonBackgroundColor);
-        try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, 1, currentTeam);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void carryingCapacityTwo() {
-        FakeRadioGroup.buttonPressed(getActivity(), _view, 2, carryCapacityButtons,
-                CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, SELECTED_BUTTON_TEXT_COLOR,
-                defaultButtonBackgroundColor);
-        try {
-            CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_MAX_BALL_CAPACITY, 2, currentTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

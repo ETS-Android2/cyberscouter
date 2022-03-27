@@ -66,7 +66,7 @@ public class AutoTab extends Fragment implements IOnEditTextSaveListener {
             humanPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    updateSpinnerValue(CyberScouterContract.Teams.COLUMN_NAME_AUTO_START_POS_ID, i);
+                    updateSpinnerValue(CyberScouterContract.Teams.COLUMN_NAME_AUTO_HUMAN, i);
                 }
 
                 @Override
@@ -239,7 +239,8 @@ public class AutoTab extends Fragment implements IOnEditTextSaveListener {
 
             Spinner sp = _view.findViewById(R.id.spinner_StartPosition);
             sp.setSelection(cst.getAutoStartPosID());
-
+            sp = _view.findViewById((R.id.spinner_HumanPlayer));
+            sp.setSelection(cst.getAutoHuman());
         }
     }
 

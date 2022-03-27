@@ -8,6 +8,45 @@
     tools:context=".ui.main.PlaceholderFragment">
 
     <TextView
+        android:id="@+id/text_CarryingCapacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/CarryingCapacity"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/motorMinusButton"
+        app:layout_constraintTop_toBottomOf="@+id/motorMinusButton" />
+
+    <Button
+        android:id="@+id/carryingCapacity1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/one"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/text_CarryingCapacity"
+        app:layout_constraintTop_toBottomOf="@+id/text_CarryingCapacity" />
+
+    <Button
+        android:id="@+id/carryingCapacity3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="@string/three"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_CarryingCapacity"
+        app:layout_constraintTop_toTopOf="@+id/carryingCapacity2" />
+
+    <Button
+        android:id="@+id/carryingCapacity2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="@string/two"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/carryingCapacity3"
+        app:layout_constraintStart_toEndOf="@+id/carryingCapacity1"
+        app:layout_constraintTop_toTopOf="@+id/carryingCapacity1" />
+
+    <TextView
         android:id="@+id/size"
         android:layout_width="250dp"
         android:layout_height="50dp"
