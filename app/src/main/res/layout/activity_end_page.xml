@@ -146,58 +146,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView_RungPosition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="472dp"
-        android:layout_marginEnd="132dp"
-        android:text="@string/PositionOnTheRungs"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_positionRight"
-        android:layout_width="132dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/PositionRight"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_RungPosition" />
-
-    <Button
-        android:id="@+id/button_positionCenter"
-        android:layout_width="132dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="6dp"
-        android:text="@string/PositionCenter"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/button_positionRight"
-        app:layout_constraintTop_toBottomOf="@+id/textView_RungPosition" />
-
-    <Button
-        android:id="@+id/button_positionLeft"
-        android:layout_width="132dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="6dp"
-        android:text="@string/PositionLeft"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/button_positionCenter"
-        app:layout_constraintTop_toBottomOf="@+id/textView_RungPosition" />
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="280dp"
         android:layout_height="244dp"
-        android:layout_marginTop="182dp"
-        android:layout_marginEnd="112dp"
+        android:layout_marginTop="248dp"
+        android:layout_marginEnd="108dp"
         android:rotation="90"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -207,62 +161,64 @@
         android:id="@+id/button_Bar2"
         android:layout_width="280dp"
         android:layout_height="56dp"
-        android:layout_marginStart="588dp"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="24dp"
         android:rotation="0"
         android:text="@string/MiddleClimb"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/button_Bar3" />
 
     <Button
         android:id="@+id/button_Bar3"
         android:layout_width="280dp"
         android:layout_height="56dp"
-        android:layout_marginStart="588dp"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="24dp"
         android:rotation="0"
         android:text="@string/HighClimb"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/button_Bar4" />
 
     <Button
         android:id="@+id/button_Bar4"
         android:layout_width="280dp"
         android:layout_height="56dp"
-        android:layout_marginStart="588dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
         android:rotation="0"
         android:text="@string/TraversalClimb"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/textView_RobotProblem" />
 
     <Button
         android:id="@+id/button_Bar1"
         android:layout_width="280dp"
         android:layout_height="56dp"
-        android:layout_marginStart="588dp"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="24dp"
         android:rotation="0"
         android:text="@string/LowClimb"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/button_Bar2" />
 
     <TextView
         android:id="@+id/textView_RobotProblem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="588dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginTop="196dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/HighestRungClimbed"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/textView_InsteadOfClimb2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -290,11 +246,12 @@
         android:id="@+id/textView_Highest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="156dp"
         android:text="@string/Highest"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/textView_endgameTeam" />
 

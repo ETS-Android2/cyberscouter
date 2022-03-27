@@ -14,7 +14,6 @@ public class EndPage extends AppCompatActivity {
     private Button button;
     private int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
-    private final int[] climbPositionButtons = {R.id.button_positionLeft, R.id.button_positionCenter, R.id.button_positionRight};
     private final int[] rungClimbedButtons = {R.id.button_Bar1, R.id.button_Bar2, R.id.button_Bar3, R.id.button_Bar4};
     private final int[] climbStatusButtons = {R.id.button_NABrokeDown, R.id.button_NAPlayedDefense, R.id.button_NAScoredCargo, R.id.button_CAFailed, R.id.button_CASuccess, R.id.button_NADidNothing};
 
@@ -57,31 +56,6 @@ public class EndPage extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { summaryQuestionsPage(); }
-        });
-
-        button = findViewById(R.id.button_positionLeft);
-        button.setEnabled(false);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                positionLeft();
-            }
-        });
-        button = findViewById(R.id.button_positionCenter);
-        button.setEnabled(false);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                positionCenter();
-            }
-        });
-        button = findViewById(R.id.button_positionRight);
-        button.setEnabled(false);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                positionRight();
-            }
         });
         button = findViewById(R.id.button_Bar1);
         button.setEnabled(false);
@@ -182,9 +156,6 @@ public class EndPage extends AppCompatActivity {
 
 
             climbPosition = csm.getClimbPosition();
-            if(climbPosition != -1) {
-                FakeRadioGroup.buttonPressed(this, climbPosition, climbPositionButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-            }
             rungClimbed = csm.getClimbHeight();
             if(rungClimbed != -1) {
                 FakeRadioGroup.buttonPressed(this, 0,rungClimbedButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
@@ -220,21 +191,6 @@ public class EndPage extends AppCompatActivity {
 
     }
 
-    public void positionLeft() {
-        FakeRadioGroup.buttonPressed(this, 0, climbPositionButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        climbPosition = 0;
-        EnableNext();
-    }
-    public void positionCenter() {
-        FakeRadioGroup.buttonPressed(this, 1, climbPositionButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        climbPosition = 1;
-        EnableNext();
-    }
-    public void positionRight() {
-        FakeRadioGroup.buttonPressed(this, 2, climbPositionButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        climbPosition = 2;
-        EnableNext();
-    }
     public void naBrokeDown() {
         FakeRadioGroup.buttonPressed(this, 0, climbStatusButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         climbStatus = 0;
@@ -321,12 +277,6 @@ public class EndPage extends AppCompatActivity {
             button.setEnabled(true);
             button = findViewById(R.id.button_Bar4);
             button.setEnabled(true);
-            button = findViewById(R.id.button_positionLeft);
-            button.setEnabled(true);
-            button = findViewById(R.id.button_positionCenter);
-            button.setEnabled(true);
-            button = findViewById(R.id.button_positionRight);
-            button.setEnabled(true);
         }
         if (climbStatus != 4) {
             button = findViewById(R.id.button_Bar1);
@@ -336,12 +286,6 @@ public class EndPage extends AppCompatActivity {
             button = findViewById(R.id.button_Bar3);
             button.setEnabled(false);
             button = findViewById(R.id.button_Bar4);
-            button.setEnabled(false);
-            button = findViewById(R.id.button_positionLeft);
-            button.setEnabled(false);
-            button = findViewById(R.id.button_positionCenter);
-            button.setEnabled(false);
-            button = findViewById(R.id.button_positionRight);
             button.setEnabled(false);
             rungClimbed = -1;
             climbPosition = -1;
