@@ -22,7 +22,7 @@ public class EndPage extends AppCompatActivity {
             CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION
     };
 
-    private int climbPosition = -1, rungClimbed = -1, climbStatus = -1;
+    private int rungClimbed = -1, climbStatus = -1;
 
     private int currentCommStatusColor;
 
@@ -154,8 +154,6 @@ public class EndPage extends AppCompatActivity {
             }
             tv.setText(getString(R.string.tagTeam, teamText));
 
-
-            climbPosition = csm.getClimbPosition();
             rungClimbed = csm.getClimbHeight();
             if(rungClimbed != -1) {
                 FakeRadioGroup.buttonPressed(this, 0,rungClimbedButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
@@ -176,7 +174,6 @@ public class EndPage extends AppCompatActivity {
         mDbHelper.close();
         super.onDestroy();
     }
-
 
     public void returnToTelePage(){
         updateEndPageData();
@@ -256,7 +253,7 @@ public class EndPage extends AppCompatActivity {
         else if (climbStatus == 4) {
             button = findViewById(R.id.button_Next);
             button.setEnabled(false);
-            if (climbPosition != -1 && rungClimbed != -1) {
+            if (rungClimbed != -1) {
                 button = findViewById(R.id.button_Next);
                 button.setEnabled(true);
             }
@@ -287,8 +284,8 @@ public class EndPage extends AppCompatActivity {
             button.setEnabled(false);
             button = findViewById(R.id.button_Bar4);
             button.setEnabled(false);
+            FakeRadioGroup.buttonPressed(this, -1, rungClimbedButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
             rungClimbed = -1;
-            climbPosition = -1;
         }
     }
 
@@ -301,7 +298,7 @@ public class EndPage extends AppCompatActivity {
     private void updateEndPageData() {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         try {
-            Integer[] _lValues = {climbStatus, rungClimbed, climbPosition};
+            Integer[] _lValues = {climbStatus, rungClimbed};
             CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
         }
         catch(Exception e) {
