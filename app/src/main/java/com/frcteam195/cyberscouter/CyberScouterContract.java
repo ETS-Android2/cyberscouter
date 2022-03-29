@@ -84,6 +84,8 @@ public class CyberScouterContract {
         public static final String COLUMN_NAME_SUMMTERMINALPICKUP = "SummTerminalPickup";
         public static final String COLUMN_NAME_SUMMPLAYEDDEFENSE = "SummPlayedDefense";
         public static final String COLUMN_NAME_SUMMDEFPLAYEDAGAINST = "SummDefPlayedAgainst";
+        public static final String COLUMN_NAME_SUMMMANUVERABILITY = "SummManuverability";
+        public static final String COLUMN_NAME_SUMMSPEED = "SummSpeed";
         public static final String COLUMN_NAME_SUMMSHOOTDRIVING = "SummShootDriving";
         public static final String COLUMN_NAME_SUMMBROKEDOWN = "SummBrokeDown";
         public static final String COLUMN_NAME_SUMMLOSTCOMM = "SummLostComm";
