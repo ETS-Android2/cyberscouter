@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <EditText
-        android:id="@+id/editText_climbHeight2"
+        android:id="@+id/editText_climbTime"
         android:layout_width="306dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -106,8 +106,8 @@
         android:layout_height="wrap_content"
         android:text="@string/seconds"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/editText_climbHeight2"
-        app:layout_constraintTop_toTopOf="@+id/editText_climbHeight2" />
+        app:layout_constraintStart_toEndOf="@+id/editText_climbTime"
+        app:layout_constraintTop_toTopOf="@+id/editText_climbTime" />
 
     <View
         android:id="@+id/divider6"

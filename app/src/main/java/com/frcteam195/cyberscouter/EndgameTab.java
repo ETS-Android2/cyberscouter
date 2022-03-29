@@ -120,8 +120,14 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
             EditText et = _view.findViewById(R.id.editText_endgameStrat);
             et.setText(String.valueOf(cst.getClimbStrategy()));
             et.setSelectAllOnFocus(true);
+            et = _view.findViewById(R.id.editText_climbTime);
+            et.setText(String.valueOf(cst.getClimbTime()));
+            et.setSelectAllOnFocus(true);
 
             FakeRadioGroup.buttonDisplay(getActivity(), _view, cst.getCanClimb(), canTheyClimb, SELECTED_BUTTON_TEXT_COLOR, defaultButtonBackgroundColor);
+
+            Spinner sp = _view.findViewById(R.id.spinnerTypicalHighestRung);
+            sp.setSelection(cst.getClimbHeightID());
         }
     }
 
@@ -141,7 +147,7 @@ public class EndgameTab extends Fragment implements IOnEditTextSaveListener {
 
     public void saveTextValues() {
         try {
-            EditText et = _view.findViewById(R.id.editText_climbHeight2);
+            EditText et = _view.findViewById(R.id.editText_climbTime);
             CyberScouterTeams.updateTeamMetric(_db, CyberScouterContract.Teams.COLUMN_NAME_CLIMB_TIME,
                     Integer.parseInt(et.getText().toString()), currentTeam);
             et = _view.findViewById(R.id.editText_endgameStrat);
