@@ -18,8 +18,7 @@ public class EndPage extends AppCompatActivity {
     private final int[] climbStatusButtons = {R.id.button_NABrokeDown, R.id.button_NAPlayedDefense, R.id.button_NAScoredCargo, R.id.button_CAFailed, R.id.button_CASuccess, R.id.button_NADidNothing};
 
     String[] _lColumns = {CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBSTATUS,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBPOSITION
+            CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT
     };
 
     private int rungClimbed = -1, climbStatus = -1;
