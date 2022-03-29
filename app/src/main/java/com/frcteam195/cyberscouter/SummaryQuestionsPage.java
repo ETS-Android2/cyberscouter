@@ -8,25 +8,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 
 public class SummaryQuestionsPage extends AppCompatActivity {
     private Button button;
-    private final int[] groundPickupArray = {R.id.GroundPickupN, R.id.GroundPickupY};
-    private final int[] terminalPickupArray = {R.id.TerminalPickupN, R.id.TerminalPickupY};
     private final int[] playedDefenseArray = {R.id.PlayedDefenseN, R.id.PlayedDefenseY};
     private final int[] defenseAgainstArray = {R.id.DefenseAgainstThemN, R.id.DefenseAgainstThemY};
-    private final int[] shootWhileArray = {R.id.ShootWhileN, R.id.ShootWhileY};
     private final int[] brokeDownArray = {R.id.BrokeDownN, R.id.BrokeDownY};
     private final int[] lostCommArray = {R.id.LostCommN, R.id.LostCommY};
     private final int[] subsystemBrokeArray = {R.id.SubsystemN, R.id.SubsystemY};
-    private final int[] scoreOppArray = {R.id.ScoreOppN, R.id.ScoreOppY};
     private final int[] launchPadArray = {R.id.ShootFromN, R.id.ShootFromY};
     /*private final String[] RatingOptions = {""}
     private Spinner rating = (Spinner) findViewById(R.id.spinner_Rating);
     private Spinner shootFrom = (Spinner) findViewById(R.id.spinner_ShootFrom);*/
-
+    private final String[] spinnerOptions = {"1", "2", "3", "4", "5"};
     private int defaultButtonBackgroundColor = Color.LTGRAY;
     private int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
@@ -40,22 +37,18 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private SQLiteDatabase _db;
 
 
-    private int groundPickupVar = -1, terminalPickupVar = -1, playedDefenseVar = -1,
-            defenseAgainstVar = -1, shootWhileVar = -1, brokeDownVar = -1, lostCommVar = -1,
-            subsystemBrokeVar = -1, scorOppVar = -1, launchPadVar = -1, ratingVar = -1,
+    private int playedDefenseVar = -1,
+            defenseAgainstVar = -1, brokeDownVar = -1, lostCommVar = -1,
+            subsystemBrokeVar = -1, launchPadVar = -1, ratingVar = -1,
             shootFromVar = -1;
     //private int lastCheckedButton;
 
     String[] _lColumns = {
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMRATING,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTFROM
@@ -85,6 +78,9 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
         _db = mDbHelper.getWritableDatabase();
 
+        Spinner speed = findViewById(R.id.spinner_Speed);
+        //speed.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, speed));
+
         button = findViewById(R.id.button_sumqPrevious);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,37 +99,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         });
         button.setEnabled(false);
 
-        button = findViewById(R.id.GroundPickupY);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GroundPickup(1);
-            }
-        });
-
-        button = findViewById(R.id.GroundPickupN);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GroundPickup(0);
-            }
-        });
-
-        button = findViewById(R.id.TerminalPickupY);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TerminalPickup(1);
-            }
-        });
-
-        button = findViewById(R.id.TerminalPickupN);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TerminalPickup(0);
-            }
-        });
         button = findViewById(R.id.PlayedDefenseY);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,20 +125,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DefenseAgainst(0);
-            }
-        });
-        button = findViewById(R.id.ShootWhileY);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShootWhile(1);
-            }
-        });
-        button = findViewById(R.id.ShootWhileN);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShootWhile(0);
             }
         });
         button = findViewById(R.id.BrokeDownY);
@@ -216,20 +167,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SubsystemBroke(0);
-            }
-        });
-        button = findViewById(R.id.ScoreOppY);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ScoreOpp(1);
-            }
-        });
-        button = findViewById(R.id.ScoreOppN);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ScoreOpp(0);
             }
         });
         button = findViewById(R.id.ShootFromY);
@@ -276,25 +213,8 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 }
                 tv.setText(getString(R.string.tagTeam, teamText));
 
-                int val = csm.getSummGroundPickup();
-                groundPickupVar = val;
-                if (val != -1) {
-                    FakeRadioGroup.buttonPressed(this, val, groundPickupArray,
-                            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP,
-                            SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[0] = 1;
-                    shouldEnableNext();
-                }
-                val = csm.getSummTerminalPickup();
-                terminalPickupVar = val;
-                if (val != -1) {
-                    FakeRadioGroup.buttonPressed(this, val, terminalPickupArray,
-                            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP,
-                            SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[1] = 1;
-                    shouldEnableNext();
-                }
-                val = csm.getSummPlayedDefense();
+
+                int val = csm.getSummPlayedDefense();
                 playedDefenseVar = val;
                 if (val != -1) {
                     FakeRadioGroup.buttonPressed(this, val, playedDefenseArray,
@@ -310,15 +230,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[3] = 1;
-                    shouldEnableNext();
-                }
-                val = csm.getSummShootDriving();
-                shootWhileVar = val;
-                if (val != -1) {
-                    FakeRadioGroup.buttonPressed(this, val, shootWhileArray,
-                            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING,
-                            SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[4] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummBrokeDown();
@@ -346,15 +257,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[7] = 1;
-                    shouldEnableNext();
-                }
-                val = csm.getSummSortCargo();
-                scorOppVar = val;
-                if (val != -1) {
-                    FakeRadioGroup.buttonPressed(this, val, scoreOppArray,
-                            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO,
-                            SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[8] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummLaunchPad();
@@ -417,24 +319,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
     }
 
-    private void GroundPickup(int val) {
-        FakeRadioGroup.buttonPressed(this, val, groundPickupArray,
-                CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMGROUNDPICKUP,
-                SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        groundPickupVar = val;
-        qAnswered[0] = 1;
-        shouldEnableNext();
-    }
-
-    private void TerminalPickup(int val) {
-        FakeRadioGroup.buttonPressed(this, val, terminalPickupArray,
-                CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP,
-                SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        terminalPickupVar = val;
-        qAnswered[1] = 1;
-        shouldEnableNext();
-    }
-
     private void PlayedDefense(int val) {
         FakeRadioGroup.buttonPressed(this, val, playedDefenseArray,
                 CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
@@ -453,14 +337,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         shouldEnableNext();
     }
 
-    private void ShootWhile(int val) {
-        FakeRadioGroup.buttonPressed(this, val, shootWhileArray,
-                CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTDRIVING,
-                SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        shootWhileVar = val;
-        qAnswered[4] = 1;
-        shouldEnableNext();
-    }
 
     private void BrokeDown(int val) {
         FakeRadioGroup.buttonPressed(this, val, brokeDownArray,
@@ -489,14 +365,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         shouldEnableNext();
     }
 
-    private void ScoreOpp(int val) {
-        FakeRadioGroup.buttonPressed(this, val, scoreOppArray,
-                CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSORTCARGO,
-                SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-        scorOppVar = val;
-        qAnswered[8] = 1;
-        shouldEnableNext();
-    }
 
     private void ShootFrom(int val) {
         FakeRadioGroup.buttonPressed(this, val, launchPadArray,
@@ -580,9 +448,8 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private void updateSummaryQuestionPageData() {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         try {
-            Integer[] _lValues = {groundPickupVar, terminalPickupVar, playedDefenseVar,
-                    defenseAgainstVar, shootWhileVar, brokeDownVar, lostCommVar, subsystemBrokeVar,
-                    scorOppVar, launchPadVar, ratingVar, shootFromVar};
+            Integer[] _lValues = { playedDefenseVar,
+                    defenseAgainstVar, brokeDownVar, lostCommVar, subsystemBrokeVar, launchPadVar, ratingVar, shootFromVar};
             CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
         } catch (Exception e) {
             e.printStackTrace();
