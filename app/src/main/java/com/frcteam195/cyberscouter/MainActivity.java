@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         String btname = Settings.Secure.getString(this.getContentResolver(), "bluetooth_name");
         FakeBluetoothServer fbs = new FakeBluetoothServer(btname);
 
-        if (!fbs.bUseFakeBluetoothServer) {
+        if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.BLUETOOTH) {
             final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             BluetoothAdapter _bluetoothAdapter = bluetoothManager.getAdapter();
 
