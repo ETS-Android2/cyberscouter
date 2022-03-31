@@ -14,7 +14,8 @@ public class FakeBluetoothServer {
         AWS
     }
 
-    public static COMM communicationMethod = COMM.BLUETOOTH;
+    public static COMM communicationMethod = COMM.AWS;
+    public static String serverIp = CyberScouterCommSelection.DEFAULT_IP;
     final private static String _webHost = "8zaof0vuah.execute-api.us-east-1.amazonaws.com";
     final public static String webServiceBaseUrl = String.format("https://%s", _webHost);
 

@@ -29,11 +29,13 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CommPickerFragment.CommSelectionDialogListener {
     private ComponentName _serviceComponentName = null;
     private Button button;
 
     private Handler mConfigHandler;
+
+    private boolean mCommSelected;
 
     public static AppCompatActivity _activity;
 
@@ -66,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
+    private CyberScouterDbHelper mDbHelper = null;
     SQLiteDatabase _db = null;
+    String CommPickerFragmentTag = "CommPickerFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,26 +80,24 @@ public class MainActivity extends AppCompatActivity {
                 .detectLeakedClosableObjects()
                 .penaltyLog()
                 .build()); */
-        setContentView(R.layout.activity_main);
 
-        try {
-            if (null == _serviceComponentName) {
-                _activity = this;
-                Intent backgroundIntent = new Intent(getApplicationContext(), BackgroundUpdater.class);
-                _serviceComponentName = startService(backgroundIntent);
-                if (null == _serviceComponentName) {
-                    MessageBox.showMessageBox(MainActivity.this, "Start Service Failed Alert", "processConfig", "Attempt to start background update service failed!");
-                }
-            }
-        } catch (Exception e) {
-            MessageBox.showMessageBox(MainActivity.this, "Start Service Failed Alert", "processConfig", "Attempt to start background update service failed!\n\n" +
-                    "The error is:\n" + e.getMessage());
-        }
+        mCommSelected = false;
 
+        mDbHelper = new CyberScouterDbHelper(this);
         _db = mDbHelper.getWritableDatabase();
-        CyberScouterTimeCode.setLast_update(_db, 0);
-        System.out.println(String.format(">>>>>>>>>>>>>>>>>>>>>>>Reseting LastUpdate to %d", 0));
+        CyberScouterCommSelection cscs = CyberScouterCommSelection.get(_db);
+        int choice = cscs.choice;
+        String serverIp = cscs.serverIp;
 
+
+        Bundle args = new Bundle();
+        args.putInt("choice", choice);
+        args.putString("serverip", serverIp);
+        CommPickerFragment cpf = new CommPickerFragment();
+        cpf.setArguments(args);
+        cpf.show(getSupportFragmentManager(), CommPickerFragmentTag);
+
+        setContentView(R.layout.activity_main);
 
         registerReceiver(mConfigReceiver, new IntentFilter(CyberScouterConfig.CONFIG_UPDATED_FILTER));
         registerReceiver(mOnlineStatusReceiver, new IntentFilter(BluetoothComm.ONLINE_STATUS_UPDATED_FILTER));
@@ -129,47 +130,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String btname = Settings.Secure.getString(this.getContentResolver(), "bluetooth_name");
-        FakeBluetoothServer fbs = new FakeBluetoothServer(btname);
-
-        if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.BLUETOOTH) {
-            final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-            BluetoothAdapter _bluetoothAdapter = bluetoothManager.getAdapter();
-
-            // Ensures Bluetooth is available on the device and it is enabled. If not,
-            // displays a dialog requesting user permission to enable Bluetooth.
-            if (_bluetoothAdapter == null || !_bluetoothAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                int REQUEST_ENABLE_BT = 1;
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }
-        }
-        fetcherThread = new Thread(new ConfigFetcher());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mConfigHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case START_PROGRESS:
-                        showProgress();
-                        break;
-                    case UPDATE_CONFIG:
-                        fetchConfig();
-                        break;
-                }
-            }
-        };
-
-        if (null == fetcherThread) {
-            fetcherThread = new Thread(new ConfigFetcher());
-        }
-        if (!fetcherThread.isAlive()) {
-            fetcherThread.start();
+        if(mCommSelected) {
+            display();
         }
     }
 
@@ -192,6 +160,73 @@ public class MainActivity extends AppCompatActivity {
             msg2.what = UPDATE_CONFIG;
             mConfigHandler.sendMessage(msg2);
         }
+    }
+
+    @Override
+    public void onCommSelected(int choice, String serverIp) {
+        mCommSelected = true;
+        CyberScouterCommSelection.set(_db, choice, serverIp);
+        FakeBluetoothServer.communicationMethod = FakeBluetoothServer.COMM.values()[choice];
+        display();
+    }
+
+    private void display(){
+        try {
+            if (null == _serviceComponentName) {
+                _activity = this;
+                Intent backgroundIntent = new Intent(getApplicationContext(), BackgroundUpdater.class);
+                _serviceComponentName = startService(backgroundIntent);
+                if (null == _serviceComponentName) {
+                    MessageBox.showMessageBox(MainActivity.this, "Start Service Failed Alert", "processConfig", "Attempt to start background update service failed!");
+                }
+            }
+        } catch (Exception e) {
+            MessageBox.showMessageBox(MainActivity.this, "Start Service Failed Alert", "processConfig", "Attempt to start background update service failed!\n\n" +
+                    "The error is:\n" + e.getMessage());
+        }
+
+        String btname = Settings.Secure.getString(this.getContentResolver(), "bluetooth_name");
+        FakeBluetoothServer fbs = new FakeBluetoothServer(btname);
+
+        if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.BLUETOOTH) {
+            final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+            BluetoothAdapter _bluetoothAdapter = bluetoothManager.getAdapter();
+
+            // Ensures Bluetooth is available on the device and it is enabled. If not,
+            // displays a dialog requesting user permission to enable Bluetooth.
+            if (_bluetoothAdapter == null || !_bluetoothAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                int REQUEST_ENABLE_BT = 1;
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            }
+        }
+        fetcherThread = new Thread(new ConfigFetcher());
+
+        mConfigHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case START_PROGRESS:
+                        showProgress();
+                        break;
+                    case UPDATE_CONFIG:
+                        fetchConfig();
+                        break;
+                }
+            }
+        };
+
+        if (null == fetcherThread) {
+            fetcherThread = new Thread(new ConfigFetcher());
+        }
+        if (!fetcherThread.isAlive()) {
+            fetcherThread.start();
+        }
+
+        _db = mDbHelper.getWritableDatabase();
+        CyberScouterTimeCode.setLast_update(_db, 0);
+        System.out.println(String.format(">>>>>>>>>>>>>>>>>>>>>>>Reseting LastUpdate to %d", 0));
+
     }
 
     private void showProgress() {
