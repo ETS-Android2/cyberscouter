@@ -53,7 +53,6 @@ public class CommPickerFragment extends DialogFragment {
      * @param sip the server IP address, if the choice is ethernet.
      * @return A new instance of fragment CommPickerFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static CommPickerFragment newInstance(int ch, String sip) {
         CommPickerFragment fragment = new CommPickerFragment();
         Bundle args = new Bundle();
