@@ -48,7 +48,7 @@ public class CyberScouterUsers {
                         JSONArray payload = jo.getJSONArray("payload");
                         ret = payload.toString();
                         last_hash = jo.getInt("hash");
-//                        CyberScouterTimeCode.setLast_update(db, last_hash);
+                        CyberScouterTimeCode.setLast_update(db, last_hash);
                     }
                 } else {
                     ret = "skip";

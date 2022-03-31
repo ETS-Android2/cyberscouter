@@ -32,7 +32,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private ArrayAdapter<String> pd = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, shootFrom);*/
 
 
-    private int[] qAnswered = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+    private int[] qAnswered = {-1, -1, -1, -1, -1, -1};
 
     private SQLiteDatabase _db;
 
@@ -220,7 +220,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                     FakeRadioGroup.buttonPressed(this, val, playedDefenseArray,
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[2] = 1;
+                    qAnswered[0] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummDefPlayedAgainst();
@@ -229,7 +229,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                     FakeRadioGroup.buttonPressed(this, val, defenseAgainstArray,
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[3] = 1;
+                    qAnswered[1] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummBrokeDown();
@@ -238,7 +238,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                     FakeRadioGroup.buttonPressed(this, val, brokeDownArray,
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[5] = 1;
+                    qAnswered[2] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummLostComm();
@@ -247,7 +247,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                     FakeRadioGroup.buttonPressed(this, val, lostCommArray,
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[6] = 1;
+                    qAnswered[3] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummSubsystemBroke();
@@ -256,7 +256,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                     FakeRadioGroup.buttonPressed(this, val, subsystemBrokeArray,
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[7] = 1;
+                    qAnswered[4] = 1;
                     shouldEnableNext();
                 }
                 val = csm.getSummLaunchPad();
@@ -265,7 +265,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                     FakeRadioGroup.buttonPressed(this, val, launchPadArray,
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
-                    qAnswered[9] = 1;
+                    qAnswered[5] = 1;
                     shouldEnableNext();
                 }
 
@@ -324,7 +324,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
                 SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         playedDefenseVar = val;
-        qAnswered[2] = 1;
+        qAnswered[0] = 1;
         shouldEnableNext();
     }
 
@@ -333,7 +333,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST,
                 SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         defenseAgainstVar = val;
-        qAnswered[3] = 1;
+        qAnswered[1] = 1;
         shouldEnableNext();
     }
 
@@ -343,7 +343,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN,
                 SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         brokeDownVar = val;
-        qAnswered[5] = 1;
+        qAnswered[2] = 1;
         shouldEnableNext();
     }
 
@@ -352,7 +352,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM,
                 SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         lostCommVar = val;
-        qAnswered[6] = 1;
+        qAnswered[3] = 1;
         shouldEnableNext();
     }
 
@@ -361,7 +361,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE,
                 SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         subsystemBrokeVar = val;
-        qAnswered[7] = 1;
+        qAnswered[4] = 1;
         shouldEnableNext();
     }
 
@@ -371,7 +371,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD,
                 SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
         launchPadVar = val;
-        qAnswered[9] = 1;
+        qAnswered[5] = 1;
         shouldEnableNext();
     }
 

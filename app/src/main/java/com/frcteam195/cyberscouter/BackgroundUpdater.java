@@ -2,10 +2,7 @@ package com.frcteam195.cyberscouter;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -161,7 +158,7 @@ public class BackgroundUpdater extends Service {
             while (keepRunning) {
                 try {
                     Thread.yield();
-                    if (FakeBluetoothServer.bUseFakeBluetoothServer) {
+                    if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.AWS) {
                         if (FakeBluetoothServer.pingWebHost()) {
                             BluetoothComm.setLastBTCommSucceeded();
                         } else {
@@ -191,7 +188,7 @@ public class BackgroundUpdater extends Service {
 
     protected void sendCommStatusIndicatorUpdate() {
         int color = Color.GREEN;
-        if (FakeBluetoothServer.bUseFakeBluetoothServer)
+        if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.AWS)
             color = ContextCompat.getColor(getApplicationContext(), R.color.amber);
         if (BluetoothComm.bLastBTCommFailed())
             color = Color.RED;
