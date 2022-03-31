@@ -4,17 +4,14 @@ import android.app.Activity;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 
 public class EthernetComm {
-//    private final static String _serverAddress = "10.0.20.195";
-    private final static String _serverAddress = "192.168.68.127";
+    private final static String _serverAddress = FakeBluetoothServer.serverIp;
     private final static Integer _serverPort = 60195;
     private final static String _errorJson = "{'result': 'failure', 'msg': 'network command failed!'}";
     private final static String _successJson = "{'result': 'success', 'msg': 'ping succeeded'}";

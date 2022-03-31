@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".CommPickerFragment">
+
+    <TextView
+        android:id="@+id/textView_fcpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/select_comm_title"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/btnGrp_fcp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_fcpTitle">
+
+        <RadioButton
+            android:id="@+id/radioButton_fcpBluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:text="@string/select_comm_bluetooth"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="621dp"
+            tools:layout_editor_absoluteY="444dp" />
+
+        <RadioButton
+            android:id="@+id/radioButton_fcpAws"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:text="@string/select_comm_aws"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="434dp"
+            tools:layout_editor_absoluteY="559dp" />
+
+        <RadioButton
+            android:id="@+id/radioButton_fcpEthernet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:text="@string/select_comm_ethernet"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="740dp"
+            tools:layout_editor_absoluteY="574dp" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editText_fcpServerIp"
+        android:layout_width="312dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="58dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toEndOf="@+id/textView_fpcServerAddr"
+        app:layout_constraintTop_toBottomOf="@+id/btnGrp_fcp" />
+
+    <TextView
+        android:id="@+id/textView_fpcServerAddr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:enabled="false"
+        android:text="@string/select_comm_svr_addr_label"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGrp_fcp" />
+
+    <Button
+        android:id="@+id/button_fcpOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@android:string/ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_fpcServerAddr" />
+
+</android.support.constraint.ConstraintLayout>

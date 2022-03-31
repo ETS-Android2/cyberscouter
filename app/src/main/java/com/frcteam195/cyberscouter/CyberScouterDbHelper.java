@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class CyberScouterDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 57;
+    private static final int DATABASE_VERSION = 59;
     private static final String DATABASE_NAME = "CyberScouter.db";
 
     private static final String SQL_CREATE_CONFIG_ENTRIES =
@@ -258,6 +258,21 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_TIME_CODE =
             "DROP TABLE IF EXISTS " + CyberScouterContract.TimeCode.TABLE_NAME;
 
+    private static final String SQL_CREATE_COMM_SELECTION =
+            "CREATE TABLE " + CyberScouterContract.CommSelection.TABLE_NAME + " (" +
+                    CyberScouterContract.CommSelection.COLUMN_NAME_COMM_CHOICE + " INTEGER,"+
+                    CyberScouterContract.CommSelection.COLUMN_NAME_SERVER_IP + " TEXT)"
+            ;
+
+    private static final String SQL_INSERT_COMM_SELECTION_DEFAULTS =
+            "INSERT INTO " + CyberScouterContract.CommSelection.TABLE_NAME +
+                    "(" + CyberScouterContract.CommSelection.COLUMN_NAME_COMM_CHOICE + ", " +
+                    CyberScouterContract.CommSelection.COLUMN_NAME_SERVER_IP + ") " +
+                    "VALUES (" + FakeBluetoothServer.COMM.AWS.ordinal() + ", '10.0.20.195')";
+
+    private static final String SQL_DELETE_COMM_SELECTION =
+            "DROP TABLE IF EXISTS " + CyberScouterContract.CommSelection.TABLE_NAME;
+
     public CyberScouterDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -273,6 +288,8 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_WORD_CLOUD);
         db.execSQL(SQL_CREATE_WORDS);
         db.execSQL(SQL_CREATE_TIME_CODE);
+        db.execSQL(SQL_CREATE_COMM_SELECTION);
+        db.execSQL(SQL_INSERT_COMM_SELECTION_DEFAULTS);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -288,6 +305,7 @@ public class CyberScouterDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_WORD_CLOUD);
         db.execSQL(SQL_DELETE_WORDS);
         db.execSQL(SQL_DELETE_TIME_CODE);
+        db.execSQL(SQL_DELETE_COMM_SELECTION);
         onCreate(db);
     }
 

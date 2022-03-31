@@ -279,5 +279,10 @@
     <string name="MatchLabel">Match:</string>
 
     <string name="NoUnscoutedMatches">No remaining unscouted matches for this event</string>
+    <string name="select_comm_title">Select Communication Mode</string>
+    <string name="select_comm_bluetooth">bluetooth</string>
+    <string name="select_comm_ethernet">ethernet</string>
+    <string name="select_comm_aws">aws</string>
+    <string name="select_comm_svr_addr_label">Server IP Address:</string>
 
 </resources>

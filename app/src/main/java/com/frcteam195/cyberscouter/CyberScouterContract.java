@@ -226,4 +226,11 @@ public class CyberScouterContract {
         public static final String TABLE_NAME = "TimeCode";
         public static final String COLUMN_NAME_LAST_UPDATE = "LastUpdate";
     }
+
+    public static class CommSelection implements BaseColumns {
+        public static final String TABLE_NAME = "CommSelection";
+        public static final String COLUMN_NAME_COMM_CHOICE = "CommChoice";
+        public static final String COLUMN_NAME_SERVER_IP = "ServerIp";
+    }
+
 }
