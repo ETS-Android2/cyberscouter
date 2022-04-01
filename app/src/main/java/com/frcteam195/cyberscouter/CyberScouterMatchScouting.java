@@ -83,6 +83,8 @@ class CyberScouterMatchScouting {
     private int summDefPlayedAgainst;
     private int summShootFrom;
     private int summRating;
+    private int summSpeed;
+    private int summManuverabitlity;
 
     private boolean matchEnded;
     private int scoutingStatus;
@@ -184,6 +186,8 @@ class CyberScouterMatchScouting {
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, summDefPlayedAgainst);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMRATING, summRating);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTFROM, summShootFrom);
+            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSPEED, summSpeed);
+            payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMMANUVERABILITY, summManuverabitlity);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_COMPUTERID, computerID);
             payload.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SCOUTERID, cfg.getUser_id());
             jo.put("payload", payload);
@@ -334,6 +338,8 @@ class CyberScouterMatchScouting {
                     CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMTERMINALPICKUP,
                     CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
                     CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST,
+                    CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSPEED,
+                    CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMMANUVERABILITY,
                     CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMRATING,
                     CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTFROM,
                     CyberScouterContract.MatchScouting.COLUMN_NAME_UPLOADSTATUS};
@@ -401,8 +407,9 @@ class CyberScouterMatchScouting {
                     csm.summDefPlayedAgainst = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST));
                     csm.summRating = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMRATING));
                     csm.summShootFrom = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTFROM));
+                    csm.summSpeed = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSPEED));
+                    csm.summManuverabitlity = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMMANUVERABILITY));
                     csm.uploadStatus = cursor.getInt(cursor.getColumnIndex(CyberScouterContract.MatchScouting.COLUMN_NAME_UPLOADSTATUS));
-
                     csmv.add(csm);
                 }
             }
@@ -471,7 +478,10 @@ class CyberScouterMatchScouting {
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST, -1));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMRATING, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMRATING, -1));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTFROM, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTFROM, -1));
+        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSPEED, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSPEED, -1));
+        values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMMANUVERABILITY, jo.optInt(CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMMANUVERABILITY, -1));
         values.put(CyberScouterContract.MatchScouting.COLUMN_NAME_UPLOADSTATUS, UploadStatus.NOT_UPLOADED);
+
 
         long newRowId = db.insert(CyberScouterContract.MatchScouting.TABLE_NAME, null, values);
         if (-1 == newRowId) {
@@ -895,6 +905,10 @@ class CyberScouterMatchScouting {
     int getSummShootFrom() {return summShootFrom;}
 
     int getSummRating() {return summRating;}
+
+    int getSummSpeed() {return summSpeed;}
+
+    int getSummManuverabitlity() {return summManuverabitlity;}
 
 
     int getUploadStatus() {
