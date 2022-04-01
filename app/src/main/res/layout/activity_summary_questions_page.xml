@@ -314,4 +314,11 @@
         app:layout_constraintStart_toEndOf="@+id/txtShootFrom"
         app:layout_constraintTop_toTopOf="@+id/txtShootFrom" />
 
+    <Spinner
+        android:id="@+id/spinner_Ability"
+        android:layout_width="258dp"
+        android:layout_height="44dp"
+        app:layout_constraintStart_toStartOf="@+id/spinner_Speed"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
+
 </android.support.constraint.ConstraintLayout>
