@@ -152,10 +152,10 @@ public class EndPage extends AppCompatActivity {
                 teamText = csm.getTeam();
             }
             tv.setText(getString(R.string.tagTeam, teamText));
-
+//Connor was here, he broke it not me
             rungClimbed = csm.getClimbHeight();
             if(rungClimbed != -1) {
-                FakeRadioGroup.buttonPressed(this, 0,rungClimbedButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+                FakeRadioGroup.buttonPressed(this, rungClimbed, rungClimbedButtons, CyberScouterContract.MatchScouting.COLUMN_NAME_CLIMBHEIGHT, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
             }
             climbStatus = csm.getClimbStatus();
             if(climbStatus != -1) {
