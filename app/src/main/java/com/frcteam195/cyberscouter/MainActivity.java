@@ -1,5 +1,9 @@
 package com.frcteam195.cyberscouter;
 
+import static com.frcteam195.cyberscouter.CyberScouterMatchScouting.MATCH_SCOUTING_UPDATED_FILTER;
+import static com.frcteam195.cyberscouter.CyberScouterTeams.TEAMS_UPDATED_FILTER;
+import static com.frcteam195.cyberscouter.CyberScouterWordCloud.WORD_CLOUD_UPDATED_FILTER;
+
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
@@ -14,7 +18,6 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,9 +28,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import org.json.JSONObject;
 
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity implements CommPickerFragment.CommSelectionDialogListener {
     private ComponentName _serviceComponentName = null;
@@ -38,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements CommPickerFragmen
     private boolean mCommSelected;
 
     public static AppCompatActivity _activity;
+    public static CyberScouterMatchScoutingAsyncHttpResponseHandler _asyncCsmsHttpResponseHandler;
+    public static CyberScouterWordCloudAsyncHttpResponseHandler _asyncCswcHttpResponseHandler;
+    public static CyberScouterTeamsAsyncHttpResponseHandler _asyncCstHttpResponseHandler;
 
     private Thread fetcherThread;
     final private static int START_PROGRESS = 0;
@@ -83,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements CommPickerFragmen
 
         mCommSelected = false;
 
+        _asyncCsmsHttpResponseHandler = new CyberScouterMatchScoutingAsyncHttpResponseHandler();
+        _asyncCswcHttpResponseHandler = new CyberScouterWordCloudAsyncHttpResponseHandler();
+        _asyncCstHttpResponseHandler = new CyberScouterTeamsAsyncHttpResponseHandler();
+
         mDbHelper = new CyberScouterDbHelper(this);
         _db = mDbHelper.getWritableDatabase();
         CyberScouterCommSelection cscs = CyberScouterCommSelection.get(_db);
@@ -101,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements CommPickerFragmen
 
         registerReceiver(mConfigReceiver, new IntentFilter(CyberScouterConfig.CONFIG_UPDATED_FILTER));
         registerReceiver(mOnlineStatusReceiver, new IntentFilter(BluetoothComm.ONLINE_STATUS_UPDATED_FILTER));
-        registerReceiver(mMatchesUpdater, new IntentFilter(CyberScouterMatchScouting.MATCH_SCOUTING_UPDATED_FILTER));
+        registerReceiver(mMatchesUpdater, new IntentFilter(MATCH_SCOUTING_UPDATED_FILTER));
 
 
         button = findViewById(R.id.button_scouting);
@@ -136,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements CommPickerFragmen
     protected void onResume() {
         super.onResume();
 
-        if(mCommSelected) {
+        if (mCommSelected) {
             display();
         }
     }
@@ -170,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements CommPickerFragmen
         display();
     }
 
-    private void display(){
+    private void display() {
         try {
             if (null == _serviceComponentName) {
                 _activity = this;
@@ -263,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements CommPickerFragmen
         unregisterReceiver(mConfigReceiver);
         unregisterReceiver(mOnlineStatusReceiver);
         unregisterReceiver(mMatchesUpdater);
+        _activity = null;
         super.onDestroy();
     }
 
@@ -404,5 +419,104 @@ public class MainActivity extends AppCompatActivity implements CommPickerFragmen
         finish();
         startActivity(intent);
         db.close();
+    }
+
+    public class CyberScouterMatchScoutingAsyncHttpResponseHandler extends AsyncHttpResponseHandler {
+        public int finalMatchId;
+
+        @Override
+        public void onStart() {
+            System.out.println("Starting set call...");
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+            CyberScouterMatchScouting.webQueryInProgress = false;
+            System.out.println("Update of match scouting record returned...");
+            Intent i = new Intent(MATCH_SCOUTING_UPDATED_FILTER);
+            i.putExtra("cyberscoutermatch", finalMatchId);
+            MainActivity._activity.sendBroadcast(i);
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] response, Throwable e) {
+            CyberScouterMatchScouting.webQueryInProgress = false;
+            MessageBox.showMessageBox(MainActivity._activity,
+                    "Update of Match Scouting Records Failed",
+                    "CyberScouterMatchScoutingAsyncHttpResponseHandler.setMatchScoutingWebService",
+                    String.format(
+                            "Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n",
+                            e.getMessage()));
+        }
+
+        @Override
+        public void onRetry(int retryNo) {
+            System.out.println(String.format("Retry number %d", retryNo));
+        }
+    }
+
+    public class CyberScouterWordCloudAsyncHttpResponseHandler extends AsyncHttpResponseHandler {
+
+        @Override
+        public void onStart() {
+            System.out.println("Starting get call...");
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+            CyberScouterWordCloud.webQueryInProgress = false;
+            Intent i = new Intent(WORD_CLOUD_UPDATED_FILTER);
+            i.putExtra("cyberscouterwordcloud", "updated");
+            MainActivity._activity.sendBroadcast(i);
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+            CyberScouterWordCloud.webQueryInProgress = false;
+            MessageBox.showMessageBox(MainActivity._activity,
+                    "Update of Match Scouting Records Failed",
+                    "CyberScouterWordCloudAsyncHttpResponseHandler.setWordCloudWebService",
+                    String.format("Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n",
+                            e.getMessage()));
+        }
+
+        @Override
+        public void onRetry(int retryNo) {
+            System.out.println(String.format("Retry number %d", retryNo));
+        }
+    }
+
+    public class CyberScouterTeamsAsyncHttpResponseHandler extends AsyncHttpResponseHandler {
+        public int finalTeam;
+
+        @Override
+        public void onStart() {
+            System.out.println("Starting get call...");
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+            CyberScouterTeams.webQueryInProgress = false;
+            Intent i = new Intent(TEAMS_UPDATED_FILTER);
+            i.putExtra("cyberscouterteams", "update");
+            i.putExtra("team", finalTeam);
+            MainActivity._activity.sendBroadcast(i);
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+            CyberScouterTeams.webQueryInProgress = false;
+            MessageBox.showMessageBox(MainActivity._activity,
+                    "Update of Teams Records Failed",
+                    "CyberScouterTeamsAsyncHttpResponseHandler.setTeamsWebService",
+                    String.format(
+                            "Can't update team information.\nContact a scouting mentor right away\n\n%s\n",
+                            e.getMessage()));
+        }
+
+        @Override
+        public void onRetry(int retryNo) {
+            System.out.println(String.format("Retry number %d", retryNo));
+        }
     }
 }

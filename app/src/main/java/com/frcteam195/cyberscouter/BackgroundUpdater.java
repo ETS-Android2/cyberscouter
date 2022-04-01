@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.Locale;
 
 public class BackgroundUpdater extends Service {
+    static Context _activity;
     boolean keepRunning;
     Thread updaterThread;
     Thread pingerThread;
@@ -35,6 +36,7 @@ public class BackgroundUpdater extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID) {
+        _activity = this;
         keepRunning = true;
 
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
@@ -42,7 +44,7 @@ public class BackgroundUpdater extends Service {
 
 
         if (null == updaterThread) {
-            updaterThread = new Thread(new updateRunner());
+            updaterThread = new Thread(new updateRunner(this));
             updaterThread.start();
         }
 
@@ -58,9 +60,16 @@ public class BackgroundUpdater extends Service {
     public void onDestroy() {
         keepRunning = false;
         updaterThread.interrupt();
+        _activity = null;
+        super.onDestroy();
     }
 
     private class updateRunner implements Runnable {
+        private Context BackgroundUpdaterContext;
+
+        public updateRunner(Context pc) {
+            BackgroundUpdaterContext = pc;
+        }
 
         @Override
         public void run() {
