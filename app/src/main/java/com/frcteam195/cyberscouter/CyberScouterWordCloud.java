@@ -1,6 +1,5 @@
 package com.frcteam195.cyberscouter;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -33,7 +32,7 @@ public class CyberScouterWordCloud {
         return (webResponse);
     }
 
-    private static boolean webQueryInProgress = false;
+    public static boolean webQueryInProgress = false;
 
     private int EventID;
     private int MatchID;
@@ -279,12 +278,6 @@ public class CyberScouterWordCloud {
     }
 
     static public void getWordCloudWebService(final AppCompatActivity activity) {
-        if(webQueryInProgress) {
-            return;
-        }
-
-        webQueryInProgress = true;
-
         String url = String.format("%s/word-cloud", FakeBluetoothServer.webServiceBaseUrl);
         AsyncHttpClient client = new AsyncHttpClient();
 
@@ -297,7 +290,6 @@ public class CyberScouterWordCloud {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                webQueryInProgress = false;
                 webResponse = new String(response);
                 Intent i = new Intent(WORD_CLOUD_FETCHED_FILTER);
                 i.putExtra("cyberscouterwordcloud", "fetched");
@@ -306,7 +298,6 @@ public class CyberScouterWordCloud {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                webQueryInProgress = false;
                 e.printStackTrace();
             }
 
@@ -317,7 +308,7 @@ public class CyberScouterWordCloud {
         });
     }
 
-    static void setWordCloudWebService(final Activity activity, JSONObject jo) {
+    static void setWordCloudWebService(JSONObject jo) {
 
         if (webQueryInProgress)
             return;
@@ -333,39 +324,12 @@ public class CyberScouterWordCloud {
             e.printStackTrace();
         }
 
+        AppCompatActivity activity = MainActivity._activity;
+        MainActivity.CyberScouterWordCloudAsyncHttpResponseHandler handler =
+                MainActivity._asyncCswcHttpResponseHandler;
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.post(activity, url, requestBody, "application/json",
-                new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                System.out.println("Starting get call...");
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                webQueryInProgress = false;
-                Intent i = new Intent(WORD_CLOUD_UPDATED_FILTER);
-                webResponse = new String(response);
-                i.putExtra("cyberscouterwordcloud", "updated");
-                activity.sendBroadcast(i);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                webQueryInProgress = false;
-                MessageBox.showMessageBox(activity,
-                        "Update of Match Scouting Records Failed", "CyberScouterWordCloud.setWordCloudWebService",
-                        String.format("Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n",
-                                e.getMessage()));
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                System.out.println(String.format("Retry number %d", retryNo));
-            }
-        });
+        client.post(activity, url, requestBody, "application/json", handler);
     }
 
 

@@ -30,7 +30,7 @@ class CyberScouterTeams {
         return (webResponse);
     }
 
-    private static boolean webQueryInProgress = false;
+    public static boolean webQueryInProgress = false;
 
     private int teamID;
     private int team;
@@ -181,11 +181,6 @@ class CyberScouterTeams {
 
 
     static public void getTeamsWebService(final AppCompatActivity activity) {
-        if (webQueryInProgress)
-            return;
-
-        webQueryInProgress = true;
-
         String url = String.format("%s/teams", FakeBluetoothServer.webServiceBaseUrl);
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -199,7 +194,6 @@ class CyberScouterTeams {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                webQueryInProgress = false;
                 Intent i = new Intent(TEAMS_UPDATED_FILTER);
                 webResponse = new String(response);
                 i.putExtra("cyberscouterteams", "fetch");
@@ -208,7 +202,6 @@ class CyberScouterTeams {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                webQueryInProgress = false;
                 MessageBox.showMessageBox(activity,
                         "Fetch of Teams Record Failed",
                         "CyberScouterTeams.getTeamsWebService",
@@ -224,7 +217,7 @@ class CyberScouterTeams {
         });
     }
 
-    static public void setTeamsWebService(final AppCompatActivity activity, JSONObject jo) {
+    static public void setTeamsWebService(JSONObject jo) {
         if (webQueryInProgress)
             return;
 
@@ -247,42 +240,14 @@ class CyberScouterTeams {
             e.printStackTrace();
         }
 
+        AppCompatActivity activity = MainActivity._activity;
+        MainActivity.CyberScouterTeamsAsyncHttpResponseHandler handler =
+                MainActivity._asyncCstHttpResponseHandler;
+
+        handler.finalTeam = finalTeam;
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.post(activity, url, requestBody, "application/json",
-                new AsyncHttpResponseHandler() {
-
-                    @Override
-                    public void onStart() {
-                        System.out.println("Starting get call...");
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                        webQueryInProgress = false;
-                        Intent i = new Intent(TEAMS_UPDATED_FILTER);
-                        webResponse = new String(response);
-                        i.putExtra("cyberscouterteams", "update");
-                        i.putExtra("team", finalTeam);
-                        activity.sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                        webQueryInProgress = false;
-                        MessageBox.showMessageBox(activity,
-                                "Update of Teams Records Failed",
-                                "CyberScouterTeams.setTeamsWebService",
-                                String.format(
-                                        "Can't update team information.\nContact a scouting mentor right away\n\n%s\n",
-                                        e.getMessage()));
-                    }
-
-                    @Override
-                    public void onRetry(int retryNo) {
-                        System.out.println(String.format("Retry number %d", retryNo));
-                    }
-                });
+        client.post(activity, url, requestBody, "application/json", handler);
     }
 
     static String[] getTeamNumbers(SQLiteDatabase db, int wasScouted) {

@@ -14,17 +14,18 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.Vector;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.ContentType;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
 class CyberScouterMatchScouting {
+    final static String MATCH_SCOUTING_FETCHED_FILTER = "frcteam195_cyberscoutermatchscouting_match_scouting_fetched_intent_filter";
     final static String MATCH_SCOUTING_UPDATED_FILTER = "frcteam195_cyberscoutermatchscouting_match_scouting_updated_intent_filter";
 
-    private static boolean webQueryInProgress = false;
+    public static boolean webQueryInProgress = false;
 
     private static String webResponse;
 
@@ -619,11 +620,6 @@ class CyberScouterMatchScouting {
 
     static void getMatchesWebService(final Activity activity, int eventId) {
 
-        if (webQueryInProgress)
-            return;
-
-        webQueryInProgress = true;
-
         RequestParams params = new RequestParams();
         params.put("eventId", eventId);
         String url = String.format("%s/match-scouting", FakeBluetoothServer.webServiceBaseUrl);
@@ -639,8 +635,8 @@ class CyberScouterMatchScouting {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                webQueryInProgress = false;
-                Intent i = new Intent(MATCH_SCOUTING_UPDATED_FILTER);
+                System.out.println("MatchScouting query completed.");
+                Intent i = new Intent(MATCH_SCOUTING_FETCHED_FILTER);
                 webResponse = new String(response);
                 i.putExtra("cyberscoutermatches", "fetch");
                 activity.sendBroadcast(i);
@@ -648,7 +644,6 @@ class CyberScouterMatchScouting {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                webQueryInProgress = false;
                 MessageBox.showMessageBox(activity, "Fetch of Match Scouting Records Failed",
                         "CyberScouterMatchScouting.getMatchScoutingWebService",
                         String.format(
@@ -663,8 +658,7 @@ class CyberScouterMatchScouting {
         });
     }
 
-    static void setMatchesWebService(final Activity activity, JSONObject jo) {
-
+    static void setMatchesWebService(JSONObject jo) {
         if (webQueryInProgress)
             return;
 
@@ -673,9 +667,9 @@ class CyberScouterMatchScouting {
         String url = String.format("%s/update", FakeBluetoothServer.webServiceBaseUrl);
         StringEntity requestBody = null;
         try {
-            requestBody = new StringEntity(jo.toString());
-        } catch (UnsupportedEncodingException uee) {
-            uee.printStackTrace();
+            requestBody = new StringEntity(jo.toString(), ContentType.APPLICATION_JSON);
+        } catch (IllegalArgumentException iae) {
+            iae.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -689,41 +683,14 @@ class CyberScouterMatchScouting {
 
         Integer finalMatchId = matchId;
 
+        AppCompatActivity activity = MainActivity._activity;
+        MainActivity.CyberScouterMatchScoutingAsyncHttpResponseHandler handler =
+                MainActivity._asyncCsmsHttpResponseHandler;
+        handler.finalMatchId = finalMatchId;
+
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.post(activity, url, requestBody, "application/json",
-                new AsyncHttpResponseHandler() {
-
-                    @Override
-                    public void onStart() {
-                        System.out.println("Starting get call...");
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                        webQueryInProgress = false;
-                        Intent i = new Intent(MATCH_SCOUTING_UPDATED_FILTER);
-                        webResponse = new String(response);
-                        i.putExtra("cyberscoutermatch", finalMatchId);
-                        activity.sendBroadcast(i);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                        webQueryInProgress = false;
-                        MessageBox.showMessageBox(activity,
-                                "Update of Match Scouting Records Failed",
-                                "CyberScouterMatchScouting.setMatchScoutingWebService",
-                                String.format(
-                                        "Can't update scouted match.\nContact a scouting mentor right away\n\n%s\n",
-                                        e.getMessage()));
-                    }
-
-                    @Override
-                    public void onRetry(int retryNo) {
-                        System.out.println(String.format("Retry number %d", retryNo));
-                    }
-                });
+        client.post(activity, url, requestBody, "application/json", handler);
     }
 
     int getMatchScoutingID() {
