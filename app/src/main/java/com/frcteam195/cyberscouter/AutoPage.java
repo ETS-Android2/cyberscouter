@@ -22,19 +22,19 @@ public class AutoPage extends AppCompatActivity {
     private final int[] moveBonusButtons = {R.id.button_didNotMove, R.id.button_attempted, R.id.button_moveBonusYes};
     private int[] redPositionButtons;
     private int[] bluePositionButtons;
-    private final int[] otherColorButtons = {R.id.Ball1, R.id.Ball4, R.id.Ball6};
-    private final int[] mainColorButtons = {R.id.Ball2, R.id.Ball3, R.id.Ball5, R.id.Ball7};
+    private final int[] otherColorButtons = {R.id.Ball1, R.id.Ball4, R.id.Ball6}; //an array
+    private final int[] mainColorButtons = {R.id.Ball2, R.id.Ball3, R.id.Ball5, R.id.Ball7}; //also an array
     private int upperGoalCount = 0;
     private int lowerGoalCount = 0;
     private int missedGoalCount = 0;
     private int PickedUpCount = 0;
     private int moveBonus = -1;
-    private int blueField = R.drawable.betterbluefield2022;
+    private int blueField = R.drawable.betterbluefield2022; //how to make field work
     private int redField = R.drawable.betterredfield2022;
-    private boolean fieldThing = ScoutingPage.getIsRed();
-    private int[] BallsPickedUp = {0, 0, 0, 0, 0, 0, 0};
+    private boolean fieldThing = ScoutingPage.getIsRed(); //makes it so if the field is red X thing can happen
+    private int[] BallsPickedUp = {0, 0, 0, 0, 0, 0, 0}; //idk if this is an array or not i dont remember what this does. check with thomas later
     private final int[] allBallButtons = {R.id.Ball1, R.id.Ball2, R.id.Ball3, R.id.Ball4,
-        R.id.Ball5, R.id.Ball6, R.id.Ball7};
+        R.id.Ball5, R.id.Ball6, R.id.Ball7}; //this so happens to be an array
 
     private int field_orientation;
     private int currentCommStatusColor;
@@ -52,7 +52,7 @@ public class AutoPage extends AppCompatActivity {
             CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS5,
             CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS6,
             CyberScouterContract.MatchScouting.COLUMN_NAME_AUTOBALLPOS7,
-    };
+    }; //figure out what this does bc i do not know
 
 
     @Override
@@ -65,11 +65,11 @@ public class AutoPage extends AppCompatActivity {
         if (ScoutingPage.getIsRed()) {
             redPositionButtons = mainColorButtons;
             bluePositionButtons = otherColorButtons;
-            iv.setImageResource(redField);
+            iv.setImageResource(redField); //makes it so if field is red button orientation changes
         } else {
             iv.setImageResource(blueField);
             redPositionButtons = otherColorButtons;
-            bluePositionButtons = mainColorButtons;
+            bluePositionButtons = mainColorButtons; //makes it so if field isn't red buttons do the thing
         }
 
         button = findViewById(R.id.button_startMatch);
@@ -84,7 +84,7 @@ public class AutoPage extends AppCompatActivity {
         iv = findViewById(R.id.imageView5);
         if (!(ScoutingPage.getIsRed()) && ScoutingPage.getFieldOrientation() == 0 || (ScoutingPage.getIsRed() && ScoutingPage.getFieldOrientation() == 1)) {
             iv.setRotation(iv.getRotation() + 180);
-            moveButtons();
+            moveButtons(); //i think this makes field rotate, also makes button orientation change when field flips
         }
 //        button = findViewById(R.id.FlipFieldButton);
 //        button.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +132,7 @@ public class AutoPage extends AppCompatActivity {
         });
 
         button = findViewById(R.id.button_upperGoalMinus);
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() { // OnClickListener makes it so if click, upper goal minus button happens
 
             @Override
             public void onClick(View v) {
@@ -353,7 +353,7 @@ public class AutoPage extends AppCompatActivity {
         button = findViewById(R.id.Ball7);
         button.setX(300);
         button.setY(-350);
-    }
+    } //all this makes balls move when field orientation is changed. idk why it works but it did.
 
 
     public void skipMatch() {
@@ -469,13 +469,14 @@ public class AutoPage extends AppCompatActivity {
             } else {
                 button.setBackgroundColor(Color.BLUE);
                 BallsPickedUp[BallPickedUp] = 0;
-            }
+            } //this makes background colors change
 
 
         }
 
 
     }
+
 
     private boolean isInRed(int BTN) {
         for (int i : redPositionButtons) {
