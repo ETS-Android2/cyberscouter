@@ -26,6 +26,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private Spinner rating = (Spinner) findViewById(R.id.spinner_Rating);
     private Spinner shootFrom = (Spinner) findViewById(R.id.spinner_ShootFrom);*/
     private final String[] spinnerOptions = {"1", "2", "3", "4", "5"};
+    private final String[] shootFromOptions = {"Did not shoot", "from hub", "from radius", "alligned", "any orientation"};
     private int defaultButtonBackgroundColor = Color.LTGRAY;
     private int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
@@ -96,7 +97,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         });
 
         Spinner shoot = findViewById(R.id.spinner_ShootFrom);
-        shoot.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions));
+        shoot.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, shootFromOptions));
         shoot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
