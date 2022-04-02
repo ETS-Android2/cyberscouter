@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         tools:context=".AutoPage"
         tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="16dp">
+        tools:layout_editor_absoluteY="16dp"
+        tools:ignore="ExtraText">
+        //only important thing to remember for the actual design is to define variables for text size and to constrain in a chain leading to an edge
 
         <Button
             android:id="@+id/button_startMatch"
@@ -385,3 +387,4 @@
 
 
 </android.support.constraint.ConstraintLayout>
+
