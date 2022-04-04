@@ -271,6 +271,7 @@ public class AutoPage extends AppCompatActivity {
 
             if (moveBonus != -1) {
                 FakeRadioGroup.buttonDisplay(this, moveBonus, moveBonusButtons, SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
+                //ties buttons together so only one can be selected at a time
                 button = findViewById(R.id.button_startMatch);
                 button.setEnabled(true);
             } else {
@@ -450,6 +451,7 @@ public class AutoPage extends AppCompatActivity {
                     BallsPickedUp[0], BallsPickedUp[1], BallsPickedUp[2], BallsPickedUp[3],
                     BallsPickedUp[4], BallsPickedUp[5], BallsPickedUp[6]};
             CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
+            // makes columns and values in the correct order input to database
         } catch (Exception e) {
             e.printStackTrace();
             MessageBox.showMessageBox(this, "Update Error",
@@ -469,7 +471,7 @@ public class AutoPage extends AppCompatActivity {
             } else {
                 button.setBackgroundColor(Color.BLUE);
                 BallsPickedUp[BallPickedUp] = 0;
-            } //this makes background colors change
+            } //this makes background colors change on buttons
 
 
         }
