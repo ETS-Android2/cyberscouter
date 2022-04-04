@@ -22,29 +22,22 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private final int[] lostCommArray = {R.id.LostCommN, R.id.LostCommY};
     private final int[] subsystemBrokeArray = {R.id.SubsystemN, R.id.SubsystemY};
     private final int[] launchPadArray = {R.id.ShootFromN, R.id.ShootFromY};
-    /*private final String[] RatingOptions = {""}
-    private Spinner rating = (Spinner) findViewById(R.id.spinner_Rating);
-    private Spinner shootFrom = (Spinner) findViewById(R.id.spinner_ShootFrom);*/
-    private final String[] spinnerOptions = {"1", "2", "3", "4", "5"};
-    private final String[] shootFromOptions = {"Did not shoot", "from hub", "from radius", "alligned", "any orientation"};
-    private int defaultButtonBackgroundColor = Color.LTGRAY;
-    private int defaultButtonTextColor = Color.LTGRAY;
+    private final String[] maneuverabilityOptions = {"poor", "below average", "average", "good",
+            "excellent"};
+    private final String[] speedOptions = {"1", "2", "3", "4", "5"};
+    private final String[] shootFromOptions = {"Did not shoot", "from hub", "from radius",
+            "alligned", "any orientation"};
+    private final int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
 
-    /*private ArrayAdapter<String> pp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, rating);
-    private ArrayAdapter<String> pd = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, shootFrom);*/
-
-
-    private int[] qAnswered = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
+    private final int[] qAnswered = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
 
     private SQLiteDatabase _db;
 
 
-    private int playedDefenseVar = -1,
-            defenseAgainstVar = -1, brokeDownVar = -1, lostCommVar = -1,
-            subsystemBrokeVar = -1, launchPadVar = -1, ratingVar = -1,
-            shootFromVar = -1, speedVar = -1, howGoodVar = -1;
-    //private int lastCheckedButton;
+    private int playedDefenseVar = -1, defenseAgainstVar = -1, brokeDownVar = -1, lostCommVar = -1,
+            subsystemBrokeVar = -1, launchPadVar = -1, shootFromVar = -1, speedVar = -1,
+            maneuverabilityVar = -1;
 
     String[] _lColumns = {
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
@@ -53,7 +46,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD,
-            CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMRATING,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSHOOTFROM,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSPEED,
             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMMANUVERABILITY
@@ -61,8 +53,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
     private int currentCommStatusColor;
 
-
-    private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
+    private final CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
 
     public SummaryQuestionsPage() {
     }
@@ -74,8 +65,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
         _db = mDbHelper.getWritableDatabase();
 
-        CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
-
         Intent intent = getIntent();
         currentCommStatusColor = intent.getIntExtra("commstatuscolor", Color.LTGRAY);
         updateStatusIndicator(currentCommStatusColor);
@@ -84,12 +73,14 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         _db = mDbHelper.getWritableDatabase();
 
         Spinner speed = findViewById(R.id.spinner_Speed);
-        speed.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions));
+        speed.setAdapter(new ArrayAdapter<>(this,
+                R.layout.spinner_text_items, speedOptions));
         speed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 speedVar = i;
-                qAnswered[6] = 0;
+                qAnswered[6] = 1;
+                shouldEnableNext();
             }
 
             @Override
@@ -97,12 +88,14 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         });
 
         Spinner shoot = findViewById(R.id.spinner_ShootFrom);
-        shoot.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, shootFromOptions));
+        shoot.setAdapter(new ArrayAdapter<>(this,
+                R.layout.spinner_text_items, shootFromOptions));
         shoot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 shootFromVar = i;
-                qAnswered[7] = 0;
+                qAnswered[7] = 1;
+                shouldEnableNext();
             }
 
             @Override
@@ -110,12 +103,14 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         });
 
         Spinner ability = findViewById(R.id.spinner_Ability);
-        ability.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerOptions));
+        ability.setAdapter(new ArrayAdapter<>(this,
+                R.layout.spinner_text_items, maneuverabilityOptions));
         ability.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                howGoodVar = i;
-                qAnswered[8] = 0;
+                maneuverabilityVar = i;
+                qAnswered[8] = 1;
+                shouldEnableNext();
             }
 
             @Override
@@ -227,7 +222,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
         button = findViewById(R.id.button_sumqNext);
         button.setEnabled(false);
-        //if (groundPickupVar == 0, 1 != 1 && terminalPickupVar, playedDefenseVar, defenseAgainstVar, shootWhileVar, brokeDownVar, lostCommVar, subsystemBrokeVar, scoreOppVar, shootFromVar)
     }
 
     @Override
@@ -240,13 +234,15 @@ public class SummaryQuestionsPage extends AppCompatActivity {
 
             CyberScouterMatchScouting csm = CyberScouterMatchScouting.getCurrentMatch(_db,
                     TeamMap.getNumberForTeam(cfg.getAlliance_station()));
-            CyberScouterTeams cst = CyberScouterTeams.getCurrentTeam(_db, Integer.valueOf(csm.getTeam()));
 
             if (null != csm) {
+                String team = csm.getTeam();
+                CyberScouterTeams cst = CyberScouterTeams.getCurrentTeam(_db,
+                        Integer.parseInt(team));
                 TextView tv = findViewById(R.id.textView_endMatch);
                 tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
                 tv = findViewById(R.id.textView_endTeamNumber);
-                String teamText = null;
+                String teamText;
                 if(cst != null) {
                     teamText = csm.getTeam() + " - " + cst.getTeamName();
                 } else {
@@ -254,15 +250,26 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 }
                 tv.setText(getString(R.string.tagTeam, teamText));
 
-
                 Spinner sp = findViewById(R.id.spinner_Speed);
-                sp.setSelection(csm.getSummSpeed());
+                speedVar = csm.getSummSpeed();
+                if(speedVar > -1) {
+                    sp.setSelection(speedVar);
+                    qAnswered[6] = 1;
+                }
 
                 sp = findViewById(R.id.spinner_ShootFrom);
-                sp.setSelection(csm.getSummShootFrom());
+                shootFromVar = csm.getSummShootFrom();
+                if(shootFromVar > -1) {
+                    sp.setSelection(shootFromVar);
+                    qAnswered[7] = 1;
+                }
 
                 sp = findViewById(R.id.spinner_Ability);
-                sp.setSelection(csm.getSummManuverabitlity());
+                maneuverabilityVar = csm.getSummManuverabitlity();
+                if(maneuverabilityVar > -1) {
+                    sp.setSelection(maneuverabilityVar);
+                    qAnswered[8] = 1;
+                }
 
                 int val = csm.getSummPlayedDefense();
                 playedDefenseVar = val;
@@ -271,7 +278,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMPLAYEDDEFENSE,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[0] = 1;
-                    shouldEnableNext();
                 }
                 val = csm.getSummDefPlayedAgainst();
                 defenseAgainstVar = val;
@@ -280,7 +286,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMDEFPLAYEDAGAINST,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[1] = 1;
-                    shouldEnableNext();
                 }
                 val = csm.getSummBrokeDown();
                 brokeDownVar = val;
@@ -289,7 +294,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMBROKEDOWN,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[2] = 1;
-                    shouldEnableNext();
                 }
                 val = csm.getSummLostComm();
                 lostCommVar = val;
@@ -298,7 +302,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLOSTCOMM,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[3] = 1;
-                    shouldEnableNext();
                 }
                 val = csm.getSummSubsystemBroke();
                 subsystemBrokeVar = val;
@@ -307,7 +310,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMSUBSYSTEMBROKE,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[4] = 1;
-                    shouldEnableNext();
                 }
                 val = csm.getSummLaunchPad();
                 launchPadVar = val;
@@ -316,12 +318,9 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                             CyberScouterContract.MatchScouting.COLUMN_NAME_SUMMLAUNCHPAD,
                             SELECTED_BUTTON_TEXT_COLOR, defaultButtonTextColor);
                     qAnswered[5] = 1;
-                    shouldEnableNext();
                 }
 
-                // Temporary placeholders
-                ratingVar = csm.getSummRating();
-                shootFromVar = csm.getSummShootFrom();
+                shouldEnableNext();
             }
         }
 
@@ -345,28 +344,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         Intent intent = new Intent(this, SubmitPage.class);
         intent.putExtra("commstatuscolor", currentCommStatusColor);
         startActivity(intent);
-    }
-
-    public void nextAnswer() {
-        // Update the Match Scouting record
-        //updateAnswer();
-
-        // Get the next question, if any
-        setNextQuestion(1);
-        this.onResume();
-    }
-
-    public void previousAnswer() {
-        //updateAnswer();
-
-        setNextQuestion(-1);
-        this.onResume();
-    }
-
-    private void setNextQuestion(int val) {
-        CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
     }
 
     private void PlayedDefense(int val) {
@@ -439,57 +416,6 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         }
     }
 
-    /*
-        private void updateAnswer() {
-            CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-            CyberScouterConfig cfg = CyberScouterConfig.getConfig(db);
-
-            if (null != cfg) {
-
-                rg = findViewById(R.id.radioGroup1);
-                int rbid = rg.getCheckedRadioButtonId();
-
-                int ans;
-                switch (rbid) {
-                    case (R.id.radioButton1):
-                        ans = 0;
-                        break;
-                    case (R.id.radioButton2):
-                        ans = 1;
-                        break;
-                    case (R.id.radioButton3):
-                        ans = 2;
-                        break;
-                    case (R.id.radioButton4):
-                        ans = 3;
-                        break;
-                    case (R.id.radioButton5):
-                        ans = 4;
-                        break;
-                    default:
-                        ans = -1;
-                }
-
-            }
-
-        }
-
-        private void rbClicked(View v) {
-            rg = findViewById(R.id.radioGroup1);
-            int currentCheckedButton = rg.getCheckedRadioButtonId();
-            if(lastCheckedButton == currentCheckedButton) {
-                rg.clearCheck();
-                updateAnswer();
-            } else {
-                rg.check(v.getId());
-                updateAnswer();
-            }
-            this.onResume();
-        }
-
-    }*/
     private void updateStatusIndicator(int color) {
         ImageView iv = findViewById(R.id.imageView_btEndIndicator);
         BluetoothComm.updateStatusIndicator(iv, color);
@@ -498,8 +424,8 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private void updateSummaryQuestionPageData() {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         try {
-            Integer[] _lValues = { playedDefenseVar,
-                    defenseAgainstVar, brokeDownVar, lostCommVar, subsystemBrokeVar, launchPadVar, ratingVar, shootFromVar, speedVar, howGoodVar};
+            Integer[] _lValues = { playedDefenseVar, defenseAgainstVar, brokeDownVar, lostCommVar,
+                    subsystemBrokeVar, launchPadVar, shootFromVar, speedVar, maneuverabilityVar};
             CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
         } catch (Exception e) {
             e.printStackTrace();
