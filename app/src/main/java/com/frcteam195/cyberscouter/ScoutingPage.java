@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,20 +17,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Locale;
 
 public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.NamePickerDialogListener {
     final static private int FIELD_ORIENTATION_RIGHT = 0;
     final static private int FIELD_ORIENTATION_LEFT = 1;
     private static int field_orientation = FIELD_ORIENTATION_LEFT;
 
-    private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
+    private final CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
     private SQLiteDatabase _db = null;
 
     static protected Handler mFetchHandler;
@@ -43,7 +38,6 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
     private final static int FETCH_MATCH_TEAMS = 4;
     private static boolean isRed = true;
 
-    private int mCurrentMatch;
     private String mCurrentMatchTeam;
 
     public static int getFieldOrientation() {
@@ -166,13 +160,13 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                     case FETCH_USERS:
                         fetchUsers();
                         break;
-                    case FETCH_TEAMS:
+/*                    case FETCH_TEAMS:
                         fetchTeams();
                         break;
                     case FETCH_MATCHES:
                         fetchMatches();
                         break;
-/*
+
                     case FETCH_MATCH_TEAMS:
                         fetchMatchTeams();
                         break;
@@ -205,7 +199,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
             Message msg2 = new Message();
             msg2.what = FETCH_USERS;
             mFetchHandler.sendMessage(msg2);
-            try {
+/*            try {
                 Thread.sleep(500);
             } catch (Exception e) {
             }
@@ -215,7 +209,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
             Message msg4 = new Message();
             msg4.what = FETCH_MATCHES;
             mFetchHandler.sendMessage(msg4);
-/*
+
             try {
                 Thread.sleep(500);
             } catch (Exception e) {
@@ -392,6 +386,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         if (!json.equalsIgnoreCase("skip")) {
             CyberScouterUsers.setUsers(_db, json);
         }
+        fetchTeams();
     }
 
     private void updateTeams(String teams) {
@@ -401,6 +396,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         if (!teams.equalsIgnoreCase("update")) {
             CyberScouterTeams.setTeams(_db, teams);
         }
+        fetchMatches();
     }
 
     private void updateMatchesLocal(String json) {
@@ -418,7 +414,6 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
             CyberScouterMatchScouting csm = CyberScouterMatchScouting.getCurrentMatch(_db,
                     TeamMap.getNumberForTeam(cfg.getAlliance_station()));
             if (null != csm) {
-                mCurrentMatch = csm.getMatchID();
                 mCurrentMatchTeam = csm.getTeam();
                 TextView tv = findViewById(R.id.textView7);
                 tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
