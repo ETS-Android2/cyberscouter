@@ -111,13 +111,14 @@ class CyberScouterMatchScouting {
         return json;
     }
 
-    static String getMatchesRemote(AppCompatActivity activity, SQLiteDatabase db, int eventId) {
+    static String getMatchesRemote(AppCompatActivity activity, SQLiteDatabase db, int eventId,
+                                   int allianceStationId) {
         String ret = null;
         try {
             int last_hash = CyberScouterTimeCode.getLast_update(db);
             System.out.println(String.format(">>>>>>>>>>>>>>>>>>>>>>>LastUpdate=%d", last_hash));
             BluetoothComm btcomm = new BluetoothComm();
-            String response = btcomm.getMatchesL1(activity, eventId, last_hash);
+            String response = btcomm.getMatchesL1(activity, eventId, allianceStationId, last_hash);
             if (null != response) {
                 JSONObject jo = new JSONObject(response);
                 String result = jo.getString("result");
@@ -230,8 +231,10 @@ class CyberScouterMatchScouting {
     }
 
     // Gets the next sequential unscouted match for all scouter stations
-    static CyberScouterMatchScouting[] getCurrentMatchAllTeams(SQLiteDatabase db, int l_matchNo, int l_matchID) {
-        String selection = CyberScouterContract.MatchScouting.COLUMN_NAME_MATCH_NUMBER + " = ? AND " + CyberScouterContract.MatchScouting.COLUMN_NAME_MATCHID + " = ?";
+    static CyberScouterMatchScouting[] getCurrentMatchAllTeams(SQLiteDatabase db, int l_matchNo,
+                                                               int l_matchID) {
+        String selection = CyberScouterContract.MatchScouting.COLUMN_NAME_MATCH_NUMBER + " = ? AND "
+                + CyberScouterContract.MatchScouting.COLUMN_NAME_MATCHID + " = ?";
         String[] selectionArgs = {
                 String.format(Locale.getDefault(), "%d", l_matchNo),
                 String.format(Locale.getDefault(), "%d", l_matchID)
@@ -605,7 +608,8 @@ class CyberScouterMatchScouting {
 
         for (int i = 0; i < ja.length(); ++i) {
             JSONObject jo = ja.getJSONObject(i);
-            CyberScouterMatchScouting lmatch = getLocalMatch(db, jo.getInt("EventID"), jo.getInt("MatchID"), jo.getInt("AllianceStationID"));
+            CyberScouterMatchScouting lmatch = getLocalMatch(db, jo.getInt("EventID"),
+                    jo.getInt("MatchID"), jo.getInt("AllianceStationID"));
             if (null != lmatch) {
                 updateMatchTeamAndScoutingStatus(db, jo, lmatch);
                 updated++;
@@ -615,13 +619,15 @@ class CyberScouterMatchScouting {
             }
         }
 
-        return (String.format(Locale.getDefault(), "%d matches inserted, %d matches updated", inserted, updated));
+        return (String.format(Locale.getDefault(), "%d matches inserted, %d matches updated",
+                inserted, updated));
     }
 
-    static void getMatchesWebService(final Activity activity, int eventId) {
+    static void getMatchesWebService(final Activity activity, int _eventId, int _allianceStationId) {
 
         RequestParams params = new RequestParams();
-        params.put("eventId", eventId);
+        params.put("eventId", _eventId);
+        params.put("allianceStationId", _allianceStationId);
         String url = String.format("%s/match-scouting", FakeBluetoothServer.webServiceBaseUrl);
 
         AsyncHttpClient client = new AsyncHttpClient();

@@ -5,9 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothSocket;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,13 +16,11 @@ import android.widget.ImageView;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.locks.Lock;
 
 
 public class BluetoothComm {
@@ -105,44 +101,6 @@ public class BluetoothComm {
                                 } else {
                                     System.out.println("EOD character received!");
                                 }
-
-/*                                mmOutputStream.write(json.getBytes());
-                                Thread.sleep(1);
-                                byte[] ibytes = new byte[mmInputStream.available()];
-                                int icntr = 0;
-                                while (ibytes.length == 0) {
-                                    Thread.sleep(10);
-                                    ibytes = new byte[mmInputStream.available()];
-                                    if (ibytes.length == 0 && icntr > 2000) {
-                                        break;
-                                    }
-                                    icntr++;
-                                }
-                                System.out.println(String.format("1. Bytes available: %d", ibytes.length));
-                                if (ibytes.length > 0) {
-                                    mmInputStream.read(ibytes);
-                                    resp = new String(ibytes);
-                                    if (0x03 != ibytes[ibytes.length - 1]) {
-                                        for (int i = 0; i < 500; ++i) {
-                                            Thread.sleep(500);
-                                            ibytes = new byte[mmInputStream.available()];
-                                            if (0 < ibytes.length) {
-                                                System.out.println(String.format("%d. Bytes available: %d", i, ibytes.length));
-                                                mmInputStream.read(ibytes);
-                                                resp = resp.concat(new String(ibytes));
-                                                System.out.println(String.format("%da. Return string length = %d", i, resp.length()));
-                                                if (0x03 == ibytes[ibytes.length - 1]) {
-                                                    System.out.println("EOF character received!");
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    throw (new
-                                            IOException("Response from bluetooth server timed out!"));
-                                }
-*/
                                 mmOutputStream.close();
                                 mmInputStream.close();
                                 mmSocket.close();
@@ -226,20 +184,23 @@ public class BluetoothComm {
         return (returnJson);
     }
 
-    public String getMatchesL1(AppCompatActivity activity, int eventId, int last_hash) {
+    public String getMatchesL1(AppCompatActivity activity, int eventId, int allianceStationId,
+                               int last_hash) {
         String returnJson = _errorJson;
         try {
             JSONObject jr = new JSONObject();
             JSONObject j1 = new JSONObject();
 
             j1.put("eventId", eventId);
+            j1.put("allianceStationId", allianceStationId);
             jr.put("cmd", "get-matches");
             jr.put("payload", j1);
             jr.put("last_hash", last_hash);
 
             if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.AWS) {
                 if (!bLastBTCommFailed) {
-                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    String btname = Settings.Secure.getString(activity.getContentResolver(),
+                            "bluetooth_name");
                     FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jr);
                     returnJson = null;
@@ -305,12 +266,41 @@ public class BluetoothComm {
         return (returnJson);
     }
 
+    public String getMatchTeams(AppCompatActivity activity, int _matchId, int last_hash) {
+        String returnJson = _errorJson;
+        try {
+            JSONObject jr = new JSONObject();
+            JSONObject j1 = new JSONObject();
+
+            j1.put("matchId", _matchId);
+            jr.put("cmd", "get-match-teams");
+            jr.put("payload", j1);
+            jr.put("last_hash", last_hash);
+
+            if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.AWS) {
+                if (!bLastBTCommFailed) {
+                    String btname = Settings.Secure.getString(activity.getContentResolver(),
+                            "bluetooth_name");
+                    FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
+                    fbts.getResponse(activity, jr);
+                    returnJson = null;
+                }
+            } else {
+                returnJson = sendCommand(activity, jr.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return (returnJson);
+    }
+
     public String sendSetCommand(AppCompatActivity activity, JSONObject jo) {
         String returnJson = _errorJson;
         try {
             if (FakeBluetoothServer.communicationMethod == FakeBluetoothServer.COMM.AWS) {
                 if (!bLastBTCommFailed) {
-                    String btname = Settings.Secure.getString(activity.getContentResolver(), "bluetooth_name");
+                    String btname = Settings.Secure.getString(activity.getContentResolver(),
+                            "bluetooth_name");
                     FakeBluetoothServer fbts = new FakeBluetoothServer(btname);
                     fbts.getResponse(activity, jo);
                     returnJson = null;
