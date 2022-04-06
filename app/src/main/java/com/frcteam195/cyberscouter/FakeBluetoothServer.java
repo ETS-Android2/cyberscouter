@@ -1,14 +1,12 @@
 package com.frcteam195.cyberscouter;
 
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import org.json.JSONObject;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Locale;
 
 public class FakeBluetoothServer {
-    static enum COMM {
+    enum COMM {
         BLUETOOTH,
         ETHERNET,
         AWS
@@ -19,17 +17,13 @@ public class FakeBluetoothServer {
     final private static String _webHost = "8zaof0vuah.execute-api.us-east-1.amazonaws.com";
     final public static String webServiceBaseUrl = String.format("https://%s", _webHost);
 
-    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 2";
+    final public static String default_fakeBluetoothComputerName = "Team 195 Scout 6";
 
     public static String fakeBluetoothComputerName = null;
     //Change the scout number to change which tablet you are emulating, the numbers correspond as follows
     //Scout 1-3 Red, 4-6 Blue, 7-9 Level 2 Scouting, 10 Pit
 
     private FakeBluetoothServer() {}
-
-    public static void setBluetooth() { communicationMethod = COMM.BLUETOOTH;}
-    public static void setEthernet() { communicationMethod = COMM.ETHERNET;}
-    public static void setAws() { communicationMethod = COMM.AWS;}
 
     public FakeBluetoothServer(String btname) {
         if(btname != null) {
@@ -53,7 +47,9 @@ public class FakeBluetoothServer {
                 case "get-matches":
                     JSONObject payload = obj.getJSONObject("payload");
                     int eventId = payload.getInt("eventId");
-                    CyberScouterMatchScouting.getMatchesWebService(activity, eventId);
+                    int allianceStationId = payload.getInt("allianceStationId");
+                    CyberScouterMatchScouting.getMatchesWebService(activity, eventId,
+                            allianceStationId);
                     break;
                 case "get-matches-l2":
                     payload = obj.getJSONObject("payload");
@@ -62,6 +58,11 @@ public class FakeBluetoothServer {
                     break;
                 case "get-matches-all":
                     CyberScouterMatches.getMatchesWebService(activity);
+                    break;
+                case "get-match-teams":
+                    payload = obj.getJSONObject("payload");
+                    int matchId = payload.getInt("matchId");
+                    CyberScouterMatches.getMatchTeamsWebService(activity, matchId);
                     break;
                 case "get-teams":
                     CyberScouterTeams.getTeamsWebService(activity);
@@ -93,13 +94,9 @@ public class FakeBluetoothServer {
             sock.connect(new InetSocketAddress(_webHost, 443), 900);
             if(sock.isConnected()) {
                 sock.close();
-                return (true);
-            } else {
-//                return(false);
-                return(true);
             }
+            return(true);
         } catch(Exception e) {
-//            return(false);
             return(true);
         }
     }

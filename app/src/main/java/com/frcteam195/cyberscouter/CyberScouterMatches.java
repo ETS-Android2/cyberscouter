@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class CyberScouterMatches {
     final static String MATCHES_UPDATED_FILTER = "frcteam195_cyberscoutermatches_matches_updated_intent_filter";
+    final static String MATCH_TEAMS_FETCHED_FILTER = "frcteam195_cyberscoutermatches_match_teams_fetched_intent_filter";
 
     private static boolean webQueryInProgress = false;
 
@@ -89,7 +91,38 @@ public class CyberScouterMatches {
         return ret;
     }
 
-    public static CyberScouterMatches getLocalMatch(SQLiteDatabase db, int l_eventID, int l_matchID) throws Exception {
+    static String getCurrentMatchTeamsRemote(AppCompatActivity activity, SQLiteDatabase db,
+                                             int _matchId) {
+        int last_hash = CyberScouterTimeCode.getLast_update(db);
+        String ret = null;
+        try {
+            BluetoothComm btcomm = new BluetoothComm();
+            String response = btcomm.getMatchTeams(activity, _matchId, last_hash);
+            if (null != response) {
+                JSONObject jo = new JSONObject(response);
+                String result = jo.getString("result");
+                if (!result.equalsIgnoreCase("failure")) {
+                    if (result.equalsIgnoreCase("skip")) {
+                        ret = "skip";
+                    } else {
+                        JSONArray payload = jo.getJSONArray("payload");
+                        ret = payload.toString();
+                        last_hash = jo.getInt("hash");
+                        CyberScouterTimeCode.setLast_update(db, last_hash);
+                    }
+                } else {
+                    ret = "skip";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
+    public static CyberScouterMatches getLocalMatch(SQLiteDatabase db, int l_eventID,
+                                                    int l_matchID) throws Exception {
         String selection =
                 CyberScouterContract.Matches.COLUMN_NAME_EVENTID + " = ? AND "
                         + CyberScouterContract.Matches.COLUMN_NAME_MATCH_NUMBER + " = ?";
@@ -102,7 +135,8 @@ public class CyberScouterMatches {
 
         if (null != csmv) {
             if (1 < csmv.length) {
-                throw new Exception(String.format(Locale.getDefault(), "Too many match scouting rows found.  Wanted %d, found %d!\n\nEventID=%d, MatchID=%d",
+                throw new Exception(String.format(Locale.getDefault(),
+                        "Too many match scouting rows found.  Wanted %d, found %d!\n\nEventID=%d, MatchID=%d",
                         1, csmv.length, l_eventID, l_matchID));
             } else
                 return (csmv[0]);
@@ -258,6 +292,53 @@ public class CyberScouterMatches {
         });
     }
 
+
+    static void getMatchTeamsWebService(final Activity activity, int _matchId) {
+        if (webQueryInProgress)
+            return;
+
+        webQueryInProgress = true;
+
+        RequestParams params = new RequestParams();
+        params.put("matchId", _matchId);
+        String url = String.format("%s/matches", FakeBluetoothServer.webServiceBaseUrl);
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, params, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                System.out.println("Starting get call...");
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                webQueryInProgress = false;
+                webResponse = new String(response);
+                Intent i = new Intent(MATCH_TEAMS_FETCHED_FILTER);
+                i.putExtra("cyberscoutermatchteams", "fetch");
+                activity.sendBroadcast(i);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                webQueryInProgress = false;
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+                String msg;
+                MessageBox.showMessageBox(activity, "Fetch of Match Records Failed",
+                        "CyberScouterMatches.getMatchesWebService",
+                        String.format(
+                                "Can't get list of matches to scout.\nContact a scouting mentor right away\n\n%s\n",
+                                e.getMessage()));
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                System.out.println(String.format("Retry number %d", retryNo));
+            }
+        });
+    }
 
     int getEventID() {
         return eventID;

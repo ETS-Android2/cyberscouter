@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +17,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.Locale;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.NamePickerDialogListener {
     final static private int FIELD_ORIENTATION_RIGHT = 0;
     final static private int FIELD_ORIENTATION_LEFT = 1;
     private static int field_orientation = FIELD_ORIENTATION_LEFT;
 
-    private CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
+    private final CyberScouterDbHelper mDbHelper = new CyberScouterDbHelper(this);
     private SQLiteDatabase _db = null;
 
     static protected Handler mFetchHandler;
@@ -36,7 +35,10 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
     private final static int FETCH_USERS = 1;
     private final static int FETCH_TEAMS = 2;
     private final static int FETCH_MATCHES = 3;
+    private final static int FETCH_MATCH_TEAMS = 4;
     private static boolean isRed = true;
+
+    private String mCurrentMatchTeam;
 
     public static int getFieldOrientation() {
         return field_orientation;
@@ -79,6 +81,18 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         }
     };
 
+    BroadcastReceiver mMatchTeamsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra("cyberscoutermatchteams")) {
+                String ret = intent.getStringExtra("cyberscoutermatchteams");
+                updateMatchTeamsLocal(ret);
+            } else {
+                System.out.println("mMatchTeamsReceiver got unrecognized broadcast message!");
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button button;
@@ -90,6 +104,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         registerReceiver(mUsersReceiver, new IntentFilter(CyberScouterUsers.USERS_FETCHED_FILTER));
         registerReceiver(mTeamsReceiver, new IntentFilter(CyberScouterTeams.TEAMS_UPDATED_FILTER));
         registerReceiver(mMatchesReceiver, new IntentFilter(CyberScouterMatchScouting.MATCH_SCOUTING_FETCHED_FILTER));
+        registerReceiver(mMatchTeamsReceiver, new IntentFilter(CyberScouterMatches.MATCH_TEAMS_FETCHED_FILTER));
 
         button = findViewById(R.id.Button_Start);
         button.setOnClickListener(new View.OnClickListener() {
@@ -145,12 +160,17 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                     case FETCH_USERS:
                         fetchUsers();
                         break;
-                    case FETCH_TEAMS:
+/*                    case FETCH_TEAMS:
                         fetchTeams();
                         break;
                     case FETCH_MATCHES:
                         fetchMatches();
                         break;
+
+                    case FETCH_MATCH_TEAMS:
+                        fetchMatchTeams();
+                        break;
+*/
                     default:
                         throw new IllegalStateException("Unexpected value: " + msg.what);
                 }
@@ -179,7 +199,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
             Message msg2 = new Message();
             msg2.what = FETCH_USERS;
             mFetchHandler.sendMessage(msg2);
-            try {
+/*            try {
                 Thread.sleep(500);
             } catch (Exception e) {
             }
@@ -189,6 +209,15 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
             Message msg4 = new Message();
             msg4.what = FETCH_MATCHES;
             mFetchHandler.sendMessage(msg4);
+
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+            }
+            Message msg5 = new Message();
+            msg5.what = FETCH_MATCH_TEAMS;
+            mFetchHandler.sendMessage(msg5);
+*/
         }
     }
 
@@ -221,10 +250,19 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
     private void fetchMatches() {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         if (null != cfg) {
-            String csms_str = CyberScouterMatchScouting.getMatchesRemote(this, _db, cfg.getEvent_id());
+            String csms_str = CyberScouterMatchScouting.getMatchesRemote(this, _db,
+                    cfg.getEvent_id(), cfg.getAlliance_station_id());
             if (null != csms_str) {
                 updateMatchesLocal(csms_str);
             }
+        }
+    }
+
+    private void fetchMatchTeams(int currentMatch) {
+        String csmt_str = CyberScouterMatches.getCurrentMatchTeamsRemote(this, _db,
+                currentMatch);
+        if (null != csmt_str) {
+            updateMatchTeamsLocal(csmt_str);
         }
     }
 
@@ -251,6 +289,7 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         unregisterReceiver(mUsersReceiver);
         unregisterReceiver(mTeamsReceiver);
         unregisterReceiver(mMatchesReceiver);
+        unregisterReceiver(mMatchTeamsReceiver);
         super.onDestroy();
     }
 
@@ -347,15 +386,17 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
         if (!json.equalsIgnoreCase("skip")) {
             CyberScouterUsers.setUsers(_db, json);
         }
+        fetchTeams();
     }
 
     private void updateTeams(String teams) {
         if (teams.equalsIgnoreCase("fetch")) {
             teams = CyberScouterTeams.getWebResponse();
         }
-        if(!teams.equalsIgnoreCase("update")) {
+        if (!teams.equalsIgnoreCase("update")) {
             CyberScouterTeams.setTeams(_db, teams);
         }
+        fetchMatches();
     }
 
     private void updateMatchesLocal(String json) {
@@ -370,54 +411,15 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                     CyberScouterMatchScouting.mergeMatches(_db, json);
                 }
             }
-            CyberScouterMatchScouting csm = CyberScouterMatchScouting.getCurrentMatch(_db, TeamMap.getNumberForTeam(cfg.getAlliance_station()));
+            CyberScouterMatchScouting csm = CyberScouterMatchScouting.getCurrentMatch(_db,
+                    TeamMap.getNumberForTeam(cfg.getAlliance_station()));
             if (null != csm) {
+                mCurrentMatchTeam = csm.getTeam();
                 TextView tv = findViewById(R.id.textView7);
                 tv.setText(getString(R.string.tagMatch, csm.getMatchNo()));
                 TextView tvtn = findViewById(R.id.textView_teamNumber);
-                String currentMatchTeam = csm.getTeam();
-                tvtn.setText(getString(R.string.tagTeam, currentMatchTeam));
-                CyberScouterMatchScouting[] csma = CyberScouterMatchScouting.getCurrentMatchAllTeams(_db, csm.getMatchNo(), csm.getMatchID());
-                if (null != csma && 6 == csma.length) {
-                    tv = findViewById(R.id.textView20);
-                    tv.setText(csma[0].getTeam());
-                    if (csma[0].getTeam().equals(currentMatchTeam)) {
-                        tvtn.setTextColor(Color.RED);
-                        isRed = true;
-                    }
-                    tv = findViewById(R.id.textView21);
-                    tv.setText(csma[1].getTeam());
-                    if (csma[1].getTeam().equals(currentMatchTeam)) {
-                        tvtn.setTextColor(Color.RED);
-                        isRed = true;
-                    }
-                    tv = findViewById(R.id.textView22);
-                    tv.setText(csma[2].getTeam());
-                    if (csma[2].getTeam().equals(currentMatchTeam)) {
-                        tvtn.setTextColor(Color.RED);
-                        isRed = true;
-                    }
-                    tv = findViewById(R.id.textView35);
-                    tv.setText(csma[3].getTeam());
-                    if (csma[3].getTeam().equals(currentMatchTeam)) {
-                        tvtn.setTextColor(Color.BLUE);
-                        isRed = false;
-                    }
-                    tv = findViewById(R.id.textView27);
-                    tv.setText(csma[4].getTeam());
-                    if (csma[4].getTeam().equals(currentMatchTeam)) {
-                        tvtn.setTextColor(Color.BLUE);
-                        isRed = false;
-                    }
-                    tv = findViewById(R.id.textView26);
-                    tv.setText(csma[5].getTeam());
-                    if (csma[5].getTeam().equals(currentMatchTeam)) {
-                        tvtn.setTextColor(Color.BLUE);
-                        isRed = false;
-                    }
-                }
-                Button button = findViewById(R.id.Button_Start);
-                button.setEnabled(true);
+                tvtn.setText(getString(R.string.tagTeam, mCurrentMatchTeam));
+                fetchMatchTeams(csm.getMatchID());
             } else {
                 TextView tv = findViewById(R.id.textView7);
                 tv.setText(getString(R.string.NoUnscoutedMatches));
@@ -425,8 +427,72 @@ public class ScoutingPage extends AppCompatActivity implements NamePickerDialog.
                 tvtn.setText(getString(R.string.tagTeam, "n/a"));
             }
         } catch (Exception e) {
-            MessageBox.showMessageBox(this, "Fetch Match Information Failed", "updateMatchesLocal",
-                    String.format("Attempt to fetch match info and merge locally failed!\n%s", e.getMessage()));
+            MessageBox.showMessageBox(this, "Fetch Match Information Failed",
+                    "updateMatchesLocal",
+                    String.format("Attempt to fetch match info and merge locally failed!\n%s",
+                            e.getMessage()));
+            e.printStackTrace();
+        }
+    }
+
+    private void updateMatchTeamsLocal(String csmt_str) {
+        try {
+            if (csmt_str.equalsIgnoreCase("fetch")) {
+                csmt_str = CyberScouterMatches.getWebResponse();
+            }
+            JSONArray ja = new JSONArray(csmt_str);
+            if (null != ja && ja.length() > 0) {
+                TextView tvtn = findViewById(R.id.textView_teamNumber);
+                JSONObject jo = (JSONObject) ja.get(0);
+                TextView tv = findViewById(R.id.textView20);
+                String tname = jo.getString("RedTeam1");
+                tv.setText(tname);
+                if (tname.equals(mCurrentMatchTeam)) {
+                    tvtn.setTextColor(Color.RED);
+                    isRed = true;
+                }
+                tv = findViewById(R.id.textView21);
+                tname = jo.getString("RedTeam2");
+                tv.setText(tname);
+                if (tname.equals(mCurrentMatchTeam)) {
+                    tvtn.setTextColor(Color.RED);
+                    isRed = true;
+                }
+                tv = findViewById(R.id.textView22);
+                tname = jo.getString("RedTeam3");
+                tv.setText(tname);
+                if (tname.equals(mCurrentMatchTeam)) {
+                    tvtn.setTextColor(Color.RED);
+                    isRed = true;
+                }
+                tv = findViewById(R.id.textView35);
+                tname = jo.getString("BlueTeam1");
+                tv.setText(tname);
+                if (tname.equals(mCurrentMatchTeam)) {
+                    tvtn.setTextColor(Color.BLUE);
+                    isRed = false;
+                }
+                tv = findViewById(R.id.textView27);
+                tname = jo.getString("BlueTeam2");
+                tv.setText(tname);
+                if (tname.equals(mCurrentMatchTeam)) {
+                    tvtn.setTextColor(Color.BLUE);
+                    isRed = false;
+                }
+                tv = findViewById(R.id.textView26);
+                tname = jo.getString("BlueTeam3");
+                tv.setText(tname);
+                if (tname.equals(mCurrentMatchTeam)) {
+                    tvtn.setTextColor(Color.BLUE);
+                    isRed = false;
+                }
+                Button button = findViewById(R.id.Button_Start);
+                button.setEnabled(true);
+            }
+        } catch (Exception e) {
+            MessageBox.showMessageBox(this, "Fetch Match Teams Information Failed",
+                    "updateMatchTeamsLocal",
+                    String.format("Attempt to fetch match team info failed!\n%s", e.getMessage()));
             e.printStackTrace();
         } finally {
             ProgressBar pb = findViewById(R.id.progressBar_scoutingDataAccess);
