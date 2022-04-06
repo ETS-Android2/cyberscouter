@@ -18,8 +18,8 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="775dp"
-        android:layout_height="95dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/LongCrap"
         android:textColor="#000000"

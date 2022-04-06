@@ -22,10 +22,10 @@ public class SummaryQuestionsPage extends AppCompatActivity {
     private final int[] lostCommArray = {R.id.LostCommN, R.id.LostCommY};
     private final int[] subsystemBrokeArray = {R.id.SubsystemN, R.id.SubsystemY};
     private final int[] launchPadArray = {R.id.ShootFromN, R.id.ShootFromY};
-    private final String[] maneuverabilityOptions = {"poor", "below average", "average", "good",
+    private final String[] maneuverabilityOptions = {"", "poor", "below average", "average", "good",
             "excellent"};
-    private final String[] speedOptions = {"1", "2", "3", "4", "5"};
-    private final String[] shootFromOptions = {"Did not shoot", "from hub", "from radius",
+    private final String[] speedOptions = {"", "tortoise", "slow", "average", "fast", "Lightning McQueen"};
+    private final String[] shootFromOptions = {"", "Did not shoot", "from hub", "from radius",
             "alligned", "any orientation"};
     private final int defaultButtonTextColor = Color.LTGRAY;
     private final int SELECTED_BUTTON_TEXT_COLOR = Color.GREEN;
@@ -79,7 +79,11 @@ public class SummaryQuestionsPage extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 speedVar = i;
-                qAnswered[6] = 1;
+                if(speedVar > 0) {
+                    qAnswered[6] = 1;
+                } else {
+                    qAnswered[6] = -1;
+                }
                 shouldEnableNext();
             }
 
@@ -94,7 +98,11 @@ public class SummaryQuestionsPage extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 shootFromVar = i;
-                qAnswered[7] = 1;
+                if(shootFromVar > 0) {
+                    qAnswered[7] = 1;
+                } else {
+                    qAnswered[7] = -1;
+                }
                 shouldEnableNext();
             }
 
@@ -109,7 +117,11 @@ public class SummaryQuestionsPage extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 maneuverabilityVar = i;
-                qAnswered[8] = 1;
+                if(maneuverabilityVar > 0) {
+                    qAnswered[8] = 1;
+                } else {
+                    qAnswered[8] = -1;
+                }
                 shouldEnableNext();
             }
 
@@ -410,10 +422,8 @@ public class SummaryQuestionsPage extends AppCompatActivity {
                 break;
             }
         }
-        if (bAll) {
-            button = findViewById(R.id.button_sumqNext);
-            button.setEnabled(bAll);
-        }
+        button = findViewById(R.id.button_sumqNext);
+        button.setEnabled(bAll);
     }
 
     private void updateStatusIndicator(int color) {
@@ -425,7 +435,7 @@ public class SummaryQuestionsPage extends AppCompatActivity {
         CyberScouterConfig cfg = CyberScouterConfig.getConfig(_db);
         try {
             Integer[] _lValues = { playedDefenseVar, defenseAgainstVar, brokeDownVar, lostCommVar,
-                    subsystemBrokeVar, launchPadVar, shootFromVar, speedVar, maneuverabilityVar};
+                    subsystemBrokeVar, launchPadVar, shootFromVar-1, speedVar-1, maneuverabilityVar-1};
             CyberScouterMatchScouting.updateMatchMetric(_db, _lColumns, _lValues, cfg);
         } catch (Exception e) {
             e.printStackTrace();

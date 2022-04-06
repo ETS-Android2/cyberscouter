@@ -77,14 +77,15 @@
 
     <TextView
         android:id="@+id/textView24"
-        android:layout_width="304dp"
-        android:layout_height="90dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="30dp"
         android:gravity="start|center_horizontal|center_vertical"
         android:text="@string/ShootFromLaunchpad"
         android:textAlignment="viewStart"
         android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintEnd_toStartOf="@+id/ShootFromY"
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <TextView
@@ -289,11 +290,13 @@
         android:id="@+id/txtShootFrom"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
         android:text="@string/ShootFrom"
         android:textAlignment="viewStart"
         android:textSize="34sp"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/textView24"
+        app:layout_constraintStart_toEndOf="@+id/spinner_Speed"
         app:layout_constraintTop_toTopOf="@+id/txtSpeed" />
 
     <Spinner
@@ -309,7 +312,7 @@
         android:id="@+id/spinner_ShootFrom"
         android:layout_width="246dp"
         android:layout_height="42dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="8dp"
         android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/txtShootFrom"
         app:layout_constraintTop_toTopOf="@+id/txtShootFrom" />
@@ -318,7 +321,9 @@
         android:id="@+id/spinner_Ability"
         android:layout_width="258dp"
         android:layout_height="44dp"
-        app:layout_constraintStart_toStartOf="@+id/spinner_Speed"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/textView4" />
 
 </android.support.constraint.ConstraintLayout>
