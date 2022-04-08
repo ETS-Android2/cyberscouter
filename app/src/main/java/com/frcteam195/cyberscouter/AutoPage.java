@@ -426,7 +426,7 @@ public class AutoPage extends AppCompatActivity {
         if (missedGoalCount > 0)
             missedGoalCount--;
         button.setText(String.valueOf(missedGoalCount));
-    }
+    } //i believe the string.valueOf is what makes the button change the count and the missed goal minus is signifying which count is changed
 
     public void missedGoalPlus() {
         button = findViewById(R.id.missedCounter);
